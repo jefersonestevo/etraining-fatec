@@ -6,6 +6,15 @@ import br.com.etraining.modelo.entidades.EntProgramaTreinamento;
 @SuppressWarnings("serial")
 public abstract class BeanJPA implements IBean {
 
+	public BeanJPA() {
+
+	}
+
+	public BeanJPA(Long id) {
+		this();
+		setId(id);
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

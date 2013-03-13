@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
+
 import br.com.etraining.client.fachada.ejb.IEtrainingService;
 import br.com.etraining.client.vo.impl.programatreinamento.ConsultaProgramaTreinamentoVO;
 import br.com.etraining.client.vo.transporte.VORequest;
@@ -34,6 +36,10 @@ public class TestEJBServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("TESTE EJB SERVLET");
+
+		if (StringUtils.isNotBlank(getClass().getName())) {
+			System.out.println("TESTE");
+		}
 
 		VORequest req = new VORequest();
 		req.setRequest(new ConsultaProgramaTreinamentoVO());

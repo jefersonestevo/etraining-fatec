@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
-    <wb-module deploy-name="etraining-ear">
+    <wb-module deploy-name="etraining-ear-0.0.1-SNAPSHOT">
+        <wb-resource deploy-path="/" source-path="/target/m2e-wtp/ear-resources"/>
         <wb-resource deploy-path="/" source-path="/EarContent" tag="defaultRootSource"/>
-        <dependent-module archiveName="etraining-server.jar" deploy-path="/" handle="module:/resource/etraining-server/etraining-server">
-            <dependent-object/>
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="etraining-clientWeb.jar" deploy-path="/lib" handle="module:/resource/etraining-clientWeb/etraining-clientWeb">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
         <dependent-module archiveName="etraining-web.war" deploy-path="/" handle="module:/resource/etraining-web/etraining-web">
-            <dependent-object/>
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="etraining-server.jar" deploy-path="/" handle="module:/resource/etraining-server/etraining-server">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="commons-collections-3.2.1.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/commons-collections/commons-collections/3.2.1/commons-collections-3.2.1.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="commons-lang-2.6.jar" deploy-path="/lib" handle="module:/classpath/var/M2_REPO/commons-lang/commons-lang/2.6/commons-lang-2.6.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="etraining-clientWeb-0.0.1-SNAPSHOT.jar" deploy-path="/lib" handle="module:/resource/etraining-clientWeb/etraining-clientWeb">
             <dependency-type>uses</dependency-type>
         </dependent-module>
     </wb-module>

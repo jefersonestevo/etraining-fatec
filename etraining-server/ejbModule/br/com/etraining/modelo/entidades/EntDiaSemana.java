@@ -27,6 +27,14 @@ public class EntDiaSemana extends BeanJPA {
 	public static final Long SEXTA_FEIRA = 6l;
 	public static final Long SABADO = 7l;
 
+	public EntDiaSemana() {
+		super();
+	}
+
+	public EntDiaSemana(Long id) {
+		super(id);
+	}
+
 	@Id
 	private Long id;
 

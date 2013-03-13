@@ -28,6 +28,14 @@ public class EntMatricula extends BeanJPA {
 
 	public static final String NOME_ENTIDADE = "matricula";
 
+	public EntMatricula() {
+		super();
+	}
+
+	public EntMatricula(Long id) {
+		super(id);
+	}
+
 	@Id
 	@GeneratedValue(generator = "seq_matricula", strategy = GenerationType.AUTO)
 	private Long id;

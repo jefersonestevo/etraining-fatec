@@ -25,6 +25,14 @@ public class EntAluno extends BeanJPA {
 
 	public static final String NOME_ENTIDADE = "aluno";
 
+	public EntAluno() {
+		super();
+	}
+
+	public EntAluno(Long id) {
+		super(id);
+	}
+
 	@Id
 	@GeneratedValue(generator = "seq_aluno", strategy = GenerationType.AUTO)
 	private Long id;

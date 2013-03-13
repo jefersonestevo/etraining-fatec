@@ -29,6 +29,14 @@ public class EntProgramaTreinamento extends BeanJPA {
 
 	public static final String NOME_ENTIDADE = "programaTreinamento";
 
+	public EntProgramaTreinamento() {
+		super();
+	}
+
+	public EntProgramaTreinamento(Long id) {
+		super(id);
+	}
+
 	@Id
 	@GeneratedValue(generator = "seq_programaTreinamento", strategy = GenerationType.AUTO)
 	private Long id;
@@ -48,6 +56,9 @@ public class EntProgramaTreinamento extends BeanJPA {
 	@Column(name = "data_vencimento")
 	@Temporal(TemporalType.DATE)
 	private Date dataVencimento;
+
+	@Column
+	private Boolean cancelado;
 
 	public Long getId() {
 		return id;
@@ -96,6 +107,14 @@ public class EntProgramaTreinamento extends BeanJPA {
 
 	public void setDataVencimento(Date dataVencimento) {
 		this.dataVencimento = dataVencimento;
+	}
+
+	public Boolean getCancelado() {
+		return cancelado;
+	}
+
+	public void setCancelado(Boolean cancelado) {
+		this.cancelado = cancelado;
 	}
 
 }

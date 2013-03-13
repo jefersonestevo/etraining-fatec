@@ -1,4 +1,4 @@
-package br.com.etraining.web.fachada;
+package br.com.etraining.web.fachada.impl;
 
 import javax.ejb.EJB;
 import javax.inject.Named;
@@ -9,9 +9,10 @@ import br.com.etraining.client.vo.transporte.CodigoExcecao;
 import br.com.etraining.client.vo.transporte.VORequest;
 import br.com.etraining.client.vo.transporte.VOResponse;
 import br.com.etraining.web.exceptions.ViewException;
+import br.com.etraining.web.fachada.ITratadorNegocioService;
 
 @Named
-public class TratadorNegocioService {
+public class TratadorNegocioService implements ITratadorNegocioService {
 
 	@EJB
 	private IEtrainingService serviceDelegate;

@@ -22,6 +22,14 @@ public class EntPontuacaoExercicio extends BeanJPA {
 
 	public static final String NOME_ENTIDADE = "pontuacaoExercicio";
 
+	public EntPontuacaoExercicio() {
+		super();
+	}
+
+	public EntPontuacaoExercicio(Long id) {
+		super(id);
+	}
+
 	@Id
 	@GeneratedValue(generator = "seq_pontuacaoExercicio", strategy = GenerationType.AUTO)
 	private Long id;

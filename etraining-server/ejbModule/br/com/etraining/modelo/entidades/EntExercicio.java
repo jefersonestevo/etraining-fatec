@@ -22,6 +22,14 @@ public class EntExercicio extends BeanJPA {
 
 	public static final String NOME_ENTIDADE = "exercicio";
 
+	public EntExercicio() {
+		super();
+	}
+
+	public EntExercicio(Long id) {
+		super(id);
+	}
+
 	@Id
 	@GeneratedValue(generator = "seq_exercicio", strategy = GenerationType.AUTO)
 	private Long id;

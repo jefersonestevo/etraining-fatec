@@ -22,6 +22,14 @@ public class EntDadosCorporais extends BeanJPA {
 
 	public static final String NOME_ENTIDADE = "dadosCorporais";
 
+	public EntDadosCorporais() {
+		super();
+	}
+
+	public EntDadosCorporais(Long id) {
+		super(id);
+	}
+
 	@Id
 	@GeneratedValue(generator = "seq_dadosCorporais", strategy = GenerationType.AUTO)
 	private Long id;
