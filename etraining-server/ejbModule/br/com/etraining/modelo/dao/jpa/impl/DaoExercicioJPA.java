@@ -1,9 +1,12 @@
 package br.com.etraining.modelo.dao.jpa.impl;
 
+import javax.inject.Named;
+
 import br.com.etraining.modelo.dao.interfaces.IDaoExercicio;
 import br.com.etraining.modelo.def.impl.jpa.DaoCRUDJPA;
 import br.com.etraining.modelo.entidades.EntExercicio;
 
+@Named
 public class DaoExercicioJPA extends DaoCRUDJPA<EntExercicio> implements
 		IDaoExercicio {
 

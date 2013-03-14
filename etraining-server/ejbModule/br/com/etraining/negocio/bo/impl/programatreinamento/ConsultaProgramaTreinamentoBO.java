@@ -22,7 +22,7 @@ public class ConsultaProgramaTreinamentoBO
 		if (StringUtils.isNotBlank(getClass().getName())) {
 			System.out.println("TESTE");
 		}
-		// TODO Auto-generated method stub
+		// TODO - Implementar ConsultaProgramaTreinamentoBO
 		return null;
 	}
 

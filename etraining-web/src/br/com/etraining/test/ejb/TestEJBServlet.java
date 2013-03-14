@@ -13,7 +13,7 @@ import org.apache.commons.lang.StringUtils;
 
 import br.com.etraining.client.fachada.ejb.IEtrainingService;
 import br.com.etraining.client.vo.impl.programatreinamento.ConsultaProgramaTreinamentoVO;
-import br.com.etraining.client.vo.transporte.VORequest;
+import br.com.etraining.client.vo.transporte.impl.VORequest;
 
 @WebServlet(value = "/TestEJBServlet")
 public class TestEJBServlet extends HttpServlet {

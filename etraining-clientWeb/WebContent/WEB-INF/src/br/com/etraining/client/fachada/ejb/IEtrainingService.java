@@ -1,7 +1,7 @@
 package br.com.etraining.client.fachada.ejb;
 
-import br.com.etraining.client.vo.transporte.VORequest;
-import br.com.etraining.client.vo.transporte.VOResponse;
+import br.com.etraining.client.vo.transporte.impl.VORequest;
+import br.com.etraining.client.vo.transporte.impl.VOResponse;
 
 public interface IEtrainingService {
 

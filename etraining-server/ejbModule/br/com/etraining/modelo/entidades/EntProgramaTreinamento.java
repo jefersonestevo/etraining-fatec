@@ -57,8 +57,8 @@ public class EntProgramaTreinamento extends BeanJPA {
 	@Temporal(TemporalType.DATE)
 	private Date dataVencimento;
 
-	@Column
-	private Boolean cancelado;
+	@Column(nullable = false)
+	private Boolean cancelado = false;
 
 	public Long getId() {
 		return id;

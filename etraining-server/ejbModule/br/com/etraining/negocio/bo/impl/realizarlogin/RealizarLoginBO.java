@@ -51,6 +51,7 @@ public class RealizarLoginBO extends
 		if (aluno.getMatricula().getUsuarioAtivo() != null
 				&& aluno.getMatricula().getUsuarioAtivo()) {
 
+			response.setIdAluno(aluno.getId());
 			response.setNumeroMatricula(aluno.getMatricula()
 					.getNumeroMatricula());
 

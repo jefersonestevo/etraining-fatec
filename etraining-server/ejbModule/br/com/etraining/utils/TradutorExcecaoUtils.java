@@ -5,7 +5,7 @@ import br.com.etraining.exception.ETrainingException;
 public class TradutorExcecaoUtils {
 
 	public static ETrainingException getExcecaoTraduzida(RuntimeException r) {
-		// TODO
+		// TODO - Configurar Corretamente o tradutor de exceção
 		return null;
 	}
 

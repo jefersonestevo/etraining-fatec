@@ -6,8 +6,8 @@ import javax.inject.Named;
 import br.com.etraining.client.fachada.ejb.IEtrainingService;
 import br.com.etraining.client.vo.interfaces.IVO;
 import br.com.etraining.client.vo.transporte.CodigoExcecao;
-import br.com.etraining.client.vo.transporte.VORequest;
-import br.com.etraining.client.vo.transporte.VOResponse;
+import br.com.etraining.client.vo.transporte.impl.VORequest;
+import br.com.etraining.client.vo.transporte.impl.VOResponse;
 import br.com.etraining.web.exceptions.ViewException;
 import br.com.etraining.web.fachada.ITratadorNegocioService;
 
