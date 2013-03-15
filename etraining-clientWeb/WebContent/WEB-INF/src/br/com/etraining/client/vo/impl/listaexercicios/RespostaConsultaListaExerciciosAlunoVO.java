@@ -12,7 +12,6 @@ public class RespostaConsultaListaExerciciosAlunoVO implements IVO {
 
 	private Long idProgramaTreinamento;
 	private List<ExercicioVO> listaExerciciosSugeridos = new ArrayList<ExercicioVO>();
-	private List<ExercicioVO> listaExercicios = new ArrayList<ExercicioVO>();
 
 	public List<ExercicioVO> getListaExerciciosSugeridos() {
 		return listaExerciciosSugeridos;
@@ -21,14 +20,6 @@ public class RespostaConsultaListaExerciciosAlunoVO implements IVO {
 	public void setListaExerciciosSugeridos(
 			List<ExercicioVO> listaExerciciosSugeridos) {
 		this.listaExerciciosSugeridos = listaExerciciosSugeridos;
-	}
-
-	public List<ExercicioVO> getListaExercicios() {
-		return listaExercicios;
-	}
-
-	public void setListaExercicios(List<ExercicioVO> listaExercicios) {
-		this.listaExercicios = listaExercicios;
 	}
 
 	public Long getIdProgramaTreinamento() {
