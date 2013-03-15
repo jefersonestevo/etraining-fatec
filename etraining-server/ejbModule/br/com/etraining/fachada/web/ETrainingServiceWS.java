@@ -14,6 +14,9 @@ import br.com.etraining.exception.ETrainingException;
 import br.com.etraining.negocio.bo.interfaces.IBO;
 import br.com.etraining.utils.CDIUtils;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 @WebService
 @Stateless
 public class ETrainingServiceWS {
@@ -23,28 +26,28 @@ public class ETrainingServiceWS {
 
 	@WebMethod
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public VOResponseWS executa(VORequestWS request) {
+	public String executa(String requestStr) {
+		Gson gson = new GsonBuilder().create();
+
+		VORequestWS request = gson.fromJson(requestStr, VORequestWS.class);
 		VOResponseWS response = new VOResponseWS();
 		try {
 			Class classe = Class.forName(request.getClasse());
 
-			// TODO - Pegar json e montar IVO com a classe e a string do request WS
-			IVO vo = null;
+			IVO vo = gson.fromJson(request.getRequest(), classe);
 
 			String nomeBO = classe.getSimpleName();
 			IBO bo = (IBO) CDIUtils.getBean(nomeBO, beanManager);
 
 			IVO voRetorno = bo.executa(vo);
-			// TODO - Transformar resposta WS em String
-			// response.setResponse(voRetorno);
-			response.setClasse(voRetorno.getClass().getName());
+			response.setResponse(gson.toJson(voRetorno));
 
 		} catch (ETrainingException e) {
 			response.setCodigoErro(e.getCodigoExcecao().getCodigo());
 		} catch (Exception e) {
 			response.setCodigoErro(CodigoExcecao.ERRO_DESCONHECIDO.getCodigo());
 		}
-		return response;
+		return gson.toJson(response);
 	}
 
 	@WebMethod(exclude = true)

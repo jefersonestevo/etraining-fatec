@@ -14,31 +14,26 @@ import br.com.etraining.client.vo.impl.listaexercicios.RespostaConsultaListaExer
 import br.com.etraining.client.vo.transporte.CodigoExcecao;
 import br.com.etraining.exception.ETrainingBusinessException;
 import br.com.etraining.exception.ETrainingException;
-import br.com.etraining.modelo.dao.interfaces.IDaoExercicio;
 import br.com.etraining.modelo.dao.interfaces.IDaoProgramaTreinamento;
 import br.com.etraining.modelo.entidades.EntDiaSemana;
-import br.com.etraining.modelo.entidades.EntExercicio;
 import br.com.etraining.modelo.entidades.EntExercicioProposto;
 import br.com.etraining.modelo.entidades.EntProgramaTreinamento;
-import br.com.etraining.negocio.bo.interfaces.IBO;
+import br.com.etraining.negocio.bo.interfaces.AbstractBO;
 import br.com.etraining.negocio.conversor.impl.ConversorExercicio;
 
 @Named("ConsultaListaExerciciosAlunoVO")
 public class ConsultaListaExerciciosAlunoBO
-		implements
-		IBO<ConsultaListaExerciciosAlunoVO, RespostaConsultaListaExerciciosAlunoVO> {
+		extends
+		AbstractBO<ConsultaListaExerciciosAlunoVO, RespostaConsultaListaExerciciosAlunoVO> {
 
 	@Inject
 	private IDaoProgramaTreinamento programaTreinamentoDao;
 
 	@Inject
-	private IDaoExercicio exercicioDao;
-
-	@Inject
 	private ConversorExercicio conversorExercicio;
 
 	@Override
-	public RespostaConsultaListaExerciciosAlunoVO executa(
+	public RespostaConsultaListaExerciciosAlunoVO executarRegrasEspecificas(
 			ConsultaListaExerciciosAlunoVO request) throws ETrainingException {
 		RespostaConsultaListaExerciciosAlunoVO response = new RespostaConsultaListaExerciciosAlunoVO();
 
@@ -71,17 +66,8 @@ public class ConsultaListaExerciciosAlunoBO
 			}
 		}
 
-		List<ExercicioVO> listaExerciciosTotal = new ArrayList<ExercicioVO>();
-		List<EntExercicio> listaExercicioBanco = exercicioDao.pesquisarLista();
-
-		for (EntExercicio exerc : listaExercicioBanco) {
-			listaExerciciosTotal.add(conversorExercicio.toVO(exerc));
-		}
-		listaExerciciosTotal.removeAll(listaExercicioSugerido);
-
 		response.setIdProgramaTreinamento(programaTreinamento.getId());
 		response.setListaExerciciosSugeridos(listaExercicioSugerido);
-		response.setListaExercicios(listaExerciciosTotal);
 
 		return response;
 	}
@@ -93,14 +79,6 @@ public class ConsultaListaExerciciosAlunoBO
 	public void setProgramaTreinamentoDao(
 			IDaoProgramaTreinamento programaTreinamentoDao) {
 		this.programaTreinamentoDao = programaTreinamentoDao;
-	}
-
-	public IDaoExercicio getExercicioDao() {
-		return exercicioDao;
-	}
-
-	public void setExercicioDao(IDaoExercicio exercicioDao) {
-		this.exercicioDao = exercicioDao;
 	}
 
 	public ConversorExercicio getConversorExercicio() {
