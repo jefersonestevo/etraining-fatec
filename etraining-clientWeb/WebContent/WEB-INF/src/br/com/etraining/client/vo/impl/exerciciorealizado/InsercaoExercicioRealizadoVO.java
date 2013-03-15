@@ -9,7 +9,6 @@ public class InsercaoExercicioRealizadoVO implements IVO {
 
 	private Long idAluno;
 	private Long idExercicio;
-	private Long idAtividade;
 	private Integer quantidadeAtividade;
 	private DiaExercicioVO diaExercicio;
 
@@ -27,14 +26,6 @@ public class InsercaoExercicioRealizadoVO implements IVO {
 
 	public void setIdExercicio(Long idExercicio) {
 		this.idExercicio = idExercicio;
-	}
-
-	public Long getIdAtividade() {
-		return idAtividade;
-	}
-
-	public void setIdAtividade(Long idAtividade) {
-		this.idAtividade = idAtividade;
 	}
 
 	public Integer getQuantidadeAtividade() {

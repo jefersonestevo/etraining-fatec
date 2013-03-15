@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.inject.Named;
 
+import br.com.etraining.client.utils.DataUtils;
 import br.com.etraining.exception.ETrainingException;
 import br.com.etraining.modelo.dao.interfaces.IDaoExercicioRealizado;
 import br.com.etraining.modelo.def.impl.jpa.DaoCRUDJPA;
@@ -27,9 +28,20 @@ public class DaoExercicioRealizadoJPA extends DaoCRUDJPA<EntExercicioRealizado>
 	@Override
 	public List<EntExercicioRealizado> pesquisarListaPorUsuarioData(
 			Long idUsuario, Date data) throws ETrainingException {
-		// TODO - Implementar metodo pesquisarListaPorUsuarioData do metodo
-		// DaoExercicioRealizadoJPA
-		return null;
+
+		StringBuilder query = new StringBuilder();
+		query.append(" SELECT er FROM ");
+		query.append(EntExercicioRealizado.class + " AS er ");
+		query.append(" WHERE er.diaExercicio.aluno.id = ? ");
+		query.append(" AND er.diaExercicio.dataRealizacao >= ? ");
+		query.append(" AND er.diaExercicio.dataRealizacao <= ? ");
+
+		Date dataInicial = DataUtils.getDataInicialDia(data);
+		Date dataFinal = DataUtils.getDataFinalDia(data);
+
+		return getTemplate().pesquisarQuery(EntExercicioRealizado.class,
+				query.toString(),
+				new Object[] { idUsuario, dataInicial, dataFinal });
 	}
 
 }

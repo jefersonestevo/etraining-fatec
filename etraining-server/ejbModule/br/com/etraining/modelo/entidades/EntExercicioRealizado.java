@@ -42,10 +42,6 @@ public class EntExercicioRealizado extends BeanJPA {
 	@JoinColumn(name = "exercicio_id", nullable = false)
 	private EntExercicio exercicio;
 
-	@ManyToOne(targetEntity = EntAtividade.class)
-	@JoinColumn(name = "atividade_id", nullable = false)
-	private EntAtividade atividade;
-
 	@Column(name = "quantidade_atividade")
 	private Integer quantidadeAtividade;
 
@@ -74,14 +70,6 @@ public class EntExercicioRealizado extends BeanJPA {
 
 	public void setExercicio(EntExercicio exercicio) {
 		this.exercicio = exercicio;
-	}
-
-	public EntAtividade getAtividade() {
-		return atividade;
-	}
-
-	public void setAtividade(EntAtividade atividade) {
-		this.atividade = atividade;
 	}
 
 	public Double getPontos() {

@@ -1,7 +1,6 @@
 package br.com.etraining.fachada.web;
 
 import javax.ejb.Stateless;
-import javax.enterprise.inject.spi.BeanManager;
 import javax.inject.Inject;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
@@ -11,8 +10,8 @@ import br.com.etraining.client.vo.transporte.CodigoExcecao;
 import br.com.etraining.client.vo.transporte.impl.VORequestWS;
 import br.com.etraining.client.vo.transporte.impl.VOResponseWS;
 import br.com.etraining.exception.ETrainingException;
+import br.com.etraining.negocio.bo.BOResolver;
 import br.com.etraining.negocio.bo.interfaces.IBO;
-import br.com.etraining.utils.CDIUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -22,7 +21,7 @@ import com.google.gson.GsonBuilder;
 public class ETrainingServiceWS {
 
 	@Inject
-	private BeanManager beanManager;
+	private BOResolver boResolver;
 
 	@WebMethod
 	@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -36,8 +35,7 @@ public class ETrainingServiceWS {
 
 			IVO vo = gson.fromJson(request.getRequest(), classe);
 
-			String nomeBO = classe.getSimpleName();
-			IBO bo = (IBO) CDIUtils.getBean(nomeBO, beanManager);
+			IBO bo = boResolver.getBOFor(classe);
 
 			IVO voRetorno = bo.executa(vo);
 			response.setResponse(gson.toJson(voRetorno));
@@ -52,13 +50,13 @@ public class ETrainingServiceWS {
 	}
 
 	@WebMethod(exclude = true)
-	public BeanManager getBeanManager() {
-		return beanManager;
+	public BOResolver getBoResolver() {
+		return boResolver;
 	}
 
 	@WebMethod(exclude = true)
-	public void setBeanManager(BeanManager beanManager) {
-		this.beanManager = beanManager;
+	public void setBoResolver(BOResolver boResolver) {
+		this.boResolver = boResolver;
 	}
 
 }
