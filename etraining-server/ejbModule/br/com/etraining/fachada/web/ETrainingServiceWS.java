@@ -41,6 +41,7 @@ public class ETrainingServiceWS {
 
 			IVO voRetorno = bo.executa(vo);
 			response.setResponse(gson.toJson(voRetorno));
+			response.setClasse(voRetorno.getClass().getName());
 
 		} catch (ETrainingException e) {
 			response.setCodigoErro(e.getCodigoExcecao().getCodigo());

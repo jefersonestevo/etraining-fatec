@@ -33,7 +33,7 @@ public class ConsultaListaExerciciosAlunoBO
 	private ConversorExercicio conversorExercicio;
 
 	@Override
-	public RespostaConsultaListaExerciciosAlunoVO executarRegrasEspecificas(
+	protected RespostaConsultaListaExerciciosAlunoVO executarRegrasEspecificas(
 			ConsultaListaExerciciosAlunoVO request) throws ETrainingException {
 		RespostaConsultaListaExerciciosAlunoVO response = new RespostaConsultaListaExerciciosAlunoVO();
 
