@@ -15,7 +15,7 @@
 		<class>br.com.etraining.modelo.entidades.EntExercicio</class>
 		<class>br.com.etraining.modelo.entidades.EntExercicioProposto</class>
 		<class>br.com.etraining.modelo.entidades.EntMatricula</class>
-		<class>br.com.etraining.modelo.entidades.EntPontuacaoExercicio</class>
+		<class>br.com.etraining.modelo.entidades.EntExercicioRealizado</class>
 		<class>br.com.etraining.modelo.entidades.EntProgramaTreinamento</class>
 
 		<properties>

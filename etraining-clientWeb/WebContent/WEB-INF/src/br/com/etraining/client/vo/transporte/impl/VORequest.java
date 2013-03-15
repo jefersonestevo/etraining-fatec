@@ -7,4 +7,12 @@ public class VORequest extends AbstractVORequest<IVO> {
 
 	private static final long serialVersionUID = -7995148598104980829L;
 
+	public VORequest() {
+		super();
+	}
+
+	public VORequest(IVO vo) {
+		super(vo);
+	}
+
 }

@@ -35,6 +35,9 @@ public class EntAtividade extends BeanJPA {
 	@Column(length = TamanhoCampo.TAMANHO_MEDIO, nullable = false)
 	private String titulo;
 
+	@Column(name = "quantidade_alteravel", nullable = false)
+	private Boolean quantidadeAlteravel = false;
+
 	public Long getId() {
 		return id;
 	}
@@ -49,6 +52,14 @@ public class EntAtividade extends BeanJPA {
 
 	public void setTitulo(String titulo) {
 		this.titulo = titulo;
+	}
+
+	public Boolean getQuantidadeAlteravel() {
+		return quantidadeAlteravel;
+	}
+
+	public void setQuantidadeAlteravel(Boolean quantidadeAlteravel) {
+		this.quantidadeAlteravel = quantidadeAlteravel;
 	}
 
 }

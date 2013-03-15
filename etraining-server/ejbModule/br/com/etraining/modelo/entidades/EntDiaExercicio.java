@@ -50,8 +50,8 @@ public class EntDiaExercicio extends BeanJPA {
 	@Temporal(TemporalType.DATE)
 	private Date dataRealizacao;
 
-	@OneToMany(targetEntity = EntPontuacaoExercicio.class, mappedBy = "diaExercicio", fetch = FetchType.LAZY)
-	private List<EntPontuacaoExercicio> listaPontuacaoExercicioDia = new ArrayList<EntPontuacaoExercicio>();
+	@OneToMany(targetEntity = EntExercicioRealizado.class, mappedBy = "diaExercicio", fetch = FetchType.LAZY)
+	private List<EntExercicioRealizado> listaExercicioRealizado = new ArrayList<EntExercicioRealizado>();
 
 	public Long getId() {
 		return id;
@@ -69,13 +69,21 @@ public class EntDiaExercicio extends BeanJPA {
 		this.dataRealizacao = dataRealizacao;
 	}
 
-	public List<EntPontuacaoExercicio> getListaPontuacaoExercicioDia() {
-		return listaPontuacaoExercicioDia;
+	public EntAluno getAluno() {
+		return aluno;
 	}
 
-	public void setListaPontuacaoExercicioDia(
-			List<EntPontuacaoExercicio> listaPontuacaoExercicioDia) {
-		this.listaPontuacaoExercicioDia = listaPontuacaoExercicioDia;
+	public void setAluno(EntAluno aluno) {
+		this.aluno = aluno;
+	}
+
+	public List<EntExercicioRealizado> getListaExercicioRealizado() {
+		return listaExercicioRealizado;
+	}
+
+	public void setListaExercicioRealizado(
+			List<EntExercicioRealizado> listaExercicioRealizado) {
+		this.listaExercicioRealizado = listaExercicioRealizado;
 	}
 
 }

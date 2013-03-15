@@ -8,6 +8,13 @@ public abstract class AbstractVORequest<OBJTRANSFERENCIA> implements
 
 	protected OBJTRANSFERENCIA request;
 
+	public AbstractVORequest() {
+	}
+
+	public AbstractVORequest(OBJTRANSFERENCIA obj) {
+		setRequest(obj);
+	}
+
 	public OBJTRANSFERENCIA getRequest() {
 		return request;
 	}
