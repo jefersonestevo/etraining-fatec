@@ -3,6 +3,7 @@ package br.com.etraining.fachada.web;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.jws.WebMethod;
+import javax.jws.WebParam;
 import javax.jws.WebService;
 
 import br.com.etraining.client.vo.interfaces.IVO;
@@ -25,7 +26,7 @@ public class ETrainingServiceWS {
 
 	@WebMethod
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public String executa(String requestStr) {
+	public String executa(@WebParam(name = "request") String requestStr) {
 		Gson gson = new GsonBuilder().create();
 
 		VORequestWS request = gson.fromJson(requestStr, VORequestWS.class);

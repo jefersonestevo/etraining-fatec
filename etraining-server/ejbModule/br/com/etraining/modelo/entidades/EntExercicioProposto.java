@@ -34,19 +34,19 @@ public class EntExercicioProposto extends BeanJPA {
 	private Long id;
 
 	@ManyToOne(targetEntity = EntDiaSemana.class, cascade = CascadeType.ALL)
-	@JoinColumn(name = "dia_semana_id", nullable = false)
+	@JoinColumn(name = "id_dia_semana", nullable = false)
 	private EntDiaSemana diaSemana;
 
 	@ManyToOne(targetEntity = EntExercicio.class)
-	@JoinColumn(name = "exercicio_id", nullable = false)
+	@JoinColumn(name = "id_exercicio", nullable = false)
 	private EntExercicio exercicio;
 
 	@ManyToOne(targetEntity = EntAtividade.class)
-	@JoinColumn(name = "atividade_id", nullable = false)
+	@JoinColumn(name = "id_atividade", nullable = false)
 	private EntAtividade atividade;
 
 	@ManyToOne(targetEntity = EntProgramaTreinamento.class)
-	@JoinColumn(name = "progtreinamento_id", nullable = false)
+	@JoinColumn(name = "id_progtreinamento", nullable = false)
 	private EntProgramaTreinamento programaTreinamento;
 
 	public Long getId() {

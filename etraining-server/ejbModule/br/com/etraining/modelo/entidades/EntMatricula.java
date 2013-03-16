@@ -41,7 +41,7 @@ public class EntMatricula extends BeanJPA {
 	private Long id;
 
 	@OneToOne(targetEntity = EntAluno.class, cascade = CascadeType.ALL)
-	@JoinColumn(name = "aluno_id")
+	@JoinColumn(name = "id_aluno")
 	private EntAluno aluno;
 
 	@Column(name = "num_matricula", updatable = false)
@@ -63,7 +63,7 @@ public class EntMatricula extends BeanJPA {
 	private String cpf;
 
 	@ManyToMany(targetEntity = EntDiaSemana.class, fetch = FetchType.LAZY)
-	@JoinTable(name = "matricula_diasemana", joinColumns = @JoinColumn(name = "matricula_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "dia_treinamento_id", referencedColumnName = "id"))
+	@JoinTable(name = "matricula_diasemana", joinColumns = @JoinColumn(name = "id_matricula", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "id_dia_treinamento", referencedColumnName = "id"))
 	private List<EntDiaSemana> listaDiasTreinamento = new ArrayList<EntDiaSemana>();
 
 	public Long getId() {

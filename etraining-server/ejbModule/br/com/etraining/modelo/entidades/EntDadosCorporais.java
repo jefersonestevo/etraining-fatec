@@ -35,7 +35,7 @@ public class EntDadosCorporais extends BeanJPA {
 	private Long id;
 
 	@OneToOne(targetEntity = EntAluno.class, cascade = CascadeType.ALL)
-	@JoinColumn(name = "aluno_id")
+	@JoinColumn(name = "id_aluno")
 	private EntAluno aluno;
 
 	@Column

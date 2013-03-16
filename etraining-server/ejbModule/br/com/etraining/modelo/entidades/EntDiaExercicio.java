@@ -43,7 +43,7 @@ public class EntDiaExercicio extends BeanJPA {
 	private Long id;
 
 	@ManyToOne(targetEntity = EntAluno.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinColumn(name = "aluno_id", nullable = false)
+	@JoinColumn(name = "id_aluno", nullable = false)
 	private EntAluno aluno;
 
 	@Column(nullable = false)

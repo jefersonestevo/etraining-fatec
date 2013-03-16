@@ -35,11 +35,11 @@ public class EntExercicioRealizado extends BeanJPA {
 	private Long id;
 
 	@ManyToOne(targetEntity = EntDiaExercicio.class, cascade = CascadeType.ALL)
-	@JoinColumn(name = "dia_exercicio_id", nullable = false)
+	@JoinColumn(name = "id_dia_exercicio", nullable = false)
 	private EntDiaExercicio diaExercicio;
 
 	@ManyToOne(targetEntity = EntExercicio.class)
-	@JoinColumn(name = "exercicio_id", nullable = false)
+	@JoinColumn(name = "id_exercicio", nullable = false)
 	private EntExercicio exercicio;
 
 	@Column(name = "quantidade_atividade")
