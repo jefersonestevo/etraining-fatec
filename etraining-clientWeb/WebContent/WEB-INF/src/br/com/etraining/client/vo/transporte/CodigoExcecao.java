@@ -1,7 +1,5 @@
 package br.com.etraining.client.vo.transporte;
 
-import java.util.HashMap;
-import java.util.Map;
 
 public enum CodigoExcecao {
 
@@ -16,14 +14,12 @@ public enum CodigoExcecao {
 	ANDROID_SEM_CONEXAO_SERVIDOR(50000002l), //
 	ANDROID_TIMEOUT_SERVIDOR(50000003l), //
 	ANDROID_ENTRADA_SAIDA_SERVIDOR(50000004l), //
+	ERRO_ARQUIVO_ALUNO_CAMPO_OBRIGATORIO(60000001l), //
+	ERRO_ARQUIVO_ALUNO_CAMPO_MAIOR_MAXIMO(60000002l), //
+	ERRO_ARQUIVO_ALUNO_CAMPO_NAO_NUMERICO(60000003l), //
 	ERRO_DESCONHECIDO(90000001l);
 
 	private Long codigo;
-	/**
-	 * Mapa para guardar os codigos de exceção como um cache para evitar rodar
-	 * por todas as exceções do enum no metodo getCodigoExcecao(Long codigo)
-	 */
-	private static final Map<Long, CodigoExcecao> mapCodigoExcecao = new HashMap<Long, CodigoExcecao>();
 
 	private CodigoExcecao(Long codigo) {
 		setCodigo(codigo);
@@ -35,11 +31,14 @@ public enum CodigoExcecao {
 
 	private void setCodigo(Long codigo) {
 		this.codigo = codigo;
-		mapCodigoExcecao.put(codigo, this);
 	}
 
 	public static CodigoExcecao getCodigoExcecao(Long codigo) {
-		return mapCodigoExcecao.get(codigo);
+		for (CodigoExcecao cod : CodigoExcecao.values()) {
+			if (cod.getCodigo().equals(codigo))
+				return cod;
+		}
+		return null;
 	}
 
 }

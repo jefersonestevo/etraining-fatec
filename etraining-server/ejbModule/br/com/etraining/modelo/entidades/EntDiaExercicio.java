@@ -42,7 +42,7 @@ public class EntDiaExercicio extends BeanJPA {
 	@GeneratedValue(generator = "seq_diaExercicio", strategy = GenerationType.AUTO)
 	private Long id;
 
-	@ManyToOne(targetEntity = EntAluno.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToOne(targetEntity = EntAluno.class, fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_aluno", nullable = false)
 	private EntAluno aluno;
 
@@ -50,7 +50,7 @@ public class EntDiaExercicio extends BeanJPA {
 	@Temporal(TemporalType.DATE)
 	private Date dataRealizacao;
 
-	@OneToMany(targetEntity = EntExercicioRealizado.class, mappedBy = "diaExercicio", fetch = FetchType.LAZY)
+	@OneToMany(targetEntity = EntExercicioRealizado.class, mappedBy = "diaExercicio", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<EntExercicioRealizado> listaExercicioRealizado = new ArrayList<EntExercicioRealizado>();
 
 	public Long getId() {

@@ -17,8 +17,8 @@ import br.com.etraining.negocio.bo.interfaces.IBO;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-@WebService
 @Stateless
+@WebService(name = "ETrainingServiceWS", targetNamespace = "ETrainingServiceWS")
 public class ETrainingServiceWS {
 
 	@Inject

@@ -1,6 +1,5 @@
 package br.com.etraining.modelo.entidades;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -33,17 +32,13 @@ public class EntExercicioProposto extends BeanJPA {
 	@GeneratedValue(generator = "seq_exercicioProposto", strategy = GenerationType.AUTO)
 	private Long id;
 
-	@ManyToOne(targetEntity = EntDiaSemana.class, cascade = CascadeType.ALL)
+	@ManyToOne(targetEntity = EntDiaSemana.class)
 	@JoinColumn(name = "id_dia_semana", nullable = false)
 	private EntDiaSemana diaSemana;
 
 	@ManyToOne(targetEntity = EntExercicio.class)
 	@JoinColumn(name = "id_exercicio", nullable = false)
 	private EntExercicio exercicio;
-
-	@ManyToOne(targetEntity = EntAtividade.class)
-	@JoinColumn(name = "id_atividade", nullable = false)
-	private EntAtividade atividade;
 
 	@ManyToOne(targetEntity = EntProgramaTreinamento.class)
 	@JoinColumn(name = "id_progtreinamento", nullable = false)
@@ -80,14 +75,6 @@ public class EntExercicioProposto extends BeanJPA {
 	public void setProgramaTreinamento(
 			EntProgramaTreinamento programaTreinamento) {
 		this.programaTreinamento = programaTreinamento;
-	}
-
-	public EntAtividade getAtividade() {
-		return atividade;
-	}
-
-	public void setAtividade(EntAtividade atividade) {
-		this.atividade = atividade;
 	}
 
 }

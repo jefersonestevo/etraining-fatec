@@ -3,7 +3,6 @@ package br.com.etraining.modelo.entidades;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -40,7 +39,7 @@ public class EntMatricula extends BeanJPA {
 	@GeneratedValue(generator = "seq_matricula", strategy = GenerationType.AUTO)
 	private Long id;
 
-	@OneToOne(targetEntity = EntAluno.class, cascade = CascadeType.ALL)
+	@OneToOne(targetEntity = EntAluno.class)
 	@JoinColumn(name = "id_aluno")
 	private EntAluno aluno;
 

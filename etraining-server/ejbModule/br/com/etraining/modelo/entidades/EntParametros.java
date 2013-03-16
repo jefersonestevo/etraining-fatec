@@ -16,6 +16,8 @@ public class EntParametros extends BeanJPA {
 
 	public static final String NOME_ENTIDADE = "parametros";
 
+	public static final Long ID_DIRETORIO_CARGA_ALUNOS = 1l;
+
 	public EntParametros() {
 		super();
 	}

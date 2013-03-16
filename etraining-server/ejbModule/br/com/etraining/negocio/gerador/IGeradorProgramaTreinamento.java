@@ -5,6 +5,7 @@ import br.com.etraining.modelo.entidades.EntProgramaTreinamento;
 
 public interface IGeradorProgramaTreinamento {
 
-	public EntProgramaTreinamento gerarProgramaTreinamento(EntAluno aluno);
+	public EntProgramaTreinamento gerarProgramaTreinamento(EntAluno aluno,
+			EntProgramaTreinamento programaTreinamentoAnterior);
 
 }

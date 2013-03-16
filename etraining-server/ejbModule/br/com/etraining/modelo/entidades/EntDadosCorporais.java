@@ -1,6 +1,5 @@
 package br.com.etraining.modelo.entidades;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -34,7 +33,7 @@ public class EntDadosCorporais extends BeanJPA {
 	@GeneratedValue(generator = "seq_dadosCorporais", strategy = GenerationType.AUTO)
 	private Long id;
 
-	@OneToOne(targetEntity = EntAluno.class, cascade = CascadeType.ALL)
+	@OneToOne(targetEntity = EntAluno.class)
 	@JoinColumn(name = "id_aluno")
 	private EntAluno aluno;
 

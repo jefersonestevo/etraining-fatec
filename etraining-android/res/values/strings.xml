@@ -1,3 +1,20 @@
 <resources>
-    <string name="app_name">Etraining-Android</string>
+
+    <string name="app_name">Etraining</string>
+    <string name="menu_settings">Configurações</string>
+    <string name="btn_login">Logar</string>
+    <string name="hint_digitar_login">Digite sua matrícula</string>
+    <string name="hint_digitar_senha">Digite sua senha</string>
+    <string name="confirmar">Confirmar</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="login_view_logando">Logando</string>
+    <string name="login_view_validando_login">Validando Login</string>
+    <string name="msg_confirmacao_remocao_usuario">Deseja remover este usuário?</string>
+    <string name="msg_confirmacao_iniciar_reuniao">Deseja iniciar esta reunião?</string>
+    <string name="msg_confirmacao_encerrar_reuniao">Deseja realmente encerrar esta reunião?</string>
+    <string name="msg_carregando">Carregando</string>
+    <string name="msg_favor_aguardar">Favor aguardar.</string>
+    <string name="error_login_view_criar_usuario">Favor informar um login e senha.</string>
+    <string name="error_view_inesperado">Ocorreu um erro inesperado.</string>
+
 </resources>

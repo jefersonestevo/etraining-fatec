@@ -41,10 +41,10 @@ public class EntProgramaTreinamento extends BeanJPA {
 	@GeneratedValue(generator = "seq_programaTreinamento", strategy = GenerationType.AUTO)
 	private Long id;
 
-	@ManyToOne(targetEntity = EntAluno.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(targetEntity = EntAluno.class, fetch = FetchType.LAZY)
 	private EntAluno aluno;
 
-	@OneToMany(targetEntity = EntExercicioProposto.class, mappedBy = "programaTreinamento", fetch = FetchType.LAZY)
+	@OneToMany(targetEntity = EntExercicioProposto.class, mappedBy = "programaTreinamento", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<EntExercicioProposto> listaExercicioProposto = new ArrayList<EntExercicioProposto>();
 
 	@Column(nullable = false)
