@@ -15,16 +15,19 @@
 		<class>br.com.etraining.modelo.entidades.EntExercicio</class>
 		<class>br.com.etraining.modelo.entidades.EntExercicioProposto</class>
 		<class>br.com.etraining.modelo.entidades.EntMatricula</class>
-		<class>br.com.etraining.modelo.entidades.EntPontuacaoExercicio</class>
+		<class>br.com.etraining.modelo.entidades.EntExercicioRealizado</class>
 		<class>br.com.etraining.modelo.entidades.EntProgramaTreinamento</class>
+		<class>br.com.etraining.modelo.entidades.EntParametros</class>
 
 		<properties>
-			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />
+			<!--<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" 
+				/> -->
+			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect" />
 			<property name="hibernate.connection.url" value="jdbc:mysql://localhost/etraining" />
 			<property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver" />
 			<property name="hibernate.connection.username" value="root" />
 			<property name="hibernate.connection.password" value="" />
-<!-- 			<property name="hibernate.hbm2ddl.auto" value="update" /> -->
+			<!-- <property name="hibernate.hbm2ddl.auto" value="update" /> -->
 			<property name="hibernate.hbm2ddl.auto" value="create-drop" />
 		</properties>
 
