@@ -28,6 +28,7 @@ import br.com.etraining.modelo.entidades.EntDadosCorporais;
 import br.com.etraining.modelo.entidades.EntMatricula;
 import br.com.etraining.negocio.gerador.ICalculadoraDePontos;
 import br.com.etraining.negocio.gerador.IGeradorProgramaTreinamento;
+import br.com.etraining.utils.io.IOUtils;
 
 @Named
 public class ImportadorDadosAluno {
@@ -97,18 +98,8 @@ public class ImportadorDadosAluno {
 		} catch (IOException e) {
 			log.error("Erro de IO para importacao de dados dos alunos", e);
 		} finally {
-			if (br != null) {
-				try {
-					br.close();
-				} catch (IOException e) {
-				}
-			}
-			if (fr != null) {
-				try {
-					fr.close();
-				} catch (IOException e) {
-				}
-			}
+			IOUtils.closeQuietly(fr);
+			IOUtils.closeQuietly(br);
 		}
 
 	}

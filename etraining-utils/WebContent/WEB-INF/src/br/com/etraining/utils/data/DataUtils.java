@@ -1,4 +1,4 @@
-package br.com.etraining.client.utils;
+package br.com.etraining.utils.data;
 
 import java.util.Calendar;
 import java.util.Date;

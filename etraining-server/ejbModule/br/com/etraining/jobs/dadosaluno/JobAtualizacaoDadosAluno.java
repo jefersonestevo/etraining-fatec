@@ -14,6 +14,7 @@ import br.com.etraining.exception.ETrainingException;
 import br.com.etraining.jobs.EtrainingJob;
 import br.com.etraining.modelo.dao.interfaces.IDaoParametros;
 import br.com.etraining.modelo.entidades.EntParametros;
+import br.com.etraining.utils.io.FileUtils;
 
 @Singleton
 public class JobAtualizacaoDadosAluno implements EtrainingJob {
@@ -27,11 +28,10 @@ public class JobAtualizacaoDadosAluno implements EtrainingJob {
 	private ImportadorDadosAluno importadorDadosAluno;
 
 	@PostConstruct
-	@Schedule(dayOfWeek = "*", hour = "*", minute = "*", second = "*/60", persistent = false)
+	@Schedule(dayOfWeek = "*", hour = "*", minute = "*/1", second = "*", persistent = false)
 	public void executar() {
 
 		try {
-			System.out.println("TESTE");
 			EntParametros param = parametrosDao
 					.pesquisar(EntParametros.ID_DIRETORIO_CARGA_ALUNOS);
 
@@ -49,36 +49,31 @@ public class JobAtualizacaoDadosAluno implements EtrainingJob {
 								if (StringUtils.endsWithIgnoreCase(
 										arquivo.getName(), ".in")) {
 
-									log.debug("Leitura do arquivo: "
-											+ arquivo.getAbsolutePath()
-											+ " -  para importação de usuarios");
+									String nomeOriginalArquivo = arquivo
+											.getAbsolutePath();
+									log.debug("Leitura do arquivo: \""
+											+ nomeOriginalArquivo
+											+ "\" para importação de usuarios");
 
-									String novoNomeArquivo = arquivo.getName()
-											.substring(
-													0,
-													arquivo.getName()
-															.lastIndexOf("."))
-											+ ".PROC";
-									arquivo.renameTo(new File(arquivo
-											.getAbsolutePath(), novoNomeArquivo));
+									arquivo = FileUtils
+											.renomearArquivoComSufixo(arquivo,
+													".PROC");
 									importadorDadosAluno
 											.importarDadosAluno(arquivo);
 
-									novoNomeArquivo = arquivo.getName()
-											.replaceAll(".PROC", ".OK");
-									arquivo.renameTo(new File(arquivo
-											.getAbsolutePath(), novoNomeArquivo));
+									arquivo = FileUtils
+											.renomearArquivoComSufixo(arquivo,
+													".OK");
+									log.debug("Fim da leitura do arquivo: \""
+											+ nomeOriginalArquivo
+											+ "\" para importação de usuarios");
+
 								}
 							} catch (ETrainingException e) {
-								String novoNomeArquivo = arquivo.getName()
-										.substring(
-												0,
-												arquivo.getName().lastIndexOf(
-														"."))
-										+ ".ERROR";
-								arquivo.renameTo(new File(novoNomeArquivo));
+								FileUtils.renomearArquivoComSufixo(arquivo,
+										".ERROR");
 								log.error("Erro na importação do arquivo "
-										+ novoNomeArquivo, e);
+										+ arquivo.getAbsolutePath(), e);
 							}
 						}
 					}

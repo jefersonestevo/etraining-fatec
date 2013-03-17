@@ -1,12 +1,14 @@
 package br.com.etraining.utils;
 
+import br.com.etraining.client.vo.transporte.CodigoExcecao;
 import br.com.etraining.exception.ETrainingException;
+import br.com.etraining.exception.ETrainingInfraException;
 
 public class TradutorExcecaoUtils {
 
 	public static ETrainingException getExcecaoTraduzida(RuntimeException r) {
 		// TODO - Configurar Corretamente o tradutor de exceção
-		return null;
+		return new ETrainingInfraException(CodigoExcecao.ERRO_DESCONHECIDO);
 	}
 
 }

@@ -5,11 +5,11 @@ import java.util.List;
 
 import javax.inject.Named;
 
-import br.com.etraining.client.utils.DataUtils;
 import br.com.etraining.exception.ETrainingException;
 import br.com.etraining.modelo.dao.interfaces.IDaoExercicioRealizado;
 import br.com.etraining.modelo.def.impl.jpa.DaoCRUDJPA;
 import br.com.etraining.modelo.entidades.EntExercicioRealizado;
+import br.com.etraining.utils.data.DataUtils;
 
 @Named
 public class DaoExercicioRealizadoJPA extends DaoCRUDJPA<EntExercicioRealizado>
