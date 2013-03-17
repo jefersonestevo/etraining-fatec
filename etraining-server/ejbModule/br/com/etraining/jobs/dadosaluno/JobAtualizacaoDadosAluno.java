@@ -21,6 +21,11 @@ public class JobAtualizacaoDadosAluno implements EtrainingJob {
 
 	private Logger log = Logger.getLogger(JobAtualizacaoDadosAluno.class);
 
+	private static final String SUFIXO_ARQUIVO_ENTRADA = ".IN";
+	private static final String SUFIXO_ARQUIVO_PROCESSANDO = ".PROC";
+	private static final String SUFIXO_ARQUIVO_PROCESSADO_COM_SUCESSO = ".OK";
+	private static final String SUFIXO_ARQUIVO_COM_ERRO = ".ERROR";
+
 	@Inject
 	private IDaoParametros parametrosDao;
 
@@ -47,7 +52,8 @@ public class JobAtualizacaoDadosAluno implements EtrainingJob {
 							try {
 								// Realiza leitura somente de arquivos .in
 								if (StringUtils.endsWithIgnoreCase(
-										arquivo.getName(), ".in")) {
+										arquivo.getName(),
+										SUFIXO_ARQUIVO_ENTRADA)) {
 
 									String nomeOriginalArquivo = arquivo
 											.getAbsolutePath();
@@ -57,13 +63,13 @@ public class JobAtualizacaoDadosAluno implements EtrainingJob {
 
 									arquivo = FileUtils
 											.renomearArquivoComSufixo(arquivo,
-													".PROC");
+													SUFIXO_ARQUIVO_PROCESSANDO);
 									importadorDadosAluno
 											.importarDadosAluno(arquivo);
 
 									arquivo = FileUtils
 											.renomearArquivoComSufixo(arquivo,
-													".OK");
+													SUFIXO_ARQUIVO_PROCESSADO_COM_SUCESSO);
 									log.debug("Fim da leitura do arquivo: \""
 											+ nomeOriginalArquivo
 											+ "\" para importação de usuarios");
@@ -71,7 +77,7 @@ public class JobAtualizacaoDadosAluno implements EtrainingJob {
 								}
 							} catch (ETrainingException e) {
 								FileUtils.renomearArquivoComSufixo(arquivo,
-										".ERROR");
+										SUFIXO_ARQUIVO_COM_ERRO);
 								log.error("Erro na importação do arquivo "
 										+ arquivo.getAbsolutePath(), e);
 							}

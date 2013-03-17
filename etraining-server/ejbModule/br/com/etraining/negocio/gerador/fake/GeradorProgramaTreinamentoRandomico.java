@@ -43,7 +43,8 @@ public class GeradorProgramaTreinamentoRandomico implements
 	@Override
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public EntProgramaTreinamento gerarProgramaTreinamento(EntAluno al,
-			EntProgramaTreinamento programaTreinamentoAnterior) {
+			EntProgramaTreinamento programaTreinamentoAnterior)
+			throws ETrainingException {
 		EntProgramaTreinamento progTreinamento = null;
 		try {
 			EntAluno aluno = alunoDao.pesquisar(al.getId());
@@ -134,6 +135,7 @@ public class GeradorProgramaTreinamentoRandomico implements
 			log.error("Falha ao gerar programa de treinamento para aluno "
 					+ (al != null ? al.getId() : null), e);
 			progTreinamento = null;
+			throw e;
 		}
 		return progTreinamento;
 	}

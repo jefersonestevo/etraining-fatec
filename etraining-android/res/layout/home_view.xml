@@ -1,0 +1,51 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+
+        <ImageButton
+            android:id="@+id/btn_alterar_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:src="@android:drawable/ic_menu_month"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/lbl_data_selecionada"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="15dp"
+            android:text="dd/MM/yyyy"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            tools:ignore="HardcodedText" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:layout_margin="5dp"
+        android:background="@android:color/darker_gray" />
+
+    <Button
+        android:id="@+id/btn_adicionar_exercicio"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:text="@string/adicionar_exercicio" />
+
+    <ListView
+        android:id="@+id/list_exercicio_realizado"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp" >
+    </ListView>
+
+</LinearLayout>

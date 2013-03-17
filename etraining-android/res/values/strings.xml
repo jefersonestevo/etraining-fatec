@@ -7,6 +7,8 @@
     <string name="hint_digitar_senha">Digite sua senha</string>
     <string name="confirmar">Confirmar</string>
     <string name="cancelar">Cancelar</string>
+    <string name="adicionar_exercicio">Adicionar Exercício</string>
+    <string name="hint_adicionar_exercicio">Clique em um exercício para adicionar…</string>
     <string name="login_view_logando">Logando</string>
     <string name="login_view_validando_login">Validando Login</string>
     <string name="msg_confirmacao_remocao_usuario">Deseja remover este usuário?</string>

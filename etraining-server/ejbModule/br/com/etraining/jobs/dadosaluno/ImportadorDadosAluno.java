@@ -95,8 +95,18 @@ public class ImportadorDadosAluno {
 
 		} catch (FileNotFoundException e) {
 			log.error("Arquivo para importacao não encontrado.", e);
+			throw new ETrainingInfraException(
+					CodigoExcecao.ERRO_LEITURA_ARQUIVO_IMPORTACAO_ALUNOS);
 		} catch (IOException e) {
 			log.error("Erro de IO para importacao de dados dos alunos", e);
+			throw new ETrainingInfraException(
+					CodigoExcecao.ERRO_LEITURA_ARQUIVO_IMPORTACAO_ALUNOS);
+		} catch (Exception e) {
+			if (e instanceof ETrainingException) {
+				throw ((ETrainingInfraException) e);
+			}
+			log.error("Erro inesperado na importacao de dados dos alunos", e);
+			throw new ETrainingInfraException(CodigoExcecao.ERRO_DESCONHECIDO);
 		} finally {
 			IOUtils.closeQuietly(fr);
 			IOUtils.closeQuietly(br);
