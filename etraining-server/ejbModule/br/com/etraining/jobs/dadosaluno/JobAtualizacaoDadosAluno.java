@@ -8,6 +8,7 @@ import javax.ejb.Singleton;
 import javax.inject.Inject;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 
 import br.com.etraining.exception.ETrainingException;
 import br.com.etraining.jobs.EtrainingJob;
@@ -16,6 +17,8 @@ import br.com.etraining.modelo.entidades.EntParametros;
 
 @Singleton
 public class JobAtualizacaoDadosAluno implements EtrainingJob {
+
+	private Logger log = Logger.getLogger(JobAtualizacaoDadosAluno.class);
 
 	@Inject
 	private IDaoParametros parametrosDao;
@@ -28,6 +31,7 @@ public class JobAtualizacaoDadosAluno implements EtrainingJob {
 	public void executar() {
 
 		try {
+			System.out.println("TESTE");
 			EntParametros param = parametrosDao
 					.pesquisar(EntParametros.ID_DIRETORIO_CARGA_ALUNOS);
 
@@ -44,6 +48,11 @@ public class JobAtualizacaoDadosAluno implements EtrainingJob {
 								// Realiza leitura somente de arquivos .in
 								if (StringUtils.endsWithIgnoreCase(
 										arquivo.getName(), ".in")) {
+
+									log.debug("Leitura do arquivo: "
+											+ arquivo.getAbsolutePath()
+											+ " -  para importação de usuarios");
+
 									String novoNomeArquivo = arquivo.getName()
 											.substring(
 													0,
@@ -68,7 +77,8 @@ public class JobAtualizacaoDadosAluno implements EtrainingJob {
 														"."))
 										+ ".ERROR";
 								arquivo.renameTo(new File(novoNomeArquivo));
-								e.printStackTrace();
+								log.error("Erro na importação do arquivo "
+										+ novoNomeArquivo, e);
 							}
 						}
 					}
@@ -77,9 +87,13 @@ public class JobAtualizacaoDadosAluno implements EtrainingJob {
 			}
 
 		} catch (ETrainingException e) {
-			e.printStackTrace();
+			log.error(
+					"Erro ao realizar importação do arquivo de carga de alunos",
+					e);
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error(
+					"Erro inesperado ao realizar importação do arquivo de carga de alunos",
+					e);
 		}
 
 	}

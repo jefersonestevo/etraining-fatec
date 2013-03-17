@@ -15,6 +15,7 @@ import javax.inject.Named;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
+import org.apache.log4j.Logger;
 
 import br.com.etraining.client.vo.transporte.CodigoExcecao;
 import br.com.etraining.exception.ETrainingException;
@@ -30,6 +31,8 @@ import br.com.etraining.negocio.gerador.IGeradorProgramaTreinamento;
 
 @Named
 public class ImportadorDadosAluno {
+
+	private Logger log = Logger.getLogger(ImportadorDadosAluno.class);
 
 	@Inject
 	private IDaoAluno alunoDao;
@@ -90,9 +93,9 @@ public class ImportadorDadosAluno {
 			}
 
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			log.error("Arquivo para importacao não encontrado.", e);
 		} catch (IOException e) {
-			e.printStackTrace();
+			log.error("Erro de IO para importacao de dados dos alunos", e);
 		} finally {
 			if (br != null) {
 				try {

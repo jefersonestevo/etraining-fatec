@@ -11,6 +11,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.log4j.Logger;
 
 import br.com.etraining.exception.ETrainingException;
 import br.com.etraining.modelo.dao.interfaces.IDaoAluno;
@@ -26,6 +27,9 @@ import br.com.etraining.negocio.gerador.IGeradorProgramaTreinamento;
 @Named
 public class GeradorProgramaTreinamentoRandomico implements
 		IGeradorProgramaTreinamento {
+
+	private Logger log = Logger
+			.getLogger(GeradorProgramaTreinamentoRandomico.class);
 
 	@Inject
 	private IDaoProgramaTreinamento daoProgramaTreinamento;
@@ -43,6 +47,8 @@ public class GeradorProgramaTreinamentoRandomico implements
 		EntProgramaTreinamento progTreinamento = null;
 		try {
 			EntAluno aluno = alunoDao.pesquisar(al.getId());
+			log.debug("Inicio da geração do programa de treinamento para o aluno ID: "
+					+ aluno.getId());
 
 			progTreinamento = new EntProgramaTreinamento();
 			progTreinamento.setAluno(aluno);
@@ -108,8 +114,25 @@ public class GeradorProgramaTreinamentoRandomico implements
 				}
 
 				daoProgramaTreinamento.inserir(progTreinamento);
+
+				log.debug("Termino da geração do programa de treinamento para o aluno ID: "
+						+ aluno.getId());
+
+				if (programaTreinamentoAnterior != null
+						&& programaTreinamentoAnterior.getId() != null) {
+					EntProgramaTreinamento progAnterior = daoProgramaTreinamento
+							.pesquisar(programaTreinamentoAnterior.getId());
+					progAnterior.setCancelado(true);
+					daoProgramaTreinamento.alterar(progAnterior);
+
+					log.debug("Programa de treinamento com ID: "
+							+ progTreinamento.getId() + ", do aluno ID: "
+							+ aluno.getId() + " foi cancelado. ");
+				}
 			}
 		} catch (ETrainingException e) {
+			log.error("Falha ao gerar programa de treinamento para aluno "
+					+ (al != null ? al.getId() : null), e);
 			progTreinamento = null;
 		}
 		return progTreinamento;

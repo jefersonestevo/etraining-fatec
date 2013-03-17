@@ -43,8 +43,8 @@ public final class LoginActivity_
     }
 
     private void afterSetContentView_() {
-        txtSenha = ((TextView) findViewById(id.txt_login_senha));
         txtLogin = ((TextView) findViewById(id.txt_login_login));
+        txtSenha = ((TextView) findViewById(id.txt_login_senha));
         {
             View view = findViewById(id.btn_logar);
             if (view!= null) {
