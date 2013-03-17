@@ -41,6 +41,14 @@
         android:layout_marginRight="15dp"
         android:text="@string/adicionar_exercicio" />
 
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:gravity="center"
+        android:text="@string/hint_remover_exercicio"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
     <ListView
         android:id="@+id/list_exercicio_realizado"
         android:layout_width="match_parent"
