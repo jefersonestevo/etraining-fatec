@@ -20,6 +20,14 @@
 			<name>googlecode-ksoap2-android</name>
 			<url>http://ksoap2-android.googlecode.com/svn/m2-repo</url>
 		</repository>
+		
+		<repository>  
+		    <id>prime-repo</id>  
+		    <name>PrimeFaces Maven Repository</name>  
+		    <url>http://repository.primefaces.org</url>  
+		    <layout>default</layout>  
+		</repository>  
+
 	</repositories>
 
 	<dependencyManagement>
@@ -66,6 +74,12 @@
 				<groupId>com.googlecode.androidannotations</groupId>
 				<artifactId>androidannotations-api</artifactId>
 				<version>2.7</version>
+			</dependency>
+			
+			<dependency>  
+			    <groupId>org.primefaces</groupId>  
+			    <artifactId>primefaces</artifactId>  
+			    <version>3.5</version>  
 			</dependency>
 			
 			<dependency>
