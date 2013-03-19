@@ -1,13 +1,40 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
-<body>
-	<ui:composition>
+	<h:form>
+		<p:menubar id="menuPrincipal">
+			<p:menuitem value="#{message.Menu_Home}" icon="ui-icon-home" />
+			<p:submenu label="#{message.Menu_Administracao}" icon="ui-icon-note">
+				<p:menuitem value="#{message.Menu_Dados_Usuario}"
+					icon="ui-icon-pencil" />
+				<p:submenu label="#{message.Menu_Relatorios}" icon="ui-icon-disk">
+					<p:menuitem value="#{message.Menu_Relatorios_Estatistica_Geral}"
+						icon="ui-icon-search" />
+					<p:menuitem value="#{message.Menu_Relatorios_Evolucao_Individual}"
+						icon="ui-icon-search" />
+				</p:submenu>
+			</p:submenu>
+			<p:submenu label="#{message.Menu_Treinamento}" icon="ui-icon-contact">
+				<p:menuitem value="#{message.Menu_Lista_Exercicios}"
+					icon="ui-icon-document" />
+				<p:menuitem value="#{message.Menu_Rotina_Treinamento}"
+					icon="ui-icon-pencil" />
+				<p:menuitem value="#{message.Menu_Revisar_Programa_Treinamento}"
+					icon="ui-icon-arrowrefresh-1-w" />
+			</p:submenu>
+			<p:submenu label="#{message.Menu_Ajuda}" icon="ui-icon-help">
+				<p:menuitem value="#{message.Menu_Ajuda}" icon="ui-icon-help" />
+				<p:menuitem value="#{message.Menu_Mapa_Site}" icon="ui-icon-image" />
+			</p:submenu>
 
-		<h1>This is default header</h1>
+			<f:facet name="options">
+				<h:outputText value="#{viewUtils.nomeUsuarioLogado}"
+					style="margin-right:10px" />
+			</f:facet>
 
-	</ui:composition>
-</body>
-</html>
+		</p:menubar>
+	</h:form>
+</ui:composition>

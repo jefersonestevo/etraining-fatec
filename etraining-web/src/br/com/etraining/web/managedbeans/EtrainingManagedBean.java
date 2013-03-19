@@ -1,16 +1,34 @@
 package br.com.etraining.web.managedbeans;
 
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+
 public abstract class EtrainingManagedBean {
 
+	public void addErrorMessage(String titulo, String message) {
+		FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage(FacesMessage.SEVERITY_ERROR, titulo, message));
+	}
+
 	public void addErrorMessage(String message) {
-		// TODO - Implementar
+		addErrorMessage(null, message);
+	}
+
+	public void addInfoMessage(String titulo, String message) {
+		FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage(FacesMessage.SEVERITY_INFO, titulo, message));
 	}
 
 	public void addInfoMessage(String message) {
-		// TODO - Implementar
+		addInfoMessage(null, message);
 	}
 
-	public void addSuccessMessage(String message) {
-		// TODO - Implementar
+	public void addWarnMessage(String titulo, String message) {
+		FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage(FacesMessage.SEVERITY_WARN, titulo, message));
+	}
+
+	public void addWarnMessage(String message) {
+		addWarnMessage(null, message);
 	}
 }

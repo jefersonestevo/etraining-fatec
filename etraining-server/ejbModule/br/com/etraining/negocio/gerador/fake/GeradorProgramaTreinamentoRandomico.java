@@ -28,7 +28,7 @@ import br.com.etraining.negocio.gerador.IGeradorProgramaTreinamento;
 public class GeradorProgramaTreinamentoRandomico implements
 		IGeradorProgramaTreinamento {
 
-	private Logger log = Logger
+	private static Logger log = Logger
 			.getLogger(GeradorProgramaTreinamentoRandomico.class);
 
 	@Inject
@@ -65,7 +65,13 @@ public class GeradorProgramaTreinamentoRandomico implements
 					.setListaExercicioProposto(new ArrayList<EntExercicioProposto>());
 
 			Calendar cal = Calendar.getInstance();
-			cal.setTime(new Date());
+
+			Date dataAtual = new Date();
+			if (programaTreinamentoAnterior != null
+					&& programaTreinamentoAnterior.getDataVencimento() != null) {
+				dataAtual = programaTreinamentoAnterior.getDataVencimento();
+			}
+			cal.setTime(dataAtual);
 			cal.add(Calendar.DATE, 7);
 			progTreinamento.setDataVencimento(cal.getTime());
 
