@@ -19,5 +19,7 @@
     <string name="msg_favor_aguardar">Favor aguardar.</string>
     <string name="error_login_view_criar_usuario">Favor informar um login e senha.</string>
     <string name="error_view_inesperado">Ocorreu um erro inesperado.</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_treinamento">TreinamentoActivity</string>
 
 </resources>

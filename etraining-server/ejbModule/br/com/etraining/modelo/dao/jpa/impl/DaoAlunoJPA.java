@@ -32,7 +32,7 @@ public class DaoAlunoJPA extends DaoCRUDJPA<EntAluno> implements IDaoAluno {
 
 		StringBuilder query = new StringBuilder();
 		query.append(" SELECT a FROM ");
-		query.append(EntAluno.class + " AS a ");
+		query.append(EntAluno.class.getName() + " AS a ");
 		query.append(" WHERE a.matricula.numeroMatricula = ? ");
 		query.append(" AND a.matricula.senhaUsuario = ? ");
 

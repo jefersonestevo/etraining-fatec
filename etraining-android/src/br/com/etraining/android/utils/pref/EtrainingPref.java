@@ -8,7 +8,7 @@ public interface EtrainingPref {
 
 	public long idAluno();
 
-	public long numeroMatricula();
+	public String numeroMatricula();
 
 	public long dataSelecionada();
 

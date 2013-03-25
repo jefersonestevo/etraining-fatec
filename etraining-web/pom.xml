@@ -27,10 +27,10 @@
 			<groupId>commons-lang</groupId>
 			<artifactId>commons-lang</artifactId>
 		</dependency>
-		
-		<dependency>  
-		    <groupId>org.primefaces</groupId>  
-		    <artifactId>primefaces</artifactId>  
+
+		<dependency>
+			<groupId>org.primefaces</groupId>
+			<artifactId>primefaces</artifactId>
 		</dependency>
 
 		<dependency>
@@ -41,6 +41,7 @@
 	</dependencies>
 	<build>
 		<sourceDirectory>src</sourceDirectory>
+		<outputDirectory>WebContent/WEB-INF/classes</outputDirectory>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>

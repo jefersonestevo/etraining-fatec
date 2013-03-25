@@ -44,7 +44,7 @@ public class EntMatricula extends BeanJPA {
 	private EntAluno aluno;
 
 	@Column(name = "num_matricula", updatable = false)
-	private Long numeroMatricula;
+	private String numeroMatricula;
 
 	@Column(name = "senha_usuario", updatable = false)
 	private String senhaUsuario;
@@ -81,11 +81,11 @@ public class EntMatricula extends BeanJPA {
 		this.aluno = aluno;
 	}
 
-	public Long getNumeroMatricula() {
+	public String getNumeroMatricula() {
 		return numeroMatricula;
 	}
 
-	public void setNumeroMatricula(Long numeroMatricula) {
+	public void setNumeroMatricula(String numeroMatricula) {
 		this.numeroMatricula = numeroMatricula;
 	}
 

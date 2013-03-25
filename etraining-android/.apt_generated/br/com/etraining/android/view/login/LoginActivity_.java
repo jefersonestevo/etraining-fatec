@@ -3,7 +3,7 @@
 //
 
 
-package br.com.etraining.android.view;
+package br.com.etraining.android.view.login;
 
 import java.io.Serializable;
 import android.app.Activity;
@@ -43,8 +43,8 @@ public final class LoginActivity_
     }
 
     private void afterSetContentView_() {
-        txtLogin = ((TextView) findViewById(id.txt_login_login));
         txtSenha = ((TextView) findViewById(id.txt_login_senha));
+        txtLogin = ((TextView) findViewById(id.txt_login_login));
         {
             View view = findViewById(id.btn_logar);
             if (view!= null) {

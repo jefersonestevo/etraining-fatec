@@ -19,34 +19,38 @@
 		<servlet-name>Faces Servlet</servlet-name>
 		<url-pattern>*.jsf</url-pattern>
 	</servlet-mapping>
-	
-<!-- 	<security-constraint> -->
-<!--         <display-name>Pages</display-name> -->
-<!--         <web-resource-collection> -->
-<!--             <web-resource-name>pages</web-resource-name> -->
-<!--             <description/> -->
-<!--             <url-pattern>/pages/*</url-pattern> -->
-<!--         </web-resource-collection> -->
-<!--         <auth-constraint> -->
-<!--             <role-name>ALUNO</role-name> -->
-<!--             <role-name>ADM</role-name> -->
-<!--         </auth-constraint> -->
-<!--     </security-constraint> -->
-    
-<!--     <login-config> -->
-<!--         <auth-method>FORM</auth-method> -->
-<!--         <realm-name>etraining-auth</realm-name> -->
-<!--         <form-login-config> -->
-<!--             <form-login-page>/login.xhtml</form-login-page> -->
-<!--             <form-error-page>/error.xhtml</form-error-page> -->
-<!--         </form-login-config> -->
-<!--     </login-config> -->
 
-<!--     <security-role> -->
-<!--         <role-name>ALUNO</role-name> -->
-<!--     </security-role> -->
-<!--     <security-role> -->
-<!--         <role-name>ADM</role-name> -->
-<!--     </security-role> -->
+	<security-constraint>
+		<display-name>Pages</display-name>
+		<web-resource-collection>
+			<web-resource-name>pages</web-resource-name>
+			<description />
+			<url-pattern>/pages/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>ALUNO</role-name>
+			<role-name>ADM</role-name>
+			<role-name>PROFESSOR</role-name>
+		</auth-constraint>
+	</security-constraint>
+
+	<login-config>
+		<auth-method>FORM</auth-method>
+		<realm-name>etraining-auth</realm-name>
+		<form-login-config>
+			<form-login-page>/login.xhtml</form-login-page>
+			<form-error-page>/error.xhtml</form-error-page>
+		</form-login-config>
+	</login-config>
+
+	<security-role>
+		<role-name>ALUNO</role-name>
+	</security-role>
+	<security-role>
+		<role-name>ADM</role-name>
+    </security-role>
+	<security-role>
+		<role-name>PROFESSOR</role-name>
+    </security-role>
 	
 </web-app>

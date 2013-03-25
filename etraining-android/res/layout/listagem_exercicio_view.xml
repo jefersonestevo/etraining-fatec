@@ -6,7 +6,7 @@
     android:orientation="vertical" >
 
     <Button
-        android:id="@+id/btn_adicionar_exercicio"
+        android:id="@+id/btn_primario"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
@@ -28,7 +28,7 @@
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <ListView
-        android:id="@+id/list_exercicio"
+        android:id="@+id/lista_items"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp" >

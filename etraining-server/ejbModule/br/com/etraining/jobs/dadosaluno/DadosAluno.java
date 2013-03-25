@@ -36,9 +36,9 @@ public class DadosAluno implements Serializable {
 		matricula.setAluno(aluno);
 		matricula.setCpf(dadosAluno[EnumPosicionalDadosAluno.CPF.ordinal()]);
 		matricula.setRg(dadosAluno[EnumPosicionalDadosAluno.RG.ordinal()]);
-		matricula.setNumeroMatricula(Long
-				.parseLong(dadosAluno[EnumPosicionalDadosAluno.MATRICULA
-						.ordinal()]));
+		matricula
+				.setNumeroMatricula(dadosAluno[EnumPosicionalDadosAluno.MATRICULA
+						.ordinal()]);
 		matricula
 				.setPerfilAcesso(dadosAluno[EnumPosicionalDadosAluno.PERFIL_ACESSO
 						.ordinal()]);

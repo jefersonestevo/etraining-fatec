@@ -11,6 +11,8 @@ import com.googlecode.androidannotations.api.sharedpreferences.EditorHelper;
 import com.googlecode.androidannotations.api.sharedpreferences.LongPrefEditorField;
 import com.googlecode.androidannotations.api.sharedpreferences.LongPrefField;
 import com.googlecode.androidannotations.api.sharedpreferences.SharedPreferencesHelper;
+import com.googlecode.androidannotations.api.sharedpreferences.StringPrefEditorField;
+import com.googlecode.androidannotations.api.sharedpreferences.StringPrefField;
 
 public final class EtrainingPref_
     extends SharedPreferencesHelper
@@ -33,8 +35,8 @@ public final class EtrainingPref_
         return longField("idAluno", 0L);
     }
 
-    public LongPrefField numeroMatricula() {
-        return longField("numeroMatricula", 0L);
+    public StringPrefField numeroMatricula() {
+        return stringField("numeroMatricula", "");
     }
 
     public final static class EtrainingPrefEditor_
@@ -54,8 +56,8 @@ public final class EtrainingPref_
             return longField("idAluno");
         }
 
-        public LongPrefEditorField<EtrainingPref_.EtrainingPrefEditor_> numeroMatricula() {
-            return longField("numeroMatricula");
+        public StringPrefEditorField<EtrainingPref_.EtrainingPrefEditor_> numeroMatricula() {
+            return stringField("numeroMatricula");
         }
 
     }

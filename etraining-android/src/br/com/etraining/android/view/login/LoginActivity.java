@@ -1,4 +1,4 @@
-package br.com.etraining.android.view;
+package br.com.etraining.android.view.login;
 
 import java.util.Date;
 
@@ -6,6 +6,7 @@ import org.apache.commons.lang.StringUtils;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.method.PasswordTransformationMethod;
@@ -15,8 +16,10 @@ import br.com.etraining.android.exceptions.EtrainingViewException;
 import br.com.etraining.android.exceptions.TradutorExcecaoView;
 import br.com.etraining.android.service.EtrainingAndroidService;
 import br.com.etraining.android.utils.DialogView;
+import br.com.etraining.android.utils.EtrainingAndroidConstants;
 import br.com.etraining.android.utils.ExtraConstants;
 import br.com.etraining.android.utils.pref.EtrainingPref_;
+import br.com.etraining.android.view.treinamento.TreinamentoActivity_;
 import br.com.etraining.client.vo.impl.realizarlogin.RealizarLoginVO;
 import br.com.etraining.client.vo.impl.realizarlogin.RespostaRealizarLoginVO;
 import br.com.etraining.client.vo.transporte.CodigoExcecao;
@@ -56,7 +59,8 @@ public class LoginActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.login_view);
 
-		if (pref.idAluno().get() != 0 && pref.numeroMatricula().get() != 0) {
+		if (pref.idAluno().get() != 0
+				&& StringUtils.isNotBlank(pref.numeroMatricula().get())) {
 			irParaTelaListagemExerciciosRealizados();
 			return;
 		} else {
@@ -65,7 +69,7 @@ public class LoginActivity extends Activity {
 
 		if (deslogarUsuario != null && deslogarUsuario) {
 			pref.idAluno().put(0);
-			pref.numeroMatricula().put(0);
+			pref.numeroMatricula().put("");
 		}
 	}
 
@@ -130,11 +134,11 @@ public class LoginActivity extends Activity {
 	}
 
 	public void irParaTelaListagemExerciciosRealizados() {
-		// TODO - Implementar redirecionamento da activity de login para a
-		// principal da app
-		// Intent intent = new Intent(this, ListagemReuniaoActivity_.class);
-		// startActivity(intent);
-		// finish();
+		Intent intent = new Intent(this, TreinamentoActivity_.class);
+		intent.putExtra(ExtraConstants.ACAO_TREINAMENTO_STRATEGY,
+				EtrainingAndroidConstants.ACAO_LISTAR_TREINAMENTO);
+		startActivity(intent);
+		finish();
 	}
 
 }

@@ -3,7 +3,7 @@ package br.com.etraining.jobs.dadosaluno;
 import br.com.etraining.client.utils.TamanhoCampo;
 
 public enum EnumPosicionalDadosAluno {
-	MATRICULA(true, TamanhoCampo.TAMANHO_MUITO_PEQUENO, true), //
+	MATRICULA(true, TamanhoCampo.TAMANHO_MUITO_PEQUENO, false), //
 	SENHA(true, TamanhoCampo.TAMANHO_PEQUENO, false), //
 	NOME(true, TamanhoCampo.TAMANHO_MEDIO, false), //
 	EMAIL(false, TamanhoCampo.TAMANHO_MEDIO, false), //

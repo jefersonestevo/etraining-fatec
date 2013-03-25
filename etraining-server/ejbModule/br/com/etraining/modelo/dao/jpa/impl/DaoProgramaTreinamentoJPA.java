@@ -36,11 +36,11 @@ public class DaoProgramaTreinamentoJPA extends
 
 		StringBuilder query = new StringBuilder();
 		query.append(" SELECT p FROM ");
-		query.append(EntProgramaTreinamento.class + " AS p ");
+		query.append(EntProgramaTreinamento.class.getName() + " AS p ");
 		query.append(" WHERE p.aluno.id = ? ");
 		query.append(" AND p.versao = (");
 		query.append(" SELECT MAX(p2.versao) FROM ");
-		query.append(EntProgramaTreinamento.class + " AS p2 ");
+		query.append(EntProgramaTreinamento.class.getName() + " AS p2 ");
 		query.append(" WHERE p2.aluno.id = ? ");
 		query.append(" AND p2.versaoAprovada = true ");
 		query.append(" AND p2.cancelado = false");
@@ -61,7 +61,7 @@ public class DaoProgramaTreinamentoJPA extends
 
 		StringBuilder query = new StringBuilder();
 		query.append(" SELECT p FROM ");
-		query.append(EntProgramaTreinamento.class + " AS p ");
+		query.append(EntProgramaTreinamento.class.getName() + " AS p ");
 		query.append(" WHERE ");
 		query.append(" p.dataVencimento <= ? ");
 		query.append(" AND p.versaoAprovada = true ");
