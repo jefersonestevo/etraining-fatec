@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 @CHARSET "ISO-8859-1";
 
 #footer {
@@ -7,3 +8,14 @@
 }
 
 
+=======
+@CHARSET "ISO-8859-1";
+
+#footer {
+	width: 100%;
+	text-align: center;
+	bottom: 0px;
+}
+
+
+>>>>>>> 3a846b28708962438f8b30ab756e3215a08ab979

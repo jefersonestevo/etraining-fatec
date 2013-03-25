@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
@@ -54,6 +55,88 @@
 		<role-name>PROFESSOR</role-name>
     </security-role>
 	
+=======
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+	id="WebApp_ID" version="3.0">
+	
+	<display-name>etraining-web</display-name>
+	
+	<welcome-file-list>
+		<welcome-file>index.jsf</welcome-file>
+	</welcome-file-list>
+	
+	<servlet>
+		<servlet-name>Faces Servlet</servlet-name>
+		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Faces Servlet</servlet-name>
+		<url-pattern>*.jsf</url-pattern>
+	</servlet-mapping>
+	
+<!-- 	<security-constraint> -->
+<!--         <display-name>Paginas WEB</display-name> -->
+<!--         <web-resource-collection> -->
+<!--             <web-resource-name>Paginas WEB</web-resource-name> -->
+<!--             <description/> -->
+<!--             <url-pattern>/pages/*</url-pattern> -->
+<!--         </web-resource-collection> -->
+<!--         <auth-constraint> -->
+<!--             <role-name>ALUNO</role-name> -->
+<!--             <role-name>ADM</role-name> -->
+<!--             <role-name>PROFESSOR</role-name> -->
+<!--         </auth-constraint> -->
+<!--     </security-constraint> -->
+    
+<!-- 	<security-constraint> -->
+<!--         <display-name>Paginas ADM</display-name> -->
+<!--         <web-resource-collection> -->
+<!--             <web-resource-name>Paginas ADM</web-resource-name> -->
+<!--             <description/> -->
+<!--             <url-pattern>/pages/adm/*</url-pattern> -->
+<!--         </web-resource-collection> -->
+<!--         <auth-constraint> -->
+<!--             <role-name>ADM</role-name> -->
+<!--         </auth-constraint> -->
+<!--     </security-constraint> -->
+    
+<!-- 	<security-constraint> -->
+<!--         <display-name>Paginas PROFESSOR</display-name> -->
+<!--         <web-resource-collection> -->
+<!--             <web-resource-name>Paginas PROFESSOR</web-resource-name> -->
+<!--             <description/> -->
+<!--             <url-pattern>/pages/professor/*</url-pattern> -->
+<!--         </web-resource-collection> -->
+<!--         <auth-constraint> -->
+<!--             <role-name>ADM</role-name> -->
+<!--             <role-name>PROFESSOR</role-name> -->
+<!--         </auth-constraint> -->
+<!--     </security-constraint> -->
+    
+<!--     <login-config> -->
+<!--         <auth-method>FORM</auth-method> -->
+<!--         <realm-name>etraining-auth</realm-name> -->
+<!--         <form-login-config> -->
+<!--             <form-login-page>/login.xhtml</form-login-page> -->
+<!--             <form-error-page>/error.xhtml</form-error-page> -->
+<!--         </form-login-config> -->
+<!--     </login-config> -->
+
+<!--     <security-role> -->
+<!--         <role-name>ALUNO</role-name> -->
+<!--     </security-role> -->
+<!--     <security-role> -->
+<!--         <role-name>ADM</role-name> -->
+<!--     </security-role> -->
+<!--     <security-role> -->
+<!--         <role-name>PROFESSOR</role-name> -->
+<!--     </security-role> -->
+	
+>>>>>>> 3a846b28708962438f8b30ab756e3215a08ab979
 =======
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
