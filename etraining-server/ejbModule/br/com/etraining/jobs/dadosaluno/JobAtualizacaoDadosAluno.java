@@ -61,12 +61,22 @@ public class JobAtualizacaoDadosAluno implements EtrainingJob {
 											+ nomeOriginalArquivo
 											+ "\" para importação de usuarios");
 
+									// Renomeia o arquivo para .PROC enquanto
+									// estiver realizando a importacao para
+									// evitar que outra instancia do job rode e
+									// tente utilizar o mesmo arquivo para
+									// importação
 									arquivo = FileUtils
 											.renomearArquivoComSufixo(arquivo,
 													SUFIXO_ARQUIVO_PROCESSANDO);
 									importadorDadosAluno
 											.importarDadosAluno(arquivo);
 
+									// Renomeia o arquivo para .OK para que ele
+									// não seja mais utilizado em nenhum
+									// processo de importação e avisar o usuário
+									// que a importação do arquivo foi realizada
+									// com sucesso.
 									arquivo = FileUtils
 											.renomearArquivoComSufixo(arquivo,
 													SUFIXO_ARQUIVO_PROCESSADO_COM_SUCESSO);

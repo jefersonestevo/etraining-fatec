@@ -3,5 +3,10 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
+	<p:separator />
+	<p:outputPanel>
+		<h:outputText value="#{message.Sistema_Nome}" />
+		<h:outputText value=" - #{viewUtils.anoAtual}" />
+	</p:outputPanel>
 
 </ui:composition>

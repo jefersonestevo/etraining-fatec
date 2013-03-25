@@ -4,6 +4,8 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -15,6 +17,7 @@ import javax.persistence.TemporalType;
 
 import br.com.etraining.client.utils.TamanhoCampo;
 import br.com.etraining.modelo.def.impl.jpa.BeanJPA;
+import br.com.etraining.modelo.entidades.dom.Sexo;
 
 @Entity
 @Table(name = EntAluno.NOME_ENTIDADE)
@@ -58,6 +61,10 @@ public class EntAluno extends BeanJPA {
 
 	@OneToOne(targetEntity = EntMatricula.class, mappedBy = "aluno")
 	private EntMatricula matricula;
+
+	@Column(nullable = false)
+	@Enumerated(EnumType.ORDINAL)
+	private Sexo sexo;
 
 	public Long getId() {
 		return id;
@@ -121,6 +128,14 @@ public class EntAluno extends BeanJPA {
 
 	public void setMatricula(EntMatricula matricula) {
 		this.matricula = matricula;
+	}
+
+	public Sexo getSexo() {
+		return sexo;
+	}
+
+	public void setSexo(Sexo sexo) {
+		this.sexo = sexo;
 	}
 
 }

@@ -13,6 +13,8 @@ import javax.inject.Named;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
 
+import br.com.etraining.client.vo.transporte.CodigoExcecao;
+import br.com.etraining.exception.ETrainingBusinessException;
 import br.com.etraining.exception.ETrainingException;
 import br.com.etraining.modelo.dao.interfaces.IDaoAluno;
 import br.com.etraining.modelo.dao.interfaces.IDaoExercicio;
@@ -47,18 +49,26 @@ public class GeradorProgramaTreinamentoRandomico implements
 			throws ETrainingException {
 		EntProgramaTreinamento progTreinamento = null;
 		try {
+			Integer versao = 1;
+			if (programaTreinamentoAnterior != null
+					&& programaTreinamentoAnterior.getVersao() != null) {
+				versao = programaTreinamentoAnterior.getVersao();
+			}
+
+			List<EntProgramaTreinamento> listaVersoesPosteriores = daoProgramaTreinamento
+					.pesquisarVersoesPosteriores(al.getId(), versao);
+
+			if (CollectionUtils.isNotEmpty(listaVersoesPosteriores)) {
+				throw new ETrainingBusinessException(
+						CodigoExcecao.VERSAO_POSTERIOR_PROG_TREINAMENTO_EXISTENTE);
+			}
+
 			EntAluno aluno = alunoDao.pesquisar(al.getId());
 			log.debug("Inicio da geração do programa de treinamento para o aluno ID: "
 					+ aluno.getId());
 
 			progTreinamento = new EntProgramaTreinamento();
 			progTreinamento.setAluno(aluno);
-
-			int versao = 1;
-			if (programaTreinamentoAnterior != null
-					&& programaTreinamentoAnterior.getVersao() != null) {
-				versao = programaTreinamentoAnterior.getVersao() + 1;
-			}
 			progTreinamento.setVersao(versao);
 			progTreinamento.setVersaoAprovada(false);
 			progTreinamento
@@ -124,18 +134,6 @@ public class GeradorProgramaTreinamentoRandomico implements
 
 				log.debug("Termino da geração do programa de treinamento para o aluno ID: "
 						+ aluno.getId());
-
-				if (programaTreinamentoAnterior != null
-						&& programaTreinamentoAnterior.getId() != null) {
-					EntProgramaTreinamento progAnterior = daoProgramaTreinamento
-							.pesquisar(programaTreinamentoAnterior.getId());
-					progAnterior.setCancelado(true);
-					daoProgramaTreinamento.alterar(progAnterior);
-
-					log.debug("Programa de treinamento com ID: "
-							+ progTreinamento.getId() + ", do aluno ID: "
-							+ aluno.getId() + " foi cancelado. ");
-				}
 			}
 		} catch (ETrainingException e) {
 			log.error("Falha ao gerar programa de treinamento para aluno "

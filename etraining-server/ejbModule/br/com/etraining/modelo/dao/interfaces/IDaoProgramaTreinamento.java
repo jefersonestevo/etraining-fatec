@@ -11,8 +11,11 @@ public interface IDaoProgramaTreinamento extends
 
 	public EntProgramaTreinamento pesquisarAtualPorIdAluno(Long idAluno)
 			throws ETrainingException;
-	
+
 	public List<EntProgramaTreinamento> pesquisarPendentesAtualizacao()
 			throws ETrainingException;
+
+	public List<EntProgramaTreinamento> pesquisarVersoesPosteriores(
+			Long idAluno, Integer versaoAtual) throws ETrainingException;
 
 }

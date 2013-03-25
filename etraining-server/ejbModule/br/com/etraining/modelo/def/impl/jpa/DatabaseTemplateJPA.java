@@ -34,7 +34,7 @@ public class DatabaseTemplateJPA<E extends IBean> implements
 
 	public E alterar(E entidade) throws ETrainingException {
 		try {
-			getEntityManager().merge(entidade);
+			entidade = getEntityManager().merge(entidade);
 			getEntityManager().flush();
 			return entidade;
 		} catch (RuntimeException e) {
