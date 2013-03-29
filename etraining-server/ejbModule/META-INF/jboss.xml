@@ -1,10 +1,4 @@
-<<<<<<< HEAD
 <?xml version="1.0"?>
 <jboss>
     <security-domain>java:/jaas/etraining-auth</security-domain>
-=======
-<?xml version="1.0"?>
-<jboss>
-    <security-domain>java:/jaas/etraining-auth</security-domain>
->>>>>>> 3a846b28708962438f8b30ab756e3215a08ab979
 </jboss>

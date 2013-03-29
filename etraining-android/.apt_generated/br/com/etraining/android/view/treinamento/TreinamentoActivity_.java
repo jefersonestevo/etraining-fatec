@@ -48,8 +48,8 @@ public final class TreinamentoActivity_
     }
 
     private void afterSetContentView_() {
-        listaItens = ((ListView) findViewById(id.lista_items));
         dataSelecionada = ((TextView) findViewById(id.lbl_data_selecionada));
+        listaItens = ((ListView) findViewById(id.lista_items));
         {
             View view = findViewById(id.btn_secundario);
             if (view!= null) {
