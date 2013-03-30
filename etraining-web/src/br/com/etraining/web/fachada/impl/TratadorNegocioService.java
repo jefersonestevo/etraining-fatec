@@ -1,6 +1,6 @@
 package br.com.etraining.web.fachada.impl;
 
-import javax.ejb.EJB;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 import br.com.etraining.client.fachada.ejb.IEtrainingService;
@@ -14,7 +14,9 @@ import br.com.etraining.web.fachada.ITratadorNegocioService;
 @Named
 public class TratadorNegocioService implements ITratadorNegocioService {
 
-	@EJB
+	private static final long serialVersionUID = -4838224680755413276L;
+
+	@Inject
 	private IEtrainingService serviceDelegate;
 
 	public IVO executa(IVO request) throws ViewException {

@@ -31,7 +31,7 @@ public class DaoExercicioRealizadoJPA extends DaoCRUDJPA<EntExercicioRealizado>
 
 		StringBuilder query = new StringBuilder();
 		query.append(" SELECT er FROM ");
-		query.append(EntExercicioRealizado.class + " AS er ");
+		query.append(EntExercicioRealizado.class.getName() + " AS er ");
 		query.append(" WHERE er.diaExercicio.aluno.id = ? ");
 		query.append(" AND er.diaExercicio.dataRealizacao >= ? ");
 		query.append(" AND er.diaExercicio.dataRealizacao <= ? ");

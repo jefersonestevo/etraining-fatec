@@ -1,5 +1,7 @@
 package br.com.etraining.negocio.bo;
 
+import java.io.Serializable;
+
 import javax.enterprise.inject.spi.BeanManager;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -8,7 +10,9 @@ import br.com.etraining.negocio.bo.interfaces.IBO;
 import br.com.etraining.utils.CDIUtils;
 
 @Named
-public class BOResolver {
+public class BOResolver implements Serializable {
+
+	private static final long serialVersionUID = 3975917731289360922L;
 
 	@Inject
 	private BeanManager beanManager;

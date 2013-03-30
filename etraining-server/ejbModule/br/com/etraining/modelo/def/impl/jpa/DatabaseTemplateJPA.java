@@ -82,6 +82,8 @@ public class DatabaseTemplateJPA<E extends IBean> implements
 				}
 			return query.getResultList();
 		} catch (RuntimeException e) {
+			System.out.println("ERRORORORORO");
+			e.printStackTrace();
 			throw TradutorExcecaoUtils.getExcecaoTraduzida(e);
 		}
 	}

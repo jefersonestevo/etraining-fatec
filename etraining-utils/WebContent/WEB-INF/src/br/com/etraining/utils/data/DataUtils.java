@@ -1,5 +1,6 @@
 package br.com.etraining.utils.data;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -21,6 +22,11 @@ public class DataUtils {
 		cal.set(Calendar.MINUTE, 59);
 		cal.set(Calendar.SECOND, 59);
 		return cal.getTime();
+	}
+
+	public static String getDataFormatada(Date data, String formato) {
+		SimpleDateFormat sdf = new SimpleDateFormat(formato);
+		return sdf.format(data);
 	}
 
 }

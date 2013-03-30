@@ -1,21 +1,117 @@
-<<<<<<< HEAD
 @CHARSET "ISO-8859-1";
+
+.ui-widget {
+	font-size: 14px !important;
+}
+
+.ui-breadcrumb {
+	background: none !important;
+	border-top: 0px !important;
+	border-right: 0px !important;
+	border-bottom: 0px !important;
+	border-left: 0px !important;
+}
+
+.ui-breadcrumb ul li .ui-menuitem-link {
+	text-decoration: none !important;
+}
 
 #footer {
 	width: 100%;
 	text-align: center;
 	bottom: 0px;
+	top: 20px;
 }
 
+#content {
+	top: 5px;
+}
 
-=======
-@CHARSET "ISO-8859-1";
+.modal-ajuda{
+	width: 500px;
+	height: 300px;
+}
 
-#footer {
+.invisivel {
+	visibility: hidden;
+}
+
+.full-width {
 	width: 100%;
-	text-align: center;
-	bottom: 0px;
 }
 
+.width-98 {
+	width: 98%;
+}
 
->>>>>>> 3a846b28708962438f8b30ab756e3215a08ab979
+.width-90 {
+	width: 90%;
+}
+
+.width-10 {
+	width: 10%;
+}
+
+.width-1 {
+	width: 1%;
+}
+
+.width-20 {
+	width: 20%;
+}
+
+.width-25 {
+	width: 25%;
+}
+
+.width-40 {
+	width: 40%;
+}
+
+.width-50 {
+	width: 50%;
+}
+
+.width-60 {
+	width: 60%;
+}
+
+.width-75 {
+	width: 75%;
+}
+
+.no-border {
+	border: 0px;
+}
+
+.align-center {
+	text-align: center;
+}
+
+.align-right {
+	text-align: right;
+}
+
+.ui-panelgrid tr,.ui-panelgrid td,.panel-grid tr,.panel-grid td {
+	border: none !important;
+}
+
+.ui-panelgrid td {
+	padding: 2px 5px !important;
+}
+
+.modal-carregando .ui-dialog-content {
+	overflow: hidden !important;
+}
+
+.panel-separador {
+	height: 5px;
+	width: 100%;
+	visibility: hidden;
+}
+
+.separador-campos {
+	height: 25px !important;
+	width: 1px !important;
+}
+

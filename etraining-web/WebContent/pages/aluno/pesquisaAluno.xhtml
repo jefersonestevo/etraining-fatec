@@ -1,0 +1,96 @@
+<ui:composition template="/pages/template/template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="endereco">
+		<p:breadCrumb>
+			<p:menuitem action="/pages/home.xhtml" immediate="true" />
+			<p:menuitem value="#{message.Header_Pesquisa_Aluno}" url="#" />
+		</p:breadCrumb>
+	</ui:define>
+	
+	<ui:define name="ajuda">
+		<p:commandButton icon="ui-icon-help" immediate="true" global="false"
+			onclick="mostrarModal('/pages/ajuda/telas/pesquisaAluno.jsf')" />
+	</ui:define>
+
+	<ui:define name="content">
+
+		<p:fieldset legend="#{message.Header_Pesquisa_Aluno}">
+			<p:panelGrid columns="3" styleClass="full-width"
+				columnClasses="width-25, width-1, width-75">
+				<h:outputText value="#{message.Aluno_Nome}" />
+				<p:separator styleClass="separador-campos" />
+				<p:inputText value="#{alunoController.consulta.nome}" />
+
+				<h:outputText value="#{message.Aluno_Matricula}" />
+				<p:separator styleClass="separador-campos" />
+				<p:inputText value="#{alunoController.consulta.matricula}" />
+
+			</p:panelGrid>
+
+		</p:fieldset>
+
+		<p:panelGrid columns="3"
+			styleClass="full-width no-border align-center">
+			<p:outputPanel styleClass="invisivel" />
+			<p:outputPanel>
+				<p:commandButton actionListener="#{alunoController.pesquisar}"
+					value="#{message.Pesquisar}" update="resultadoConsultaAlunos" />
+				<p:commandButton value="#{message.Voltar}"
+					action="/pages/home.xhtml" immediate="true" />
+			</p:outputPanel>
+			<p:outputPanel styleClass="invisivel" />
+		</p:panelGrid>
+
+		<p:separator styleClass="invisivel" />
+
+		<p:fieldset legend="#{message.Resultado_Pesquisa_Aluno}">
+
+			<p:dataTable id="resultadoConsultaAlunos" styleClass="align-center"
+				rows="#{viewUtils.qntdLinhas}" var="aluno"
+				value="#{alunoController.respostaLista.listaAlunos}"
+				emptyMessage="#{message.Tabela_Nenhum_Item}" paginator="true"
+				rowsPerPageTemplate="#{viewUtils.sugestaoQntdLinhas}"
+				currentPageReportTemplate="{currentPage} #{message.De} {totalPages}"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+
+				<p:column headerText="#{message.Aluno_Nome}">
+					<p:commandLink action="#{alunoController.irParaTelaEdicao}">
+						<f:param name="id" value="#{aluno.id}" />
+						<h:outputText value="#{aluno.nome}" />
+					</p:commandLink>
+				</p:column>
+
+				<p:column headerText="#{message.Aluno_Matricula}">
+					<p:commandLink action="#{alunoController.irParaTelaEdicao}">
+						<f:param name="id" value="#{aluno.id}" />
+						<h:outputText value="#{aluno.matricula}" />
+					</p:commandLink>
+				</p:column>
+
+				<p:column headerText="#{message.Aluno_Rg}">
+					<p:commandLink action="#{alunoController.irParaTelaEdicao}">
+						<f:param name="id" value="#{aluno.id}" />
+						<h:outputText value="#{aluno.rg}" />
+					</p:commandLink>
+				</p:column>
+
+				<p:column headerText="#{message.Aluno_Cpf}">
+					<p:commandLink action="#{alunoController.irParaTelaEdicao}">
+						<f:param name="id" value="#{aluno.id}" />
+						<h:outputText value="#{aluno.cpf}" />
+					</p:commandLink>
+				</p:column>
+
+			</p:dataTable>
+
+		</p:fieldset>
+
+	</ui:define>
+
+</ui:composition>
+

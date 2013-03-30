@@ -1,0 +1,141 @@
+<ui:composition template="/pages/template/template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="endereco">
+		<p:breadCrumb>
+			<p:menuitem action="/pages/home.xhtml" immediate="true" />
+			<p:menuitem value="#{message.Header_Pesquisa_Aluno}"
+				action="#{alunoController.irParaTelaPesquisa}" immediate="true" />
+			<p:menuitem value="#{message.Header_Edicao_Aluno}" url="#" />
+		</p:breadCrumb>
+	</ui:define>
+
+	<ui:define name="ajuda">
+		<p:commandButton icon="ui-icon-help" immediate="true" global="false"
+			onclick="mostrarModal('/pages/ajuda/telas/editarAluno.jsf')" />
+	</ui:define>
+
+	<ui:define name="content">
+		<p:panelGrid columns="2" columnClasses="width-40, width-60"
+			styleClass="panel-grid full-width">
+			<p:fieldset legend="#{message.Header_Edicao_Aluno_Registro}"
+				toggleable="true">
+				<p:panelGrid columns="3" styleClass="full-width"
+					columnClasses="width-25, width-1, width-75">
+					<h:outputText value="* #{message.Aluno_Nome}" />
+					<p:separator styleClass="separador-campos" />
+					<p:inputText value="#{alunoController.aluno.nome}" required="true"
+						requiredMessage="#{message.Nome_Obrigatorio}" />
+
+					<h:outputText value="#{message.Aluno_Email}" />
+					<p:separator styleClass="separador-campos" />
+					<p:inputText value="#{alunoController.aluno.email}" />
+
+					<h:outputText value="* #{message.Aluno_Data_Nascimento}" />
+					<p:separator styleClass="separador-campos" />
+					<p:calendar value="#{alunoController.aluno.dataNascimento}"
+						pattern="#{viewDataUtils.patternData}" required="true"
+						requiredMessage="#{message.Data_Nascimento_Obrigatorio}" />
+
+					<h:outputText value="#{message.Aluno_Telefone}" />
+					<p:separator styleClass="separador-campos" />
+					<p:inputMask value="#{alunoController.aluno.telefone}"
+						mask="999999999" />
+				</p:panelGrid>
+
+			</p:fieldset>
+			<p:fieldset legend="#{message.Header_Edicao_Aluno_Matricula}"
+				toggleable="true">
+				<p:panelGrid columns="3" styleClass="full-width"
+					columnClasses="width-25,width-1, width-75">
+					<h:outputText value="* #{message.Aluno_Matricula}" />
+					<p:separator styleClass="separador-campos" />
+					<h:outputText
+						value="#{alunoController.aluno.matricula.numeroMatricula}" />
+
+					<h:outputText value="#{message.Aluno_Rg}" />
+					<p:separator styleClass="separador-campos" />
+					<p:inputMask value="#{alunoController.aluno.matricula.rg}"
+						mask="99.999.999-9" />
+
+					<h:outputText value="#{message.Aluno_Cpf}" />
+					<p:separator styleClass="separador-campos" />
+					<p:inputMask value="#{alunoController.aluno.matricula.cpf}"
+						mask="999.999.999-90" />
+
+					<h:outputText value="* #{message.Aluno_Dias_Aula}" />
+					<p:separator styleClass="separador-campos" />
+					<p:selectManyButton required="true"
+						requiredMessage="#{message.Dias_Aula_Obrigatorio}"
+						value="#{alunoController.aluno.matricula.listaDiasSemana}">
+						<f:selectItems value="#{viewDataUtils.listaDiasSemana}" />
+					</p:selectManyButton>
+
+				</p:panelGrid>
+			</p:fieldset>
+
+		</p:panelGrid>
+
+		<p:separator styleClass="invisivel" />
+
+		<p:fieldset legend="#{message.Header_Edicao_Aluno_Dados_Corporais}"
+			toggleable="true">
+
+			<p:panelGrid columns="3" styleClass="panel-grid full-width"
+				columnClasses="width-25, width-1, width-75">
+				<h:outputText value="* #{message.Dados_Corporais_Peso}" />
+				<p:separator styleClass="separador-campos" />
+				<p:inputText value="#{alunoController.aluno.dadosCorporais.peso}"
+					required="true" requiredMessage="#{message.Peso_Obrigatorio}" />
+
+				<h:outputText value="* #{message.Dados_Corporais_Altura}" />
+				<p:separator styleClass="separador-campos" />
+				<p:inputMask value="#{alunoController.aluno.dadosCorporais.altura}"
+					mask="9,99" required="true"
+					requiredMessage="#{message.Altura_Obrigatorio}" />
+
+				<h:outputText
+					value="#{message.Dados_Corporais_Indice_Gordura_Corporal}" />
+				<p:separator styleClass="separador-campos" />
+				<p:inputText
+					value="#{alunoController.aluno.dadosCorporais.indiceGorduraCorporal}" />
+
+				<h:outputText value="#{message.Dados_Corporais_Batimentos_Minuto}" />
+				<p:separator styleClass="separador-campos" />
+				<p:inputMask
+					value="#{alunoController.aluno.dadosCorporais.batimentosPorMinuto}"
+					mask="999" />
+
+				<h:outputText value="#{message.Dados_Corporais_Tempo_Esteira}" />
+				<p:separator styleClass="separador-campos" />
+				<p:outputPanel>
+					<p:inputMask
+						value="#{alunoController.aluno.dadosCorporais.tempoEsteira}"
+						mask="99999" />
+					<h:outputText value=" (#{message.Minuto_Sigla})" />
+				</p:outputPanel>
+
+			</p:panelGrid>
+
+		</p:fieldset>
+
+		<p:panelGrid columns="3"
+			styleClass="full-width no-border align-center">
+			<p:outputPanel styleClass="invisivel" />
+			<p:outputPanel>
+				<p:commandButton actionListener="#{alunoController.alterar}"
+					value="#{message.Salvar}" />
+				<p:commandButton action="#{alunoController.irParaTelaPesquisa}"
+					value="#{message.Voltar}" immediate="true" />
+			</p:outputPanel>
+			<p:outputPanel styleClass="invisivel" />
+		</p:panelGrid>
+
+	</ui:define>
+
+</ui:composition>
+

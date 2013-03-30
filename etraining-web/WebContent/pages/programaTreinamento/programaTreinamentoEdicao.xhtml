@@ -1,0 +1,142 @@
+<ui:composition template="/pages/template/template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="endereco">
+		<p:breadCrumb>
+			<p:menuitem action="/pages/home.xhtml" immediate="true" />
+			<p:menuitem value="#{message.Header_Programa_Treinamento}"
+				action="#{programaTreinamentoController.irParaTelaPesquisa}" />
+			<p:menuitem value="#{message.Header_Programa_Treinamento_Edicao}"
+				url="#" />
+		</p:breadCrumb>
+	</ui:define>
+	
+	<ui:define name="ajuda">
+		<p:commandButton icon="ui-icon-help" immediate="true" global="false"
+			onclick="mostrarModal('/pages/ajuda/telas/programaTreinamentoEdicao.jsf')" />
+	</ui:define>
+
+	<ui:define name="content">
+
+		<p:fieldset legend="#{message.Header_Programa_Treinamento_Edicao}">
+			<p:panelGrid columns="3" styleClass="panel-grid full-width"
+				columnClasses="width-25, width-1, width-75">
+				<h:outputText value="#{message.Programa_Treinamento_Aluno_Nome}" />
+				<p:separator styleClass="separador-campos" />
+				<p:inputText
+					value="#{programaTreinamentoController.resposta.aluno.nome}"
+					disabled="true" />
+
+				<h:outputText value="#{message.Programa_Treinamento_Versao}" />
+				<p:separator styleClass="separador-campos" />
+				<p:inputMask
+					value="#{programaTreinamentoController.resposta.programaTreinamento.versao}"
+					mask="99" disabled="true" />
+
+				<h:outputText
+					value="#{message.Programa_Treinamento_Data_Vencimento}" />
+				<p:separator styleClass="separador-campos" />
+				<p:inputText disabled="true"
+					value="#{programaTreinamentoController.resposta.programaTreinamento.dataVencimento}">
+					<f:convertDateTime pattern="#{viewDataUtils.patternData}" />
+				</p:inputText>
+
+			</p:panelGrid>
+		</p:fieldset>
+
+		<p:separator styleClass="invisivel" />
+
+		<p:fieldset collapsed="true" toggleable="true"
+			legend="#{message.Header_Programa_Treinamento_Adicionar_Exercicio}">
+			<p:panelGrid columns="3" styleClass="panel-grid full-width"
+				columnClasses="width-75, width-25">
+				<p:panelGrid columns="3" styleClass="panel-grid full-width"
+					columnClasses="width-25, width-1, width-75">
+
+					<h:outputText
+						value="#{message.Programa_Treinamento_Selecione_Exercicio}" />
+					<p:separator styleClass="separador-campos" />
+					<p:selectOneMenu required="true" id="selectExercicio"
+						value="#{programaTreinamentoController.exercicioProposto.id}">
+						<f:selectItems
+							value="#{programaTreinamentoController.listaExercicios}" />
+					</p:selectOneMenu>
+
+					<h:outputText
+						value="#{message.Programa_Treinamento_Selecione_Dias_Semana}" />
+					<p:separator styleClass="separador-campos" />
+					<p:selectManyButton
+						value="#{programaTreinamentoController.listaDiasSemana}">
+						<f:selectItems value="#{viewDataUtils.listaDiasSemana}" />
+					</p:selectManyButton>
+				</p:panelGrid>
+
+				<p:commandButton
+					actionListener="#{programaTreinamentoController.adicionarExercicio}"
+					value="#{message.Adicionar}" global="false"
+					update=":main:panelExerciciosPropostos" />
+			</p:panelGrid>
+		</p:fieldset>
+
+		<p:separator styleClass="invisivel" />
+
+		<p:outputPanel id="panelExerciciosPropostos">
+			<p:fieldset
+				legend="#{message.Header_Programa_Treinamento_Exercicios_Propostos}">
+
+				<p:dataTable styleClass="full-width align-center"
+					rows="#{viewUtils.qntdLinhas}" var="exerc"
+					value="#{programaTreinamentoController.resposta.programaTreinamento.listaExercicioProposto}"
+					emptyMessage="#{message.Tabela_Nenhum_Item}" paginator="true"
+					currentPageReportTemplate="{currentPage} #{message.De} {totalPages}"
+					paginatorPosition="bottom"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+
+					<p:column headerText="#{message.Programa_Treinamento_Dia_Semana}"
+						styleClass="width-25">
+						<h:outputText value="#{exerc.diaSemana.nome}" />
+					</p:column>
+
+					<p:column headerText="#{message.Programa_Treinamento_Exercicio}"
+						styleClass="width-25">
+						<h:outputText value="#{exerc.exercicio.titulo}" />
+					</p:column>
+
+					<p:column headerText="#{message.Programa_Treinamento_Atividade}"
+						styleClass="width-25">
+						<h:outputText value="#{exerc.exercicio.atividade.titulo}" />
+					</p:column>
+					
+					<p:column headerText="#{message.Remover}">
+						<p:commandButton global="false" value="#{message.Remover}"
+							actionListener="#{programaTreinamentoController.removerExercicio}"
+							update=":main:panelExerciciosPropostos">
+						</p:commandButton>
+					</p:column>
+
+				</p:dataTable>
+
+			</p:fieldset>
+		</p:outputPanel>
+
+		<p:panelGrid columns="3"
+			styleClass="full-width no-border align-center">
+			<p:outputPanel styleClass="invisivel" />
+			<p:outputPanel>
+				<p:commandButton value="#{message.Salvar}"
+					action="#{programaTreinamentoController.alterar}" immediate="true" />
+				<p:commandButton value="#{message.Voltar}"
+					action="#{programaTreinamentoController.irParaTelaPesquisa}"
+					immediate="true" />
+			</p:outputPanel>
+			<p:outputPanel styleClass="invisivel" />
+		</p:panelGrid>
+
+	</ui:define>
+
+</ui:composition>
+

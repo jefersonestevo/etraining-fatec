@@ -96,6 +96,12 @@
 
 			<dependency>
 				<groupId>etraining</groupId>
+				<artifactId>etraining-server-interfaces</artifactId>
+				<version>0.0.1-SNAPSHOT</version>
+			</dependency>
+
+			<dependency>
+				<groupId>etraining</groupId>
 				<artifactId>etraining-server</artifactId>
 				<version>0.0.1-SNAPSHOT</version>
 				<type>ejb</type>

@@ -35,7 +35,18 @@
 
 		<dependency>
 			<groupId>etraining</groupId>
+			<artifactId>etraining-utils</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>etraining</groupId>
 			<artifactId>etraining-clientWeb</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>etraining</groupId>
+			<artifactId>etraining-server-interfaces</artifactId>
+			<scope>provided</scope>
 		</dependency>
 
 	</dependencies>

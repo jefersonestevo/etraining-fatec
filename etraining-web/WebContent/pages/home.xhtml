@@ -1,43 +1,27 @@
-<<<<<<< HEAD
 <ui:composition template="/pages/template/template.xhtml"
 	xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
 
+	<ui:define name="endereco">
+		<p:breadCrumb>
+			<p:menuitem url="#" />
+		</p:breadCrumb>
+	</ui:define>
+
+	<ui:define name="ajuda">
+		<p:commandButton icon="ui-icon-help" immediate="true" global="false"
+			onclick="mostrarModal('/pages/ajuda/telas/home.jsf')" />
+	</ui:define>
+
 	<ui:define name="content">
-		<h:form>
-
-			<h2>Home Page</h2>
-
-			<p:fieldset legend="Home">
-				<p:spinner></p:spinner>
-			</p:fieldset>
-			
-		</h:form>
+		<p:fieldset legend="#{message.Sistema_Nome}">
+			<p:separator styleClass="invisivel" />
+			<h:outputText value="#{message.Descricao_Home}" />
+			<p:separator styleClass="invisivel" />
+		</p:fieldset>
 	</ui:define>
 
 </ui:composition>
 
-=======
-<ui:composition template="/pages/template/template.xhtml"
-	xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui">
-
-	<ui:define name="content">
-		<h:form>
-
-			<h2>Home Page</h2>
-
-			<p:fieldset legend="Home">
-				<p:spinner></p:spinner>
-			</p:fieldset>
-			
-		</h:form>
-	</ui:define>
-
-</ui:composition>
-
->>>>>>> 3a846b28708962438f8b30ab756e3215a08ab979

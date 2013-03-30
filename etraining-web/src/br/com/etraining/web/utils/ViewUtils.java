@@ -1,23 +1,25 @@
 package br.com.etraining.web.utils;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import javax.inject.Named;
 
 @Named
 public class ViewUtils {
 
-	private static final SimpleDateFormat formatoAno = new SimpleDateFormat(
-			"yyyy");
+	public static final int QNTD_LINHAS = 10;
+	private static final String QNTD_SUGESTAO_LINHAS = "10, 20, 30";
 
-	public String getAnoAtual() {
-		return formatoAno.format(new Date());
-	}
 
 	public String getNomeUsuarioLogado() {
 		// TODO - Pegar usuario logado...
 		return null;
+	}
+
+	public int getQntdLinhas() {
+		return QNTD_LINHAS;
+	}
+
+	public String getSugestaoQntdLinhas() {
+		return QNTD_SUGESTAO_LINHAS;
 	}
 
 }

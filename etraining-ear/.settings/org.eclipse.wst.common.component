@@ -20,6 +20,9 @@
         <dependent-module archiveName="etraining-utils-0.0.1-SNAPSHOT.jar" deploy-path="/lib" handle="module:/resource/etraining-utils/etraining-utils">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="etraining-server-interfaces-0.0.1-SNAPSHOT.jar" deploy-path="/lib" handle="module:/resource/etraining-server-interfaces/etraining-server-interfaces">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <dependent-module archiveName="etraining-clientWeb-0.0.1-SNAPSHOT.jar" deploy-path="/lib" handle="module:/resource/etraining-clientWeb/etraining-clientWeb">
             <dependency-type>uses</dependency-type>
         </dependent-module>

@@ -10,6 +10,7 @@ public class ExercicioVO implements IVO {
 	private String titulo;
 	private Integer pontosPorAtividade;
 	private Long idCategoriaExercicio;
+	private AtividadeVO atividade;
 
 	public Long getId() {
 		return id;
@@ -90,6 +91,14 @@ public class ExercicioVO implements IVO {
 		} else if (!titulo.equals(other.titulo))
 			return false;
 		return true;
+	}
+
+	public AtividadeVO getAtividade() {
+		return atividade;
+	}
+
+	public void setAtividade(AtividadeVO atividade) {
+		this.atividade = atividade;
 	}
 
 }

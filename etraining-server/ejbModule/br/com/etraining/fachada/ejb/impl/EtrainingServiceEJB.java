@@ -1,7 +1,7 @@
 package br.com.etraining.fachada.ejb.impl;
 
-import javax.ejb.Remote;
-import javax.ejb.Stateless;
+import javax.ejb.Stateful;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import br.com.etraining.client.fachada.ejb.IEtrainingService;
@@ -13,9 +13,11 @@ import br.com.etraining.exception.ETrainingException;
 import br.com.etraining.negocio.bo.BOResolver;
 import br.com.etraining.negocio.bo.interfaces.IBO;
 
-@Stateless(mappedName = "IEtrainingService")
-@Remote(IEtrainingService.class)
+@Stateful
+@ApplicationScoped
 public class EtrainingServiceEJB implements IEtrainingService {
+
+	private static final long serialVersionUID = -374748466615786272L;
 
 	@Inject
 	private BOResolver resolver;

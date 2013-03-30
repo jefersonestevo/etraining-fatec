@@ -1,0 +1,47 @@
+<ui:composition template="/pages/template/template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="endereco">
+		<p:breadCrumb>
+			<p:menuitem action="/pages/home.xhtml" immediate="true" />
+			<p:menuitem value="#{message.Header_Mapa_Site}" url="#" />
+		</p:breadCrumb>
+	</ui:define>
+
+	<ui:define name="content">
+		<p:fieldset legend="#{message.Header_Mapa_Site}">
+
+			<p:tree value="#{ajudaController.mapaSite}" var="vlr"
+				orientation="horizontal">
+
+				<p:treeNode expandedIcon="ui-icon-folder-open"
+					collapsedIcon="ui-icon-folder-collapsed">
+					<h:outputText value="#{vlr}" />
+				</p:treeNode>
+
+				<p:treeNode type="home" icon="ui-icon-home">
+					<h:outputText value="#{vlr}" />
+				</p:treeNode>
+
+				<p:treeNode type="pesquisa" icon="ui-icon-search">
+					<h:outputText value="#{vlr}" />
+				</p:treeNode>
+
+				<p:treeNode type="editar" icon="ui-icon-pencil">
+					<h:outputText value="#{vlr}" />
+				</p:treeNode>
+
+				<p:treeNode type="ajuda" icon="ui-icon-help">
+					<h:outputText value="#{vlr}" />
+				</p:treeNode>
+
+			</p:tree>
+		</p:fieldset>
+	</ui:define>
+
+</ui:composition>
+

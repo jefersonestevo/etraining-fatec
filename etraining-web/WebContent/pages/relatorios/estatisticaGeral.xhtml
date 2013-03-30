@@ -1,0 +1,109 @@
+<ui:composition template="/pages/template/template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="endereco">
+		<p:breadCrumb>
+			<p:menuitem action="/pages/home.xhtml" immediate="true" />
+			<p:menuitem value="#{message.Header_Relatorio_Geral}" url="#" />
+		</p:breadCrumb>
+	</ui:define>
+	
+	<ui:define name="ajuda">
+		<p:commandButton icon="ui-icon-help" immediate="true" global="false"
+			onclick="mostrarModal('/pages/ajuda/telas/estatisticaGeral.jsf')" />
+	</ui:define>
+
+	<ui:define name="content">
+
+		<p:fieldset legend="#{message.Header_Relatorio_Geral}">
+
+			<p:panelGrid columns="3" styleClass="full-width"
+				columnClasses="width-25, width-1, width-75">
+
+				<h:outputText value="#{message.Relatorio_Selecione_Periodo}" />
+				<p:separator styleClass="separador-campos" />
+				<h:panelGroup>
+					<p:calendar required="true" id="dataInicioConsulta"
+						value="#{estatisticaGeralController.consulta.dataInicio}"
+						requiredMessage="#{message.Data_Inicial_Required}"
+						pattern="#{viewDataUtils.patternData}" />
+					<h:outputText value=" #{message.A} " />
+					<p:calendar id="dataTerminoConsulta"
+						requiredMessage="#{message.Data_Final_Required}"
+						value="#{estatisticaGeralController.consulta.dataFim}"
+						required="true" pattern="#{viewDataUtils.patternData}" />
+				</h:panelGroup>
+			</p:panelGrid>
+
+
+			<p:panelGrid columns="3" styleClass="full-width"
+				columnClasses="width-25, width-1, width-75">
+				<h:outputText
+					value="#{message.Relatorio_Selecione_Formato_Consulta}" />
+				<p:separator styleClass="separador-campos" />
+				<p:selectOneRadio required="true" id="selectTipoConsulta"
+					value="#{estatisticaGeralController.consulta.tipoConsulta}">
+					<p:ajax event="change" update=":main:panelConsulta" global="false" />
+					<f:selectItems
+						value="#{estatisticaGeralController.listaTiposConsulta}" />
+				</p:selectOneRadio>
+			</p:panelGrid>
+
+			<p:outputPanel id="panelConsulta">
+				<p:panelGrid columns="3" styleClass="full-width"
+					rendered="#{estatisticaGeralController.consulta.tipoConsulta eq 2}"
+					columnClasses="width-25, width-1, width-75">
+
+					<h:outputText value="#{message.Relatorio_Selecione_Exercicio}" />
+					<p:separator styleClass="separador-campos" />
+					<p:selectOneMenu required="true" id="selectExercicio"
+						requiredMessage="#{message.Selecao_Exercicio_Obrigatorio}"
+						value="#{estatisticaGeralController.consulta.idExercicio}">
+						<f:selectItems
+							value="#{estatisticaGeralController.listaExercicios}" />
+					</p:selectOneMenu>
+				</p:panelGrid>
+
+			</p:outputPanel>
+
+		</p:fieldset>
+
+		<p:panelGrid columns="3"
+			styleClass="full-width no-border align-center">
+			<p:outputPanel styleClass="invisivel" />
+			<p:outputPanel>
+				<p:commandButton update=":main:panelResultado" global="false"
+					actionListener="#{estatisticaGeralController.pesquisar}"
+					value="#{message.Pesquisar}" />
+				<p:commandButton value="#{message.Voltar}"
+					action="/pages/home.xhtml" immediate="true" />
+			</p:outputPanel>
+			<p:outputPanel styleClass="invisivel" />
+		</p:panelGrid>
+
+		<p:separator styleClass="invisivel" />
+
+		<p:fieldset legend="#{message.Resultado_Pesquisa_Relatorio}"
+			id="panelResultado" styleClass="full-width align-center"
+			style="overflow: auto">
+			<p:outputPanel
+				rendered="#{estatisticaGeralController.possuiResultado}">
+
+				<p:lineChart title="#{estatisticaGeralController.tituloGrafico}"
+					minY="0" value="#{estatisticaGeralController.grafico}" />
+
+			</p:outputPanel>
+			<p:outputPanel
+				rendered="#{!estatisticaGeralController.possuiResultado}">
+				<h:outputText value="#{message.Tabela_Nenhum_Item}" />
+			</p:outputPanel>
+		</p:fieldset>
+
+	</ui:define>
+
+</ui:composition>
+

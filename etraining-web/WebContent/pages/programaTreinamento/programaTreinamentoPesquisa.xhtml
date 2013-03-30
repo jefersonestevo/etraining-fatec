@@ -1,0 +1,72 @@
+<ui:composition template="/pages/template/template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="endereco">
+		<p:breadCrumb>
+			<p:menuitem action="/pages/home.xhtml" immediate="true" />
+			<p:menuitem value="#{message.Header_Programa_Treinamento}" url="#" />
+		</p:breadCrumb>
+	</ui:define>
+	
+	<ui:define name="ajuda">
+		<p:commandButton icon="ui-icon-help" immediate="true" global="false"
+			onclick="mostrarModal('/pages/ajuda/telas/programaTreinamentoPesquisa.jsf')" />
+	</ui:define>
+
+	<ui:define name="content">
+
+		<p:fieldset legend="#{message.Header_Programa_Treinamento}">
+
+			<p:panelGrid columns="3" styleClass="full-width"
+				columnClasses="width-25, width-1, width-75">
+
+				<h:outputText
+					value="#{message.Programa_Treinamento_Selecione_Aluno}" />
+				<p:separator styleClass="separador-campos"
+					style="height: 210px !important;" />
+				<p:dataTable id="tableListaAlunos"
+					styleClass="width-75 align-center"
+					rows="#{viewUtils.qntdLinhas / 2}" var="aluno"
+					value="#{programaTreinamentoController.listaAlunos}"
+					emptyMessage="#{message.Tabela_Nenhum_Item}" paginator="true"
+					paginatorPosition="bottom" widgetVar="tableAluno"
+					currentPageReportTemplate="{currentPage} #{message.De} {totalPages}"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					selectionMode="single" rowKey="#{aluno.id}"
+					selection="#{programaTreinamentoController.alunoSelecionado}"
+					filteredValue="#{programaTreinamentoController.listaAlunosFiltrados}">
+
+					<p:column headerText="#{message.Aluno_Nome}" styleClass="width-40"
+						filterBy="#{aluno.nome}" filterMatchMode="contains">
+						<h:outputText value="#{aluno.nome}" />
+					</p:column>
+
+					<p:column headerText="#{message.Aluno_Matricula}"
+						styleClass="width-40" filterBy="#{aluno.matricula}"
+						filterMatchMode="contains">
+						<h:outputText value="#{aluno.matricula}" />
+					</p:column>
+				</p:dataTable>
+			</p:panelGrid>
+		</p:fieldset>
+
+		<p:panelGrid columns="3"
+			styleClass="full-width no-border align-center">
+			<p:outputPanel styleClass="invisivel" />
+			<p:outputPanel>
+				<p:commandButton action="#{programaTreinamentoController.pesquisar}"
+					value="#{message.Pesquisar}" />
+				<p:commandButton value="#{message.Voltar}"
+					action="/pages/home.xhtml" immediate="true" />
+			</p:outputPanel>
+			<p:outputPanel styleClass="invisivel" />
+		</p:panelGrid>
+
+	</ui:define>
+
+</ui:composition>
+

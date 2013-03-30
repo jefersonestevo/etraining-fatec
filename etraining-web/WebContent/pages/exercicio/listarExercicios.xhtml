@@ -1,0 +1,80 @@
+<ui:composition template="/pages/template/template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="endereco">
+		<p:breadCrumb>
+			<p:menuitem action="/pages/home.xhtml" immediate="true" />
+			<p:menuitem value="#{message.Header_Exercicios}" url="#" />
+		</p:breadCrumb>
+	</ui:define>
+
+	<ui:define name="ajuda">
+		<p:commandButton icon="ui-icon-help" immediate="true" global="false"
+			onclick="mostrarModal('/pages/ajuda/telas/listaExercicios.jsf')" />
+	</ui:define>
+
+	<ui:define name="content">
+
+		<p:fieldset legend="#{message.Header_Exercicios}">
+
+			<p:panelGrid columns="1" styleClass="full-width"
+				columnClasses="full-width">
+				<ui:repeat var="categoria"
+					value="#{listaExercicioController.listaCategoria}">
+					<p:fieldset legend="#{categoria.titulo}" styleClass="width-98"
+						toggleable="true" collapsed="true">
+
+						<p:dataTable id="listaExercicios"
+							styleClass="align-center full-width"
+							rows="#{viewUtils.qntdLinhas}" var="exercicio"
+							value="#{categoria.listaExercicios}"
+							emptyMessage="#{message.Tabela_Nenhum_Item}" paginator="true"
+							rowsPerPageTemplate="#{viewUtils.sugestaoQntdLinhas}"
+							currentPageReportTemplate="{currentPage} #{message.De} {totalPages}"
+							paginatorPosition="bottom"
+							paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+
+							<p:column headerText="#{message.Exercicio_Titulo}"
+								styleClass="width-40">
+								<h:outputText value="#{exercicio.titulo}" />
+							</p:column>
+
+							<p:column headerText="#{message.Exercicio_Atividade}"
+								styleClass="width-40">
+								<h:outputText value="#{exercicio.atividade.titulo}" />
+							</p:column>
+
+							<p:column headerText="#{message.Exercicio_Pontos_Por_Atividade}"
+								styleClass="width-20">
+								<h:outputText value="#{exercicio.pontosPorAtividade}" />
+							</p:column>
+
+						</p:dataTable>
+
+					</p:fieldset>
+					<p:separator styleClass="invisivel" />
+				</ui:repeat>
+			</p:panelGrid>
+
+		</p:fieldset>
+
+		<p:separator styleClass="invisivel" />
+
+		<p:panelGrid columns="3"
+			styleClass="full-width no-border align-center">
+			<p:outputPanel styleClass="invisivel" />
+			<p:outputPanel>
+				<p:commandButton value="#{message.Voltar}"
+					action="/pages/home.xhtml" immediate="true" />
+			</p:outputPanel>
+			<p:outputPanel styleClass="invisivel" />
+		</p:panelGrid>
+
+	</ui:define>
+
+</ui:composition>
+
