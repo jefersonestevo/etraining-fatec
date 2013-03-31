@@ -25,7 +25,7 @@ public class ConversorMatricula implements
 
 		entidade.setListaDiasTreinamento(new ArrayList<EntDiaSemana>());
 		if (CollectionUtils.isNotEmpty(vo.getListaDiasSemana())) {
-			for (Integer diaSemana : vo.getListaDiasSemana()) {
+			for (String diaSemana : vo.getListaDiasSemana()) {
 				EntDiaSemana dia = new EntDiaSemana();
 				dia.setId(new Long(diaSemana));
 				entidade.getListaDiasTreinamento().add(dia);
@@ -45,10 +45,10 @@ public class ConversorMatricula implements
 		vo.setCpf(entidade.getCpf());
 		vo.setRg(entidade.getRg());
 
-		vo.setListaDiasSemana(new ArrayList<Integer>());
+		vo.setListaDiasSemana(new ArrayList<String>());
 		if (CollectionUtils.isNotEmpty(entidade.getListaDiasTreinamento()))
 			for (EntDiaSemana diaSemana : entidade.getListaDiasTreinamento()) {
-				vo.getListaDiasSemana().add(diaSemana.getId().intValue());
+				vo.getListaDiasSemana().add(diaSemana.getId().toString());
 			}
 
 		return vo;

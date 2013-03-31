@@ -13,7 +13,7 @@ public class MatriculaVO implements IVO {
 	private String numeroMatricula;
 	private String rg;
 	private String cpf;
-	private List<Integer> listaDiasSemana = new ArrayList<Integer>();
+	private List<String> listaDiasSemana = new ArrayList<String>();
 
 	public Long getId() {
 		return id;
@@ -47,11 +47,11 @@ public class MatriculaVO implements IVO {
 		this.cpf = cpf;
 	}
 
-	public List<Integer> getListaDiasSemana() {
+	public List<String> getListaDiasSemana() {
 		return listaDiasSemana;
 	}
 
-	public void setListaDiasSemana(List<Integer> listaDiasSemana) {
+	public void setListaDiasSemana(List<String> listaDiasSemana) {
 		this.listaDiasSemana = listaDiasSemana;
 	}
 }

@@ -128,13 +128,26 @@
 			styleClass="full-width no-border align-center">
 			<p:outputPanel styleClass="invisivel" />
 			<p:outputPanel>
-				<p:commandButton actionListener="#{alunoController.alterar}"
+				<p:commandButton onclick="confirmacaoAlteracao.show()"
 					value="#{message.Salvar}" />
 				<p:commandButton action="#{alunoController.irParaTelaPesquisa}"
 					value="#{message.Voltar}" immediate="true" />
 			</p:outputPanel>
 			<p:outputPanel styleClass="invisivel" />
 		</p:panelGrid>
+
+		<p:confirmDialog id="confirmDialog"
+			header="#{message.Header_Confirmacao_Alteracao}"
+			message="#{message.Confirmar_Alteraca_Aluno}"
+			widgetVar="confirmacaoAlteracao">
+
+			<p:commandButton id="confirmar" value="#{message.Sim}"
+				actionListener="#{alunoController.alterar}"
+				oncomplete="confirmacaoAlteracao.hide()" />
+			<p:commandButton id="recusar" value="#{message.Nao}"
+				onclick="confirmacaoAlteracao.hide()" type="button" />
+
+		</p:confirmDialog>
 
 	</ui:define>
 

@@ -40,6 +40,13 @@ public abstract class EtrainingManagedBean implements Serializable {
 		addWarnMessage(titulo, null);
 	}
 
+	public void showSuccessMessage() {
+		FacesContext.getCurrentInstance().addMessage(
+				null,
+				new FacesMessage(FacesMessage.SEVERITY_INFO,
+						getMessage("Message_Sucesso"), null));
+	}
+
 	public void addExceptionMessage(ViewException e) {
 		addErrorMessage(getMessage("messageException", e.getCodigoExcecao()
 				.getCodigo().toString()));

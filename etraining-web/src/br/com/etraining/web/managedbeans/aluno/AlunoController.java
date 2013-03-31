@@ -6,10 +6,12 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import br.com.etraining.client.vo.impl.aluno.AlteraAlunoVO;
 import br.com.etraining.client.vo.impl.aluno.ConsultaAlunoVO;
 import br.com.etraining.client.vo.impl.aluno.ConsultaListaAlunoSimplesVO;
 import br.com.etraining.client.vo.impl.aluno.RespostaConsultaAlunoVO;
 import br.com.etraining.client.vo.impl.aluno.RespostaConsultaListaAlunoSimplesVO;
+import br.com.etraining.client.vo.transporte.CodigoExcecao;
 import br.com.etraining.web.exceptions.ViewException;
 import br.com.etraining.web.fachada.ITratadorNegocioService;
 import br.com.etraining.web.managedbeans.EtrainingManagedBean;
@@ -55,10 +57,6 @@ public class AlunoController extends EtrainingManagedBean {
 
 	public String irParaTelaEdicao() {
 		Long id = getLongParameter("id");
-		return irParaTelaEdicao(id);
-	}
-
-	protected String irParaTelaEdicao(Long id) {
 		try {
 			ConsultaAlunoVO consulta = new ConsultaAlunoVO();
 			consulta.setIdAluno(id);
@@ -72,10 +70,22 @@ public class AlunoController extends EtrainingManagedBean {
 
 	public String alterar() {
 
-		System.out.println("ALTERANDO");
-		// TODO - Consertar EJB
-		Long id = null;
-		return irParaTelaEdicao(id);
+		try {
+			AlteraAlunoVO altera = new AlteraAlunoVO();
+			altera.setAluno(resposta.getAluno());
+			resposta = (RespostaConsultaAlunoVO) service.executa(altera);
+
+			if (resposta == null || resposta.getAluno() == null) {
+				throw new ViewException(CodigoExcecao.ERRO_DESCONHECIDO);
+			}
+
+			showSuccessMessage();
+		} catch (ViewException e) {
+			addExceptionMessage(e);
+			return null;
+		}
+
+		return "/pages/aluno/editarAluno.xhtml";
 	}
 
 	public ConsultaListaAlunoSimplesVO getConsulta() {
