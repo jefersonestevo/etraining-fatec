@@ -1,17 +1,19 @@
 package br.com.etraining.web.managedbeans.aluno;
 
+import java.util.Collections;
+
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import br.com.etraining.client.vo.impl.aluno.ConsultaListaAlunoVO;
-import br.com.etraining.client.vo.impl.aluno.RespostaConsultaListaAlunoVO;
-import br.com.etraining.client.vo.impl.entidades.AlunoSimplesVO;
-import br.com.etraining.client.vo.impl.entidades.AlunoVO;
-import br.com.etraining.client.vo.impl.entidades.DadosCorporaisVO;
-import br.com.etraining.client.vo.impl.entidades.MatriculaVO;
+import br.com.etraining.client.vo.impl.aluno.ConsultaAlunoVO;
+import br.com.etraining.client.vo.impl.aluno.ConsultaListaAlunoSimplesVO;
+import br.com.etraining.client.vo.impl.aluno.RespostaConsultaAlunoVO;
+import br.com.etraining.client.vo.impl.aluno.RespostaConsultaListaAlunoSimplesVO;
+import br.com.etraining.web.exceptions.ViewException;
 import br.com.etraining.web.fachada.ITratadorNegocioService;
 import br.com.etraining.web.managedbeans.EtrainingManagedBean;
+import br.com.etraining.web.utils.comparador.ComparadorAlunoSimplesAlfabetico;
 
 @Named
 @SessionScoped
@@ -22,38 +24,49 @@ public class AlunoController extends EtrainingManagedBean {
 	@Inject
 	private ITratadorNegocioService service;
 
-	private ConsultaListaAlunoVO consulta = new ConsultaListaAlunoVO();
-	private RespostaConsultaListaAlunoVO respostaLista;
-	private AlunoVO aluno;
+	private ConsultaListaAlunoSimplesVO consulta = new ConsultaListaAlunoSimplesVO();
+	private RespostaConsultaListaAlunoSimplesVO respostaLista;
+	private RespostaConsultaAlunoVO resposta = new RespostaConsultaAlunoVO();
 
 	public String irParaTelaPesquisa() {
-		pesquisar();
+		consulta = new ConsultaListaAlunoSimplesVO();
+		respostaLista = new RespostaConsultaListaAlunoSimplesVO();
+		resposta = new RespostaConsultaAlunoVO();
+
 		return "/pages/aluno/pesquisaAluno.xhtml";
 	}
 
 	public void pesquisar() {
-		// TODO - Consertar EJB Web
-		respostaLista = new RespostaConsultaListaAlunoVO();
-		AlunoSimplesVO aluno = new AlunoSimplesVO();
-		aluno.setNome("Teste");
-		aluno.setMatricula("1209130");
-		aluno.setRg("12313213");
-		aluno.setCpf("12312321312");
-		respostaLista.getListaAlunos().add(aluno);
+		respostaLista = new RespostaConsultaListaAlunoSimplesVO();
+		RespostaConsultaListaAlunoSimplesVO resp = null;
+
+		try {
+			resp = (RespostaConsultaListaAlunoSimplesVO) service
+					.executa(consulta);
+
+			Collections.sort(resp.getListaAlunos(),
+					new ComparadorAlunoSimplesAlfabetico());
+
+			respostaLista.getListaAlunos().addAll(resp.getListaAlunos());
+		} catch (ViewException e) {
+			addExceptionMessage(e);
+		}
 	}
 
 	public String irParaTelaEdicao() {
-		aluno = new AlunoVO();
-		aluno.setMatricula(new MatriculaVO());
-		aluno.setDadosCorporais(new DadosCorporaisVO());
-
-		// TODO - Consertar EJB
-		Long id = null;
+		Long id = getLongParameter("id");
 		return irParaTelaEdicao(id);
 	}
 
 	protected String irParaTelaEdicao(Long id) {
-
+		try {
+			ConsultaAlunoVO consulta = new ConsultaAlunoVO();
+			consulta.setIdAluno(id);
+			resposta = (RespostaConsultaAlunoVO) service.executa(consulta);
+		} catch (ViewException e) {
+			addExceptionMessage(e);
+			return null;
+		}
 		return "/pages/aluno/editarAluno.xhtml";
 	}
 
@@ -65,11 +78,11 @@ public class AlunoController extends EtrainingManagedBean {
 		return irParaTelaEdicao(id);
 	}
 
-	public ConsultaListaAlunoVO getConsulta() {
+	public ConsultaListaAlunoSimplesVO getConsulta() {
 		return consulta;
 	}
 
-	public void setConsulta(ConsultaListaAlunoVO consulta) {
+	public void setConsulta(ConsultaListaAlunoSimplesVO consulta) {
 		this.consulta = consulta;
 	}
 
@@ -81,20 +94,21 @@ public class AlunoController extends EtrainingManagedBean {
 		this.service = service;
 	}
 
-	public RespostaConsultaListaAlunoVO getRespostaLista() {
+	public RespostaConsultaListaAlunoSimplesVO getRespostaLista() {
 		return respostaLista;
 	}
 
-	public void setRespostaLista(RespostaConsultaListaAlunoVO respostaLista) {
+	public void setRespostaLista(
+			RespostaConsultaListaAlunoSimplesVO respostaLista) {
 		this.respostaLista = respostaLista;
 	}
 
-	public AlunoVO getAluno() {
-		return aluno;
+	public RespostaConsultaAlunoVO getResposta() {
+		return resposta;
 	}
 
-	public void setAluno(AlunoVO aluno) {
-		this.aluno = aluno;
+	public void setResposta(RespostaConsultaAlunoVO resposta) {
+		this.resposta = resposta;
 	}
 
 }

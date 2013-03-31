@@ -24,7 +24,7 @@
 			<p:panelGrid columns="3" styleClass="full-width"
 				columnClasses="width-25, width-1, width-75">
 
-				<h:outputText value="#{message.Relatorio_Selecione_Periodo}" />
+				<h:outputText value="* #{message.Relatorio_Selecione_Periodo}" />
 				<p:separator styleClass="separador-campos" />
 				<h:panelGroup>
 					<p:calendar required="true" id="dataInicioConsulta"
@@ -43,7 +43,7 @@
 			<p:panelGrid columns="3" styleClass="full-width"
 				columnClasses="width-25, width-1, width-75">
 				<h:outputText
-					value="#{message.Relatorio_Selecione_Formato_Consulta}" />
+					value="* #{message.Relatorio_Selecione_Formato_Consulta}" />
 				<p:separator styleClass="separador-campos" />
 				<p:selectOneRadio required="true" id="selectTipoConsulta"
 					value="#{estatisticaGeralController.consulta.tipoConsulta}">
@@ -58,7 +58,7 @@
 					rendered="#{estatisticaGeralController.consulta.tipoConsulta eq 2}"
 					columnClasses="width-25, width-1, width-75">
 
-					<h:outputText value="#{message.Relatorio_Selecione_Exercicio}" />
+					<h:outputText value="* #{message.Relatorio_Selecione_Exercicio}" />
 					<p:separator styleClass="separador-campos" />
 					<p:selectOneMenu required="true" id="selectExercicio"
 						requiredMessage="#{message.Selecao_Exercicio_Obrigatorio}"

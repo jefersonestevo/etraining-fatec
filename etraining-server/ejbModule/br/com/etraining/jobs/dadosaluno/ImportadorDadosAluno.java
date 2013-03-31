@@ -65,10 +65,17 @@ public class ImportadorDadosAluno {
 			String linha;
 
 			List<DadosAluno> listaDadosAluno = new ArrayList<DadosAluno>();
+			int num_linha = 2;
 			while ((linha = br.readLine()) != null) {
-				String[] dadosAluno = linha.split(";");
-				validaDadosEntrada(dadosAluno);
-				listaDadosAluno.add(new DadosAluno(dadosAluno));
+				try {
+					String[] dadosAluno = linha.split(";");
+					validaDadosEntrada(dadosAluno);
+					listaDadosAluno.add(new DadosAluno(dadosAluno));
+					num_linha++;
+				} catch (ETrainingInfraException e) {
+					throw new ETrainingInfraException(e.getCodigoExcecao(),
+							"LINHA: " + num_linha + " - " + e.getMessage());
+				}
 			}
 
 			for (DadosAluno dadosAluno : listaDadosAluno) {
@@ -121,19 +128,24 @@ public class ImportadorDadosAluno {
 
 			if (en.isObrigatorio() && StringUtils.isEmpty(valorDadoAtual)) {
 				throw new ETrainingInfraException(
-						CodigoExcecao.ERRO_ARQUIVO_ALUNO_CAMPO_OBRIGATORIO);
+						CodigoExcecao.ERRO_ARQUIVO_ALUNO_CAMPO_OBRIGATORIO,
+						"CAMPO: " + en.name()
+								+ " - CAMPO OBRIGATORIO NAO INFORMADO");
 			}
 
 			if (valorDadoAtual.trim().length() > en.getTamanhoMaximo()) {
 				throw new ETrainingInfraException(
-						CodigoExcecao.ERRO_ARQUIVO_ALUNO_CAMPO_MAIOR_MAXIMO);
+						CodigoExcecao.ERRO_ARQUIVO_ALUNO_CAMPO_MAIOR_MAXIMO,
+						"CAMPO: " + en.name()
+								+ " - TAMANHO SUPERIOR AO MAXIMO PERMITIDO");
 			}
 
 			if (en.isSomenteNumerico()
 					&& !NumberUtils.isNumber(valorDadoAtual.replaceAll(",", "")
 							.trim())) {
 				throw new ETrainingInfraException(
-						CodigoExcecao.ERRO_ARQUIVO_ALUNO_CAMPO_NAO_NUMERICO);
+						CodigoExcecao.ERRO_ARQUIVO_ALUNO_CAMPO_NAO_NUMERICO,
+						"CAMPO: " + en.name() + " - SOMENTE PERMITIDO NUMEROS");
 			}
 		}
 	}

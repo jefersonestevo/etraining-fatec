@@ -10,7 +10,9 @@ public class RespostaRealizarLoginVO implements IVO {
 	private static final long serialVersionUID = 4260819387773240384L;
 
 	private Long idAluno;
+	private String nome;
 	private String numeroMatricula;
+	private String senha;
 	private List<String> listaPermissoes = new ArrayList<String>();
 
 	public List<String> getListaPermissoes() {
@@ -35,6 +37,22 @@ public class RespostaRealizarLoginVO implements IVO {
 
 	public void setIdAluno(Long idAluno) {
 		this.idAluno = idAluno;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
 	}
 
 }

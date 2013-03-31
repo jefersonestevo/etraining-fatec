@@ -32,8 +32,8 @@ public class DadosAluno implements Serializable {
 		aluno.setEmail(dadosAluno[EnumPosicionalDadosAluno.EMAIL.ordinal()]);
 		aluno.setDataNascimento(getDataNascimento(dadosAluno[EnumPosicionalDadosAluno.DADA_NASCIMENTO
 				.ordinal()]));
-		aluno.setSexo(Sexo.getEnumFor(Integer
-				.parseInt(dadosAluno[EnumPosicionalDadosAluno.SEXO.ordinal()])));
+		aluno.setSexo(Sexo.getEnumFor(dadosAluno[EnumPosicionalDadosAluno.SEXO
+				.ordinal()]));
 
 		matricula = new EntMatricula();
 		matricula.setAluno(aluno);

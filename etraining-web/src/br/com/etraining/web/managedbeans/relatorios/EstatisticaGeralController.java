@@ -8,15 +8,20 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.model.SelectItem;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.primefaces.model.chart.CartesianChartModel;
 
 import br.com.etraining.client.vo.impl.entidades.ExercicioVO;
 import br.com.etraining.client.vo.impl.entidades.PontoGraficoVO;
+import br.com.etraining.client.vo.impl.listaexercicios.ConsultaListaExerciciosVO;
+import br.com.etraining.client.vo.impl.listaexercicios.RespostaConsultaListaExerciciosVO;
 import br.com.etraining.client.vo.impl.relatorios.geral.ConsultaEstatisticaConstants;
 import br.com.etraining.client.vo.impl.relatorios.geral.ConsultaEstatisticaGeralVO;
 import br.com.etraining.client.vo.impl.relatorios.geral.RespostaConsultaEstatisticaVO;
+import br.com.etraining.web.exceptions.ViewException;
+import br.com.etraining.web.fachada.ITratadorNegocioService;
 import br.com.etraining.web.managedbeans.EtrainingManagedBean;
 
 @Named
@@ -24,6 +29,9 @@ import br.com.etraining.web.managedbeans.EtrainingManagedBean;
 public class EstatisticaGeralController extends EtrainingManagedBean {
 
 	private static final long serialVersionUID = -6032506735894603834L;
+
+	@Inject
+	private ITratadorNegocioService service;
 
 	private ConsultaEstatisticaGeralVO consulta = new ConsultaEstatisticaGeralVO();
 	private RespostaConsultaEstatisticaVO resposta = new RespostaConsultaEstatisticaVO();
@@ -95,12 +103,19 @@ public class EstatisticaGeralController extends EtrainingManagedBean {
 	}
 
 	public void preencherListaExercicio() {
-		// TODO - Fazer o EJB Funcionar
-		this.listaExercicios.add(new SelectItem("", ""));
-		this.listaExercicios.clear();
-		for (int i = 0; i < 10; i++) {
-			this.listaExercicios.add(new SelectItem(new Long(i), "EXERCICIO "
-					+ i));
+		RespostaConsultaListaExerciciosVO resp = null;
+		try {
+			resp = (RespostaConsultaListaExerciciosVO) service
+					.executa(new ConsultaListaExerciciosVO());
+
+			this.listaExercicios.clear();
+			this.listaExercicios.add(new SelectItem("", ""));
+			for (ExercicioVO exerc : resp.getListaExercicios()) {
+				this.listaExercicios.add(new SelectItem(exerc.getId(), exerc
+						.getTitulo()));
+			}
+		} catch (ViewException e) {
+			addExceptionMessage(e);
 		}
 	}
 
@@ -158,6 +173,14 @@ public class EstatisticaGeralController extends EtrainingManagedBean {
 
 	public void setResposta(RespostaConsultaEstatisticaVO resposta) {
 		this.resposta = resposta;
+	}
+
+	public ITratadorNegocioService getService() {
+		return service;
+	}
+
+	public void setService(ITratadorNegocioService service) {
+		this.service = service;
 	}
 
 }

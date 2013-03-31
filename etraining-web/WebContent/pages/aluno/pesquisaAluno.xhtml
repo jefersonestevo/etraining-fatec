@@ -11,7 +11,7 @@
 			<p:menuitem value="#{message.Header_Pesquisa_Aluno}" url="#" />
 		</p:breadCrumb>
 	</ui:define>
-	
+
 	<ui:define name="ajuda">
 		<p:commandButton icon="ui-icon-help" immediate="true" global="false"
 			onclick="mostrarModal('/pages/ajuda/telas/pesquisaAluno.jsf')" />
@@ -39,7 +39,8 @@
 			<p:outputPanel styleClass="invisivel" />
 			<p:outputPanel>
 				<p:commandButton actionListener="#{alunoController.pesquisar}"
-					value="#{message.Pesquisar}" update="resultadoConsultaAlunos" />
+					global="false" value="#{message.Pesquisar}"
+					update="resultadoConsultaAlunos" />
 				<p:commandButton value="#{message.Voltar}"
 					action="/pages/home.xhtml" immediate="true" />
 			</p:outputPanel>
@@ -59,28 +60,32 @@
 				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
 
 				<p:column headerText="#{message.Aluno_Nome}">
-					<p:commandLink action="#{alunoController.irParaTelaEdicao}">
+					<p:commandLink action="#{alunoController.irParaTelaEdicao}"
+						global="false">
 						<f:param name="id" value="#{aluno.id}" />
 						<h:outputText value="#{aluno.nome}" />
 					</p:commandLink>
 				</p:column>
 
 				<p:column headerText="#{message.Aluno_Matricula}">
-					<p:commandLink action="#{alunoController.irParaTelaEdicao}">
+					<p:commandLink action="#{alunoController.irParaTelaEdicao}"
+						global="false">
 						<f:param name="id" value="#{aluno.id}" />
 						<h:outputText value="#{aluno.matricula}" />
 					</p:commandLink>
 				</p:column>
 
 				<p:column headerText="#{message.Aluno_Rg}">
-					<p:commandLink action="#{alunoController.irParaTelaEdicao}">
+					<p:commandLink action="#{alunoController.irParaTelaEdicao}"
+						global="false">
 						<f:param name="id" value="#{aluno.id}" />
 						<h:outputText value="#{aluno.rg}" />
 					</p:commandLink>
 				</p:column>
 
 				<p:column headerText="#{message.Aluno_Cpf}">
-					<p:commandLink action="#{alunoController.irParaTelaEdicao}">
+					<p:commandLink action="#{alunoController.irParaTelaEdicao}"
+						global="false">
 						<f:param name="id" value="#{aluno.id}" />
 						<h:outputText value="#{aluno.cpf}" />
 					</p:commandLink>

@@ -6,7 +6,7 @@ public enum EnumPosicionalDadosAluno {
 	MATRICULA(true, TamanhoCampo.TAMANHO_MUITO_PEQUENO, true), //
 	SENHA(true, TamanhoCampo.TAMANHO_PEQUENO, false), //
 	NOME(true, TamanhoCampo.TAMANHO_MEDIO, false), //
-	SEXO(true, 1, true), //
+	SEXO(true, 1, false), //
 	EMAIL(false, TamanhoCampo.TAMANHO_MEDIO, false), //
 	TELEFONE(false, TamanhoCampo.TAMANHO_MUITO_PEQUENO, true), //
 	RG(true, 9, false), //

@@ -5,6 +5,7 @@ import java.util.List;
 import javax.inject.Named;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 
 import br.com.etraining.client.vo.transporte.CodigoExcecao;
 import br.com.etraining.exception.ETrainingBusinessException;
@@ -27,8 +28,8 @@ public class DaoAlunoJPA extends DaoCRUDJPA<EntAluno> implements IDaoAluno {
 	}
 
 	@Override
-	public EntAluno pesquisarAlunoPorMatriculaSenha(Long matricula, String senha)
-			throws ETrainingException {
+	public EntAluno pesquisarAlunoPorMatriculaSenha(String matricula,
+			String senha) throws ETrainingException {
 
 		StringBuilder query = new StringBuilder();
 		query.append(" SELECT a FROM ");
@@ -43,5 +44,34 @@ public class DaoAlunoJPA extends DaoCRUDJPA<EntAluno> implements IDaoAluno {
 			return lista.get(0);
 		throw new ETrainingBusinessException(
 				CodigoExcecao.USUARIO_NAO_ENCONTRADO);
+	}
+
+	@Override
+	public List<EntAluno> pesquisarPorMatriculaNome(String matricula,
+			String nome) throws ETrainingException {
+		StringBuilder query = new StringBuilder();
+		query.append(" SELECT a FROM ");
+		query.append(EntAluno.class.getName() + " AS a ");
+
+		boolean where = false;
+		if (StringUtils.isNotBlank(matricula)) {
+			if (!where)
+				query.append(" WHERE ");
+			else
+				query.append(" OR ");
+			query.append(" upper(a.matricula.numeroMatricula) LIKE '%"
+					+ StringUtils.upperCase(matricula) + "%' ");
+		}
+
+		if (StringUtils.isNotBlank(nome)) {
+			if (!where)
+				query.append(" WHERE ");
+			else
+				query.append(" OR ");
+			query.append(" upper(a.nome) LIKE '%" + StringUtils.upperCase(nome)
+					+ "%' ");
+		}
+
+		return getTemplate().pesquisarQuery(EntAluno.class, query.toString());
 	}
 }

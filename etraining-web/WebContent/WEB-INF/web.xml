@@ -7,7 +7,7 @@
 	<display-name>etraining-web</display-name>
 
 	<welcome-file-list>
-		<welcome-file>index.jsf</welcome-file>
+		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
 
 	<servlet>
@@ -20,62 +20,30 @@
 		<url-pattern>*.jsf</url-pattern>
 	</servlet-mapping>
 
-	<!-- <security-constraint> -->
-	<!-- <display-name>Paginas WEB</display-name> -->
-	<!-- <web-resource-collection> -->
-	<!-- <web-resource-name>Paginas WEB</web-resource-name> -->
-	<!-- <description/> -->
-	<!-- <url-pattern>/pages/*</url-pattern> -->
-	<!-- </web-resource-collection> -->
-	<!-- <auth-constraint> -->
-	<!-- <role-name>ALUNO</role-name> -->
-	<!-- <role-name>ADM</role-name> -->
-	<!-- <role-name>PROFESSOR</role-name> -->
-	<!-- </auth-constraint> -->
-	<!-- </security-constraint> -->
+	<security-constraint>
+		<display-name>Paginas WEB</display-name>
+		<web-resource-collection>
+			<web-resource-name>Paginas WEB</web-resource-name>
+			<description />
+			<url-pattern>/pages/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>ALUNO</role-name>
+			<role-name>ADM</role-name>
+			<role-name>PROFESSOR</role-name>
+		</auth-constraint>
+	</security-constraint>
 
-	<!-- <security-constraint> -->
-	<!-- <display-name>Paginas ADM</display-name> -->
-	<!-- <web-resource-collection> -->
-	<!-- <web-resource-name>Paginas ADM</web-resource-name> -->
-	<!-- <description/> -->
-	<!-- <url-pattern>/pages/adm/*</url-pattern> -->
-	<!-- </web-resource-collection> -->
-	<!-- <auth-constraint> -->
-	<!-- <role-name>ADM</role-name> -->
-	<!-- </auth-constraint> -->
-	<!-- </security-constraint> -->
+	<login-config>
+		<auth-method>FORM</auth-method>
+		<form-login-config>
+			<form-login-page>/login.xhtml</form-login-page>
+			<form-error-page>/error.xhtml</form-error-page>
+		</form-login-config>
+	</login-config>
 
-	<!-- <security-constraint> -->
-	<!-- <display-name>Paginas PROFESSOR</display-name> -->
-	<!-- <web-resource-collection> -->
-	<!-- <web-resource-name>Paginas PROFESSOR</web-resource-name> -->
-	<!-- <description/> -->
-	<!-- <url-pattern>/pages/professor/*</url-pattern> -->
-	<!-- </web-resource-collection> -->
-	<!-- <auth-constraint> -->
-	<!-- <role-name>ADM</role-name> -->
-	<!-- <role-name>PROFESSOR</role-name> -->
-	<!-- </auth-constraint> -->
-	<!-- </security-constraint> -->
-
-	<!-- <login-config> -->
-	<!-- <auth-method>FORM</auth-method> -->
-	<!-- <realm-name>etraining-auth</realm-name> -->
-	<!-- <form-login-config> -->
-	<!-- <form-login-page>/login.xhtml</form-login-page> -->
-	<!-- <form-error-page>/error.xhtml</form-error-page> -->
-	<!-- </form-login-config> -->
-	<!-- </login-config> -->
-
-	<!-- <security-role> -->
-	<!-- <role-name>ALUNO</role-name> -->
-	<!-- </security-role> -->
-	<!-- <security-role> -->
-	<!-- <role-name>ADM</role-name> -->
-	<!-- </security-role> -->
-	<!-- <security-role> -->
-	<!-- <role-name>PROFESSOR</role-name> -->
-	<!-- </security-role> -->
+	<session-config>
+		<session-timeout>30</session-timeout>
+	</session-config>
 
 </web-app>

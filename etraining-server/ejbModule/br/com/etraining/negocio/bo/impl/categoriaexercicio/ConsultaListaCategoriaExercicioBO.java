@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import br.com.etraining.client.vo.impl.categoriaexercicio.ConsultaListaCategoriaExercicioVO;
 import br.com.etraining.client.vo.impl.categoriaexercicio.RespostaConsultaListaCategoriaExercicioVO;
@@ -14,6 +15,7 @@ import br.com.etraining.modelo.entidades.EntCategoriaExercicio;
 import br.com.etraining.negocio.bo.interfaces.AbstractBO;
 import br.com.etraining.negocio.conversor.impl.ConversorCategoriaExercicio;
 
+@Named("ConsultaListaCategoriaExercicioVO")
 public class ConsultaListaCategoriaExercicioBO
 		extends
 		AbstractBO<ConsultaListaCategoriaExercicioVO, RespostaConsultaListaCategoriaExercicioVO> {

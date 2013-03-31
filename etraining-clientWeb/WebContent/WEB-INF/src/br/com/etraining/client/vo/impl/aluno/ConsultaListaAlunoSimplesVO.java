@@ -2,7 +2,7 @@ package br.com.etraining.client.vo.impl.aluno;
 
 import br.com.etraining.client.vo.interfaces.IVO;
 
-public class ConsultaListaAlunoVO implements IVO {
+public class ConsultaListaAlunoSimplesVO implements IVO {
 
 	private static final long serialVersionUID = -1609293490424612881L;
 

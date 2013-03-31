@@ -14,7 +14,7 @@
 				url="#" />
 		</p:breadCrumb>
 	</ui:define>
-	
+
 	<ui:define name="ajuda">
 		<p:commandButton icon="ui-icon-help" immediate="true" global="false"
 			onclick="mostrarModal('/pages/ajuda/telas/programaTreinamentoEdicao.jsf')" />
@@ -28,14 +28,13 @@
 				<h:outputText value="#{message.Programa_Treinamento_Aluno_Nome}" />
 				<p:separator styleClass="separador-campos" />
 				<p:inputText
-					value="#{programaTreinamentoController.resposta.aluno.nome}"
+					value="#{programaTreinamentoController.resposta.programaTreinamento.aluno.nome}"
 					disabled="true" />
 
 				<h:outputText value="#{message.Programa_Treinamento_Versao}" />
 				<p:separator styleClass="separador-campos" />
-				<p:inputMask
-					value="#{programaTreinamentoController.resposta.programaTreinamento.versao}"
-					mask="99" disabled="true" />
+				<p:inputText disabled="true"
+					value="#{programaTreinamentoController.resposta.programaTreinamento.versao}" />
 
 				<h:outputText
 					value="#{message.Programa_Treinamento_Data_Vencimento}" />
@@ -51,6 +50,7 @@
 		<p:separator styleClass="invisivel" />
 
 		<p:fieldset collapsed="true" toggleable="true"
+			rendered="#{programaTreinamentoController.editavel}"
 			legend="#{message.Header_Programa_Treinamento_Adicionar_Exercicio}">
 			<p:panelGrid columns="3" styleClass="panel-grid full-width"
 				columnClasses="width-75, width-25">
@@ -60,7 +60,7 @@
 					<h:outputText
 						value="#{message.Programa_Treinamento_Selecione_Exercicio}" />
 					<p:separator styleClass="separador-campos" />
-					<p:selectOneMenu required="true" id="selectExercicio"
+					<p:selectOneMenu id="selectExercicio"
 						value="#{programaTreinamentoController.exercicioProposto.id}">
 						<f:selectItems
 							value="#{programaTreinamentoController.listaExercicios}" />
@@ -110,8 +110,9 @@
 						styleClass="width-25">
 						<h:outputText value="#{exerc.exercicio.atividade.titulo}" />
 					</p:column>
-					
-					<p:column headerText="#{message.Remover}">
+
+					<p:column headerText="#{message.Remover}"
+						rendered="#{programaTreinamentoController.editavel}">
 						<p:commandButton global="false" value="#{message.Remover}"
 							actionListener="#{programaTreinamentoController.removerExercicio}"
 							update=":main:panelExerciciosPropostos">
@@ -127,7 +128,11 @@
 			styleClass="full-width no-border align-center">
 			<p:outputPanel styleClass="invisivel" />
 			<p:outputPanel>
-				<p:commandButton value="#{message.Salvar}"
+				<p:commandButton value="#{message.Aprovar}" global="false"
+					rendered="#{programaTreinamentoController.aprovacao}"
+					action="#{programaTreinamentoController.aprovar}" immediate="true" />
+				<p:commandButton value="#{message.Gerar}" global="false"
+					rendered="#{programaTreinamentoController.editavel}"
 					action="#{programaTreinamentoController.alterar}" immediate="true" />
 				<p:commandButton value="#{message.Voltar}"
 					action="#{programaTreinamentoController.irParaTelaPesquisa}"

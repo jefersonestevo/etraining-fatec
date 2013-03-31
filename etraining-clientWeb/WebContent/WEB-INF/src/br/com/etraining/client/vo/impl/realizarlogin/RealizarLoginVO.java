@@ -6,7 +6,7 @@ public class RealizarLoginVO implements IVO {
 
 	private static final long serialVersionUID = -8567095371269700172L;
 
-	private Long numeroMatricula;
+	private String numeroMatricula;
 	private String senha;
 
 	public String getSenha() {
@@ -17,11 +17,11 @@ public class RealizarLoginVO implements IVO {
 		this.senha = senha;
 	}
 
-	public Long getNumeroMatricula() {
+	public String getNumeroMatricula() {
 		return numeroMatricula;
 	}
 
-	public void setNumeroMatricula(Long numeroMatricula) {
+	public void setNumeroMatricula(String numeroMatricula) {
 		this.numeroMatricula = numeroMatricula;
 	}
 

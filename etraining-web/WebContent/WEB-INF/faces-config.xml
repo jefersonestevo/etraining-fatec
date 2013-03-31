@@ -11,6 +11,11 @@
             <base-name>br/com/etraining/web/messageResources</base-name>
             <var>message</var>
         </resource-bundle>
+        
+        <resource-bundle>
+            <base-name>br/com/etraining/web/messageResourcesException</base-name>
+            <var>messageException</var>
+        </resource-bundle>
     </application>
 
 </faces-config>

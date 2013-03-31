@@ -34,8 +34,10 @@ public class EtrainingServiceEJB implements IEtrainingService {
 			response.setResponse(voRetorno);
 
 		} catch (ETrainingException e) {
+			e.printStackTrace();
 			response.setCodigoErro(e.getCodigoExcecao().getCodigo());
 		} catch (Exception e) {
+			e.printStackTrace();
 			response.setCodigoErro(CodigoExcecao.ERRO_DESCONHECIDO.getCodigo());
 		}
 

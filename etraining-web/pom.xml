@@ -36,11 +36,13 @@
 		<dependency>
 			<groupId>etraining</groupId>
 			<artifactId>etraining-utils</artifactId>
+			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>etraining</groupId>
 			<artifactId>etraining-clientWeb</artifactId>
+			<scope>provided</scope>
 		</dependency>
 
 		<dependency>

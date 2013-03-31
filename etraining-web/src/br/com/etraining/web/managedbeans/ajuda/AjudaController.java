@@ -62,7 +62,6 @@ public class AjudaController extends EtrainingManagedBean {
 		// AJUDA
 		TreeNode nodeAjuda = new DefaultTreeNode(getMessage("Menu_Ajuda"),
 				mapaSite);
-		new DefaultTreeNode("ajuda", getMessage("Menu_Ajuda"), nodeAjuda);
 		new DefaultTreeNode("ajuda", getMessage("Menu_Mapa_Site"), nodeAjuda);
 
 	}

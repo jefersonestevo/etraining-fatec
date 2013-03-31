@@ -48,7 +48,7 @@ public class DaoProgramaTreinamentoJPA extends
 
 		List<EntProgramaTreinamento> lista = getTemplate().pesquisarQuery(
 				EntProgramaTreinamento.class, query.toString(),
-				new Object[] { idAluno });
+				new Object[] { idAluno, idAluno });
 
 		if (CollectionUtils.isNotEmpty(lista))
 			return lista.get(0);
@@ -109,6 +109,26 @@ public class DaoProgramaTreinamentoJPA extends
 
 		return getTemplate().pesquisarQuery(EntProgramaTreinamento.class,
 				query.toString(), new Object[] { idAluno, versaoAtual });
+	}
+
+	@Override
+	public EntProgramaTreinamento pesquisarPendenteAprovacaoPorIdAluno(
+			Long idAluno) throws ETrainingException {
+
+		StringBuilder query = new StringBuilder();
+		query.append(" SELECT p FROM ");
+		query.append(EntProgramaTreinamento.class.getName() + " AS p ");
+		query.append(" WHERE p.aluno.id = ? ");
+		query.append(" AND p.versaoAprovada = false ");
+		query.append(" AND p.cancelado = false ");
+
+		List<EntProgramaTreinamento> lista = getTemplate().pesquisarQuery(
+				EntProgramaTreinamento.class, query.toString(),
+				new Object[] { idAluno });
+
+		if (CollectionUtils.isNotEmpty(lista))
+			return lista.get(0);
+		return null;
 	}
 
 }

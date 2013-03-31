@@ -82,8 +82,7 @@ public class LoginActivity extends Activity {
 	@Click(R.id.btn_logar)
 	public void logar() {
 		RealizarLoginVO realizarLoginVO = new RealizarLoginVO();
-		realizarLoginVO.setNumeroMatricula(Long.getLong(txtLogin.getText()
-				.toString()));
+		realizarLoginVO.setNumeroMatricula(txtLogin.getText().toString());
 		realizarLoginVO.setSenha(txtSenha.getText().toString());
 
 		if (realizarLoginVO.getNumeroMatricula() == null

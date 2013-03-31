@@ -11,7 +11,7 @@
 			<p:menuitem value="#{message.Header_Programa_Treinamento}" url="#" />
 		</p:breadCrumb>
 	</ui:define>
-	
+
 	<ui:define name="ajuda">
 		<p:commandButton icon="ui-icon-help" immediate="true" global="false"
 			onclick="mostrarModal('/pages/ajuda/telas/programaTreinamentoPesquisa.jsf')" />
@@ -25,7 +25,7 @@
 				columnClasses="width-25, width-1, width-75">
 
 				<h:outputText
-					value="#{message.Programa_Treinamento_Selecione_Aluno}" />
+					value="* #{message.Programa_Treinamento_Selecione_Aluno}" />
 				<p:separator styleClass="separador-campos"
 					style="height: 210px !important;" />
 				<p:dataTable id="tableListaAlunos"
@@ -58,9 +58,13 @@
 			styleClass="full-width no-border align-center">
 			<p:outputPanel styleClass="invisivel" />
 			<p:outputPanel>
-				<p:commandButton action="#{programaTreinamentoController.pesquisar}"
-					value="#{message.Pesquisar}" />
-				<p:commandButton value="#{message.Voltar}"
+				<p:commandButton
+					action="#{programaTreinamentoController.irParaTelaAprovacao}"
+					global="false" value="#{message.Aprovar}" />
+				<p:commandButton
+					action="#{programaTreinamentoController.irParaTelaEdicao}"
+					global="false" value="#{message.Gerar}" />
+				<p:commandButton value="#{message.Voltar}" global="false"
 					action="/pages/home.xhtml" immediate="true" />
 			</p:outputPanel>
 			<p:outputPanel styleClass="invisivel" />

@@ -24,7 +24,7 @@
 			<p:panelGrid columns="3" styleClass="full-width"
 				columnClasses="width-25, width-1, width-75">
 
-				<h:outputText value="#{message.Relatorio_Selecione_Periodo}" />
+				<h:outputText value="* #{message.Relatorio_Selecione_Periodo}" />
 				<p:separator styleClass="separador-campos" />
 				<h:panelGroup>
 					<p:calendar required="true" id="dataInicioConsulta"
@@ -39,23 +39,10 @@
 				</h:panelGroup>
 			</p:panelGrid>
 
-			<p:outputPanel id="panelAlunoSelecionado">
-				<p:panelGrid columns="3" styleClass="full-width"
-					rendered="#{estatisticaIndividualController.alunoSelecionado.id ne null}"
-					columnClasses="width-25, width-1, width-75">
-
-					<h:outputText value="#{message.Relatorio_Selecione_Exercicio}" />
-					<p:separator styleClass="separador-campos" />
-					<h:outputText
-						value="#{estatisticaIndividualController.alunoSelecionado.nome}" />
-
-				</p:panelGrid>
-			</p:outputPanel>
-
 			<p:panelGrid columns="3" styleClass="full-width"
 				columnClasses="width-25, width-1, width-75">
 
-				<h:outputText value="#{message.Relatorio_Selecione_Aluno}" />
+				<h:outputText value="* #{message.Relatorio_Selecione_Aluno}" />
 				<p:separator styleClass="separador-campos"
 					style="height: 210px !important;" />
 				<p:dataTable id="tableListaAlunos"

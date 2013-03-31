@@ -6,14 +6,14 @@ public class ConsultaProgramaTreinamentoVO implements IVO{
 
 	private static final long serialVersionUID = -3127756919225567605L;
 
-	private Long idUsuario;
+	private Long idAluno;
 
-	public Long getIdUsuario() {
-		return idUsuario;
+	public Long getIdAluno() {
+		return idAluno;
 	}
 
-	public void setIdUsuario(Long idUsuario) {
-		this.idUsuario = idUsuario;
+	public void setIdAluno(Long idAluno) {
+		this.idAluno = idAluno;
 	}
 
 }

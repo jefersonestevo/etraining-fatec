@@ -28,7 +28,7 @@ public class RealizarLoginBO extends
 	protected RespostaRealizarLoginVO executarRegrasEspecificas(
 			RealizarLoginVO request) throws ETrainingException {
 
-		if (request.getNumeroMatricula() == null) {
+		if (StringUtils.isBlank(request.getNumeroMatricula())) {
 			throw new ETrainingBusinessException(
 					CodigoExcecao.MATRICULA_NAO_INFORMADA);
 		}
@@ -54,6 +54,8 @@ public class RealizarLoginBO extends
 			response.setIdAluno(aluno.getId());
 			response.setNumeroMatricula(aluno.getMatricula()
 					.getNumeroMatricula());
+			response.setSenha(aluno.getMatricula().getSenhaUsuario());
+			response.setNome(aluno.getNome());
 
 			List<String> listaPermissoes = new ArrayList<String>();
 			listaPermissoes.add(aluno.getMatricula().getPerfilAcesso());

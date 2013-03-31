@@ -30,15 +30,15 @@
 				action="#{programaTreinamentoController.irParaTelaPesquisa}" />
 		</p:submenu>
 		<p:submenu label="#{message.Menu_Ajuda}" icon="ui-icon-help">
-			<p:menuitem value="#{message.Menu_Ajuda}" icon="ui-icon-help"
-				immediate="true" />
 			<p:menuitem value="#{message.Menu_Mapa_Site}" icon="ui-icon-image"
 				action="/pages/ajuda/mapaSite.xhtml" immediate="true" />
 		</p:submenu>
 
 		<f:facet name="options">
-			<h:outputText value="#{viewUtils.nomeUsuarioLogado}"
-				style="margin-right:10px" />
+			<p:menuButton value="#{viewUtils.nomeUsuarioLogado}">
+				<p:menuitem value="#{message.Deslogar}" icon="ui-icon-image"
+					immediate="true" action="#{viewUtils.deslogar}"/>
+			</p:menuButton>
 		</f:facet>
 
 	</p:menubar>

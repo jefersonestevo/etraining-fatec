@@ -12,6 +12,8 @@ public class ConversorAtividade implements
 
 	@Override
 	public EntAtividade fromVO(AtividadeVO vo) {
+		if (vo == null)
+			return null;
 		EntAtividade entidade = new EntAtividade();
 		entidade.setId(vo.getId());
 		entidade.setTitulo(vo.getTitulo());
@@ -20,6 +22,8 @@ public class ConversorAtividade implements
 
 	@Override
 	public AtividadeVO toVO(EntAtividade entidade) {
+		if (entidade == null)
+			return null;
 		AtividadeVO vo = new AtividadeVO();
 		vo.setId(entidade.getId());
 		vo.setTitulo(entidade.getTitulo());

@@ -6,7 +6,7 @@ import java.util.List;
 import br.com.etraining.client.vo.impl.entidades.AlunoSimplesVO;
 import br.com.etraining.client.vo.interfaces.IVO;
 
-public class RespostaConsultaListaAlunoVO implements IVO {
+public class RespostaConsultaListaAlunoSimplesVO implements IVO {
 
 	private static final long serialVersionUID = -1609293490424612881L;
 
