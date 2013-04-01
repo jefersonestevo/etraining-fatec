@@ -15,8 +15,8 @@ import br.com.etraining.client.vo.impl.categoriaexercicio.ConsultaListaCategoria
 import br.com.etraining.client.vo.impl.categoriaexercicio.RespostaConsultaListaCategoriaExercicioVO;
 import br.com.etraining.client.vo.impl.entidades.CategoriaExercicioVO;
 import br.com.etraining.client.vo.impl.entidades.ExercicioVO;
-import br.com.etraining.client.vo.impl.listaexercicios.ConsultaListaExerciciosVO;
-import br.com.etraining.client.vo.impl.listaexercicios.RespostaConsultaListaExerciciosVO;
+import br.com.etraining.client.vo.impl.exercicios.ConsultaListaExerciciosVO;
+import br.com.etraining.client.vo.impl.exercicios.RespostaConsultaListaExerciciosVO;
 import br.com.etraining.web.exceptions.ViewException;
 import br.com.etraining.web.fachada.ITratadorNegocioService;
 import br.com.etraining.web.managedbeans.EtrainingManagedBean;

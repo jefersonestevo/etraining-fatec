@@ -26,6 +26,8 @@ public class ConversorExercicioProposto implements
 		entidade.setId(vo.getId());
 		entidade.setExercicio(conversorExercicio.fromVO(vo.getExercicio()));
 		entidade.setDiaSemana(conversorDiaSemana.fromVO(vo.getDiaSemana()));
+		entidade.setQuantidadeExercicioSugerida(vo
+				.getQuantidadeExercicioSugerida());
 		return entidade;
 	}
 
@@ -37,6 +39,8 @@ public class ConversorExercicioProposto implements
 		vo.setId(entidade.getId());
 		vo.setExercicio(conversorExercicio.toVO(entidade.getExercicio()));
 		vo.setDiaSemana(conversorDiaSemana.toVO(entidade.getDiaSemana()));
+		vo.setQuantidadeExercicioSugerida(entidade
+				.getQuantidadeExercicioSugerida());
 		return vo;
 	}
 

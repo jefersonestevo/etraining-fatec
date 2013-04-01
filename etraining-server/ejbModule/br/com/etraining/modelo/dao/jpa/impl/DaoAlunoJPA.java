@@ -55,18 +55,20 @@ public class DaoAlunoJPA extends DaoCRUDJPA<EntAluno> implements IDaoAluno {
 
 		boolean where = false;
 		if (StringUtils.isNotBlank(matricula)) {
-			if (!where)
+			if (!where) {
 				query.append(" WHERE ");
-			else
+				where = true;
+			} else
 				query.append(" OR ");
 			query.append(" upper(a.matricula.numeroMatricula) LIKE '%"
 					+ StringUtils.upperCase(matricula) + "%' ");
 		}
 
 		if (StringUtils.isNotBlank(nome)) {
-			if (!where)
+			if (!where) {
 				query.append(" WHERE ");
-			else
+				where = true;
+			} else
 				query.append(" OR ");
 			query.append(" upper(a.nome) LIKE '%" + StringUtils.upperCase(nome)
 					+ "%' ");

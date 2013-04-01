@@ -11,7 +11,7 @@
 			<p:menuitem value="#{message.Header_Relatorio_Geral}" url="#" />
 		</p:breadCrumb>
 	</ui:define>
-	
+
 	<ui:define name="ajuda">
 		<p:commandButton icon="ui-icon-help" immediate="true" global="false"
 			onclick="mostrarModal('/pages/ajuda/telas/estatisticaGeral.jsf')" />
@@ -45,8 +45,8 @@
 				<h:outputText
 					value="* #{message.Relatorio_Selecione_Formato_Consulta}" />
 				<p:separator styleClass="separador-campos" />
-				<p:selectOneRadio required="true" id="selectTipoConsulta"
-					value="#{estatisticaGeralController.consulta.tipoConsulta}">
+				<p:selectOneRadio required="true" id="selectTipoGrafico"
+					value="#{estatisticaGeralController.consulta.tipoGrafico}">
 					<p:ajax event="change" update=":main:panelConsulta" global="false" />
 					<f:selectItems
 						value="#{estatisticaGeralController.listaTiposConsulta}" />
@@ -55,7 +55,7 @@
 
 			<p:outputPanel id="panelConsulta">
 				<p:panelGrid columns="3" styleClass="full-width"
-					rendered="#{estatisticaGeralController.consulta.tipoConsulta eq 2}"
+					rendered="#{estatisticaGeralController.consulta.tipoGrafico eq 2}"
 					columnClasses="width-25, width-1, width-75">
 
 					<h:outputText value="* #{message.Relatorio_Selecione_Exercicio}" />
@@ -94,7 +94,8 @@
 				rendered="#{estatisticaGeralController.possuiResultado}">
 
 				<p:lineChart title="#{estatisticaGeralController.tituloGrafico}"
-					minY="0" value="#{estatisticaGeralController.grafico}" />
+					legendPosition="ne" minY="0" datatipFormat="%s - %2s"
+					value="#{estatisticaGeralController.grafico}" />
 
 			</p:outputPanel>
 			<p:outputPanel

@@ -29,4 +29,17 @@ public class DataUtils {
 		return sdf.format(data);
 	}
 
+	public static Date getProximaData(Date data, int proximoDiaSemana) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(data);
+		cal.set(Calendar.HOUR, 0);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+
+		while (!(cal.get(Calendar.DAY_OF_WEEK) == proximoDiaSemana)) {
+			cal.add(Calendar.DATE, 1);
+		}
+		return cal.getTime();
+	}
+
 }

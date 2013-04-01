@@ -1,5 +1,6 @@
 package br.com.etraining.modelo.dao.interfaces;
 
+import java.util.Date;
 import java.util.List;
 
 import br.com.etraining.exception.ETrainingException;
@@ -21,4 +22,7 @@ public interface IDaoProgramaTreinamento extends
 	public List<EntProgramaTreinamento> pesquisarVersoesPosteriores(
 			Long idAluno, Integer versaoAtual) throws ETrainingException;
 
+	public List<EntProgramaTreinamento> pesquisarLista(Date dataInicial,
+			Date dataFinal, Long idExercicio, Long idAluno)
+			throws ETrainingException;
 }

@@ -1,5 +1,6 @@
 package br.com.etraining.modelo.dao.jpa.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -44,4 +45,63 @@ public class DaoExercicioRealizadoJPA extends DaoCRUDJPA<EntExercicioRealizado>
 				new Object[] { idUsuario, dataInicial, dataFinal });
 	}
 
+	@Override
+	public List<EntExercicioRealizado> pesquisarListaPorDataExercicioAluno(
+			Date dataInicial, Date dataFinal, Long idExercicio, Long idAluno)
+			throws ETrainingException {
+
+		StringBuilder query = new StringBuilder();
+		List<Object> listaParametros = new ArrayList<Object>();
+
+		query.append(" SELECT er FROM ");
+		query.append(EntExercicioRealizado.class.getName() + " AS er ");
+
+		boolean where = false;
+		if (dataInicial != null) {
+			if (!where) {
+				query.append(" WHERE ");
+				where = true;
+			} else
+				query.append(" AND ");
+
+			query.append(" er.diaExercicio.dataRealizacao >= ? ");
+			listaParametros.add(dataInicial);
+		}
+
+		if (dataFinal != null) {
+			if (!where) {
+				query.append(" WHERE ");
+				where = true;
+			} else
+				query.append(" AND ");
+
+			query.append(" er.diaExercicio.dataRealizacao <= ? ");
+			listaParametros.add(dataFinal);
+		}
+
+		if (idExercicio != null) {
+			if (!where) {
+				query.append(" WHERE ");
+				where = true;
+			} else
+				query.append(" AND ");
+
+			query.append(" er.exercicio.id = ? ");
+			listaParametros.add(idExercicio);
+		}
+
+		if (idAluno != null) {
+			if (!where) {
+				query.append(" WHERE ");
+				where = true;
+			} else
+				query.append(" AND ");
+
+			query.append(" er.diaExercicio.aluno.id = ? ");
+			listaParametros.add(idAluno);
+		}
+
+		return getTemplate().pesquisarQuery(EntExercicioRealizado.class,
+				query.toString(), listaParametros.toArray());
+	}
 }

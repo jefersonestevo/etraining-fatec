@@ -1,8 +1,6 @@
 package br.com.etraining.web.managedbeans.relatorios;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -14,9 +12,8 @@ import javax.inject.Named;
 import org.primefaces.model.chart.CartesianChartModel;
 
 import br.com.etraining.client.vo.impl.entidades.ExercicioVO;
-import br.com.etraining.client.vo.impl.entidades.PontoGraficoVO;
-import br.com.etraining.client.vo.impl.listaexercicios.ConsultaListaExerciciosVO;
-import br.com.etraining.client.vo.impl.listaexercicios.RespostaConsultaListaExerciciosVO;
+import br.com.etraining.client.vo.impl.exercicios.ConsultaListaExerciciosVO;
+import br.com.etraining.client.vo.impl.exercicios.RespostaConsultaListaExerciciosVO;
 import br.com.etraining.client.vo.impl.relatorios.geral.ConsultaEstatisticaConstants;
 import br.com.etraining.client.vo.impl.relatorios.geral.ConsultaEstatisticaGeralVO;
 import br.com.etraining.client.vo.impl.relatorios.geral.RespostaConsultaEstatisticaVO;
@@ -32,6 +29,9 @@ public class EstatisticaGeralController extends EtrainingManagedBean {
 
 	@Inject
 	private ITratadorNegocioService service;
+
+	@Inject
+	private GeradorGraficoEstatistico geradorGrafico;
 
 	private ConsultaEstatisticaGeralVO consulta = new ConsultaEstatisticaGeralVO();
 	private RespostaConsultaEstatisticaVO resposta = new RespostaConsultaEstatisticaVO();
@@ -64,42 +64,60 @@ public class EstatisticaGeralController extends EtrainingManagedBean {
 	}
 
 	public void pesquisar() {
-		this.possuiResultado = true;
 
-		ExercicioVO exercicio = new ExercicioVO();
-		exercicio.setTitulo("EXERCICIO 01");
-		resposta.setExercicio(exercicio);
-		resposta.setTipoGrafico(ConsultaEstatisticaConstants.CONSULTA_POR_EXERCICIOS);
-		resposta.setListaPontos(new ArrayList<PontoGraficoVO>());
+		// ExercicioVO exercicio = new ExercicioVO();
+		// exercicio.setTitulo("EXERCICIO 01");
+		// resposta.setExercicio(exercicio);
+		// resposta.setTipoGrafico(ConsultaEstatisticaConstants.CONSULTA_POR_EXERCICIOS);
+		// resposta.setListaPontosReais(new ArrayList<PontoGraficoVO>());
+		//
+		// Calendar cal = Calendar.getInstance();
+		// cal.setTime(new Date());
+		// cal.add(Calendar.DATE, -30);
+		//
+		// Calendar calFinal = Calendar.getInstance();
+		// calFinal.setTime(new Date());
+		// calFinal.add(Calendar.DATE, 60);
+		//
+		// while (cal.before(calFinal)) {
+		// cal.add(Calendar.DATE, 7);
+		// PontoGraficoVO ponto = new PontoGraficoVO(cal.getTime());
+		// ponto.setPontos(new Double(Math.random() * 500).longValue());
+		// resposta.getListaPontosReais().add(ponto);
+		// }
+		//
+		// cal = Calendar.getInstance();
+		// cal.setTime(new Date());
+		// cal.add(Calendar.DATE, -30);
+		//
+		// while (cal.before(calFinal)) {
+		// cal.add(Calendar.DATE, 7);
+		// PontoGraficoVO ponto = new PontoGraficoVO(cal.getTime());
+		// ponto.setPontos(new Long(new Double(Math.random() *
+		// 500).intValue()));
+		// resposta.getListaPontosPropostos().add(ponto);
+		// }
 
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(new Date());
-		cal.add(Calendar.DATE, -30);
-
-		Calendar calFinal = Calendar.getInstance();
-		calFinal.setTime(new Date());
-		calFinal.add(Calendar.DATE, 60);
-
-		while (cal.before(calFinal)) {
-			cal.add(Calendar.DATE, 7);
-			PontoGraficoVO ponto = new PontoGraficoVO();
-			ponto.setData(cal.getTime());
-			ponto.setPontos(new Double(Math.random() * 500).longValue());
-			resposta.getListaPontos().add(ponto);
-		}
 		// TODO - Fazer EJB Funcionar
+		try {
+			resposta = (RespostaConsultaEstatisticaVO) service
+					.executa(consulta);
 
-		if (ConsultaEstatisticaConstants.CONSULTA_POR_PONTOS.equals(resposta
-				.getTipoGrafico())) {
-			setTituloGrafico(getMessage("Grafico_Geral_Por_Pontos"));
-		} else if (ConsultaEstatisticaConstants.CONSULTA_POR_EXERCICIOS
-				.equals(resposta.getTipoGrafico())) {
-			setTituloGrafico(getMessage("Grafico_Geral_Por_Exercicio")
-					+ resposta.getExercicio().getTitulo());
+			if (ConsultaEstatisticaConstants.CONSULTA_POR_PONTOS
+					.equals(resposta.getTipoGrafico())) {
+				setTituloGrafico(getMessage("Grafico_Geral_Por_Pontos"));
+			} else if (ConsultaEstatisticaConstants.CONSULTA_POR_EXERCICIOS
+					.equals(resposta.getTipoGrafico())) {
+				setTituloGrafico(getMessage("Grafico_Geral_Por_Exercicio")
+						+ resposta.getExercicio().getTitulo());
+			}
+
+			this.grafico = geradorGrafico.gerarGraficoCartesiano(resposta);
+			this.possuiResultado = true;
+		} catch (ViewException e) {
+			addExceptionMessage(e);
+			this.possuiResultado = false;
 		}
-
-		this.grafico = GeradorGraficoEstatistico.gerarGraficoCartesiano(
-				resposta.getListaPontos(), resposta.getExercicio());
 	}
 
 	public void preencherListaExercicio() {
@@ -181,6 +199,14 @@ public class EstatisticaGeralController extends EtrainingManagedBean {
 
 	public void setService(ITratadorNegocioService service) {
 		this.service = service;
+	}
+
+	public GeradorGraficoEstatistico getGeradorGrafico() {
+		return geradorGrafico;
+	}
+
+	public void setGeradorGrafico(GeradorGraficoEstatistico geradorGrafico) {
+		this.geradorGrafico = geradorGrafico;
 	}
 
 }

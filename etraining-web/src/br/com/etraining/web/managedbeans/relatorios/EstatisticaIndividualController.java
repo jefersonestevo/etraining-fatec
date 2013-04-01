@@ -1,9 +1,7 @@
 package br.com.etraining.web.managedbeans.relatorios;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 import javax.enterprise.context.SessionScoped;
@@ -16,11 +14,9 @@ import org.primefaces.model.chart.CartesianChartModel;
 import br.com.etraining.client.vo.impl.aluno.ConsultaListaAlunoSimplesVO;
 import br.com.etraining.client.vo.impl.aluno.RespostaConsultaListaAlunoSimplesVO;
 import br.com.etraining.client.vo.impl.entidades.AlunoSimplesVO;
-import br.com.etraining.client.vo.impl.entidades.AlunoVO;
 import br.com.etraining.client.vo.impl.entidades.ExercicioVO;
-import br.com.etraining.client.vo.impl.entidades.PontoGraficoVO;
-import br.com.etraining.client.vo.impl.listaexercicios.ConsultaListaExerciciosVO;
-import br.com.etraining.client.vo.impl.listaexercicios.RespostaConsultaListaExerciciosVO;
+import br.com.etraining.client.vo.impl.exercicios.ConsultaListaExerciciosVO;
+import br.com.etraining.client.vo.impl.exercicios.RespostaConsultaListaExerciciosVO;
 import br.com.etraining.client.vo.impl.relatorios.geral.ConsultaEstatisticaIndividualVO;
 import br.com.etraining.client.vo.impl.relatorios.geral.RespostaConsultaEstatisticaVO;
 import br.com.etraining.web.exceptions.ViewException;
@@ -36,6 +32,9 @@ public class EstatisticaIndividualController extends EtrainingManagedBean {
 
 	@Inject
 	private ITratadorNegocioService service;
+
+	@Inject
+	private GeradorGraficoEstatistico geradorGrafico;
 
 	private ConsultaEstatisticaIndividualVO consulta = new ConsultaEstatisticaIndividualVO();
 	private RespostaConsultaEstatisticaVO resposta = new RespostaConsultaEstatisticaVO();
@@ -71,35 +70,53 @@ public class EstatisticaIndividualController extends EtrainingManagedBean {
 		if (hasError)
 			return;
 
-		this.possuiResultado = true;
+		//
+		// AlunoVO aluno = new AlunoVO();
+		// aluno.setNome("ALUNO TESTE 01");
+		// resposta.setAluno(aluno);
+		// resposta.setListaPontosReais(new ArrayList<PontoGraficoVO>());
+		//
+		// Calendar cal = Calendar.getInstance();
+		// cal.setTime(new Date());
+		// cal.add(Calendar.DATE, -30);
+		//
+		// Calendar calFinal = Calendar.getInstance();
+		// calFinal.setTime(new Date());
+		// calFinal.add(Calendar.DATE, 60);
+		//
+		// while (cal.before(calFinal)) {
+		// cal.add(Calendar.DATE, 7);
+		// PontoGraficoVO ponto = new PontoGraficoVO(cal.getTime());
+		// ponto.setPontos(new Long(new Double(Math.random() *
+		// 500).intValue()));
+		// resposta.getListaPontosReais().add(ponto);
+		// }
+		//
+		// cal = Calendar.getInstance();
+		// cal.setTime(new Date());
+		// cal.add(Calendar.DATE, -30);
+		//
+		// while (cal.before(calFinal)) {
+		// cal.add(Calendar.DATE, 7);
+		// PontoGraficoVO ponto = new PontoGraficoVO(cal.getTime());
+		// ponto.setPontos(new Long(new Double(Math.random() *
+		// 500).intValue()));
+		// resposta.getListaPontosPropostos().add(ponto);
+		// }
 
-		AlunoVO aluno = new AlunoVO();
-		aluno.setNome("ALUNO TESTE 01");
-		resposta.setAluno(aluno);
-		resposta.setListaPontos(new ArrayList<PontoGraficoVO>());
+		try {
+			consulta.setIdAluno(alunoSelecionado.getId());
+			resposta = (RespostaConsultaEstatisticaVO) service
+					.executa(consulta);
+			setTituloGrafico(getMessage("Grafico_Individual_Label")
+					+ resposta.getAluno().getNome());
 
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(new Date());
-		cal.add(Calendar.DATE, -30);
-
-		Calendar calFinal = Calendar.getInstance();
-		calFinal.setTime(new Date());
-		calFinal.add(Calendar.DATE, 60);
-
-		while (cal.before(calFinal)) {
-			cal.add(Calendar.DATE, 7);
-			PontoGraficoVO ponto = new PontoGraficoVO();
-			ponto.setData(cal.getTime());
-			ponto.setPontos(new Long(new Double(Math.random() * 500).intValue()));
-			resposta.getListaPontos().add(ponto);
+			this.grafico = geradorGrafico.gerarGraficoCartesiano(resposta);
+			this.possuiResultado = true;
+		} catch (ViewException e) {
+			addExceptionMessage(e);
+			return;
 		}
-		// TODO - Fazer EJB Funcionar
-
-		setTituloGrafico(getMessage("Grafico_Individual_Label")
-				+ resposta.getAluno().getNome());
-
-		this.grafico = GeradorGraficoEstatistico.gerarGraficoCartesiano(
-				resposta.getListaPontos(), null);
 	}
 
 	public void preencherListaExercicio() {
@@ -218,6 +235,14 @@ public class EstatisticaIndividualController extends EtrainingManagedBean {
 
 	public void setService(ITratadorNegocioService service) {
 		this.service = service;
+	}
+
+	public GeradorGraficoEstatistico getGeradorGrafico() {
+		return geradorGrafico;
+	}
+
+	public void setGeradorGrafico(GeradorGraficoEstatistico geradorGrafico) {
+		this.geradorGrafico = geradorGrafico;
 	}
 
 }

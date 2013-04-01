@@ -1,4 +1,4 @@
-package br.com.etraining.client.vo.impl.listaexercicios;
+package br.com.etraining.client.vo.impl.exercicios;
 
 import java.util.Date;
 

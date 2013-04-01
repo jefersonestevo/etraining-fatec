@@ -2,7 +2,9 @@ package br.com.etraining.web.managedbeans.programatreinamento;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.enterprise.context.SessionScoped;
 import javax.faces.model.SelectItem;
@@ -13,11 +15,16 @@ import org.apache.commons.collections.CollectionUtils;
 
 import br.com.etraining.client.vo.impl.aluno.ConsultaListaAlunoSimplesVO;
 import br.com.etraining.client.vo.impl.aluno.RespostaConsultaListaAlunoSimplesVO;
+import br.com.etraining.client.vo.impl.diasemana.ConsultaDiasSemanaVO;
+import br.com.etraining.client.vo.impl.diasemana.RespostaConsultaDiasSemanaVO;
 import br.com.etraining.client.vo.impl.entidades.AlunoSimplesVO;
+import br.com.etraining.client.vo.impl.entidades.DiaSemanaVO;
 import br.com.etraining.client.vo.impl.entidades.ExercicioPropostoVO;
 import br.com.etraining.client.vo.impl.entidades.ExercicioVO;
-import br.com.etraining.client.vo.impl.listaexercicios.ConsultaListaExerciciosVO;
-import br.com.etraining.client.vo.impl.listaexercicios.RespostaConsultaListaExerciciosVO;
+import br.com.etraining.client.vo.impl.exercicios.ConsultaExercicioVO;
+import br.com.etraining.client.vo.impl.exercicios.ConsultaListaExerciciosVO;
+import br.com.etraining.client.vo.impl.exercicios.RespostaConsultaExercicioVO;
+import br.com.etraining.client.vo.impl.exercicios.RespostaConsultaListaExerciciosVO;
 import br.com.etraining.client.vo.impl.programatreinamento.ConsultaProgramaTreinamentoAprovacaoVO;
 import br.com.etraining.client.vo.impl.programatreinamento.ConsultaProgramaTreinamentoVO;
 import br.com.etraining.client.vo.impl.programatreinamento.RespostaConsultaProgramaTreinamentoVO;
@@ -44,15 +51,15 @@ public class ProgramaTreinamentoController extends EtrainingManagedBean {
 	private AlunoSimplesVO alunoSelecionado = new AlunoSimplesVO();
 
 	private List<SelectItem> listaExercicios = new ArrayList<SelectItem>();
-	private ExercicioPropostoVO exercicioProposto = new ExercicioPropostoVO();
-	private List<Integer> listaDiasSemana = new ArrayList<Integer>();
+	private ExercicioVO exercicio = new ExercicioVO();
+	private Integer quantidadeSugerida;
+	private List<String> listaDiasSemana = new ArrayList<String>();
 	private boolean editavel = true;
 	private boolean aprovacao = false;
 
 	public String irParaTelaPesquisa() {
 		alunoSelecionado = new AlunoSimplesVO();
 		preencherListaAluno();
-
 		return "/pages/programaTreinamento/programaTreinamentoPesquisa.xhtml";
 	}
 
@@ -105,6 +112,7 @@ public class ProgramaTreinamentoController extends EtrainingManagedBean {
 						CodigoExcecao.PROGRAMA_TREINAMENTO_INEXISTENTE);
 			}
 
+			this.exercicio = new ExercicioVO();
 			Collections.sort(resposta.getProgramaTreinamento()
 					.getListaExercicioProposto(),
 					new ComparadorExercicioPropostoPorDiaSemana());
@@ -133,24 +141,88 @@ public class ProgramaTreinamentoController extends EtrainingManagedBean {
 		return "/pages/programaTreinamento/programaTreinamentoEdicao.xhtml";
 	}
 
+	public String aprovar() {
+
+		// TODO - Fazer EJB Funcionar
+		return "/pages/programaTreinamento/programaTreinamentoEdicao.xhtml";
+	}
+
 	public void adicionarExercicio() {
 		boolean hasError = false;
-		if (getExercicioProposto() == null
-				|| getExercicioProposto().getId() == null) {
-			addErrorMessage("Error_Selecao_Exercicio_Adicionar_Exercicio_Proposto");
+		if (getExercicio() == null || getExercicio().getId() == null
+				|| new Long(0l).equals(getExercicio().getId())) {
+			addErrorMessage(getMessage("Error_Selecao_Exercicio_Adicionar_Exercicio_Proposto"));
 			hasError = true;
 		}
 		if (CollectionUtils.isEmpty(getListaDiasSemana())) {
-			addErrorMessage("Error_Selecao_Dias_Adicionar_Exercicio_Proposto");
+			addErrorMessage(getMessage("Error_Selecao_Dias_Adicionar_Exercicio_Proposto"));
+			hasError = true;
+		}
+		if (getQuantidadeSugerida() == null || getQuantidadeSugerida() < 1) {
+			addErrorMessage(getMessage("Error_Selecao_Quantidade_Sugerida_Exercicio_Proposto"));
 			hasError = true;
 		}
 		if (hasError)
 			return;
 
+		try {
+			ConsultaExercicioVO cons = new ConsultaExercicioVO();
+			cons.setId(getExercicio().getId());
+			RespostaConsultaExercicioVO resp = (RespostaConsultaExercicioVO) service
+					.executa(cons);
+
+			RespostaConsultaDiasSemanaVO respDS = (RespostaConsultaDiasSemanaVO) service
+					.executa(new ConsultaDiasSemanaVO());
+			Map<Long, DiaSemanaVO> mapDiasSemana = new HashMap<Long, DiaSemanaVO>();
+			for (DiaSemanaVO dia : respDS.getListaDiasSemana()) {
+				mapDiasSemana.put(dia.getId(), dia);
+			}
+
+			for (String dia : getListaDiasSemana()) {
+				ExercicioPropostoVO exerc = new ExercicioPropostoVO();
+				DiaSemanaVO diaSemana = mapDiasSemana.get(Long.parseLong(dia));
+
+				exerc.setExercicio(resp.getExercicio());
+				exerc.setDiaSemana(diaSemana);
+				exerc.setQuantidadeExercicioSugerida(getQuantidadeSugerida());
+
+				if (exerc.getExercicio() == null
+						|| exerc.getDiaSemana() == null
+						|| resposta.getProgramaTreinamento()
+								.getListaExercicioProposto().contains(exerc)) {
+					continue;
+				}
+
+				resposta.getProgramaTreinamento().getListaExercicioProposto()
+						.add(exerc);
+			}
+
+			this.setExercicio(new ExercicioVO());
+			this.setListaDiasSemana(new ArrayList<String>());
+			this.setQuantidadeSugerida(null);
+
+			Collections.sort(resposta.getProgramaTreinamento()
+					.getListaExercicioProposto(),
+					new ComparadorExercicioPropostoPorDiaSemana());
+		} catch (ViewException e) {
+			addExceptionMessage(e);
+			return;
+		}
 	}
 
 	public void removerExercicio() {
+		Long idExercicio = getLongParameter("idExercicio");
+		Long idDiaSemana = getLongParameter("idDiaSemana");
 
+		ExercicioPropostoVO exercicioRemocao = new ExercicioPropostoVO();
+		exercicioRemocao.setExercicio(new ExercicioVO(idExercicio));
+		exercicioRemocao.setDiaSemana(new DiaSemanaVO(idDiaSemana));
+		resposta.getProgramaTreinamento().getListaExercicioProposto()
+				.remove(exercicioRemocao);
+
+		Collections.sort(resposta.getProgramaTreinamento()
+				.getListaExercicioProposto(),
+				new ComparadorExercicioPropostoPorDiaSemana());
 	}
 
 	private void preencherListaAluno() {
@@ -227,19 +299,11 @@ public class ProgramaTreinamentoController extends EtrainingManagedBean {
 		this.resposta = resposta;
 	}
 
-	public ExercicioPropostoVO getExercicioProposto() {
-		return exercicioProposto;
-	}
-
-	public void setExercicioProposto(ExercicioPropostoVO exercicioProposto) {
-		this.exercicioProposto = exercicioProposto;
-	}
-
-	public List<Integer> getListaDiasSemana() {
+	public List<String> getListaDiasSemana() {
 		return listaDiasSemana;
 	}
 
-	public void setListaDiasSemana(List<Integer> listaDiasSemana) {
+	public void setListaDiasSemana(List<String> listaDiasSemana) {
 		this.listaDiasSemana = listaDiasSemana;
 	}
 
@@ -265,6 +329,22 @@ public class ProgramaTreinamentoController extends EtrainingManagedBean {
 
 	public void setAprovacao(boolean aprovacao) {
 		this.aprovacao = aprovacao;
+	}
+
+	public ExercicioVO getExercicio() {
+		return exercicio;
+	}
+
+	public void setExercicio(ExercicioVO exercicio) {
+		this.exercicio = exercicio;
+	}
+
+	public Integer getQuantidadeSugerida() {
+		return quantidadeSugerida;
+	}
+
+	public void setQuantidadeSugerida(Integer quantidadeSugerida) {
+		this.quantidadeSugerida = quantidadeSugerida;
 	}
 
 }

@@ -24,4 +24,14 @@ public enum DiaSemana {
 	public String getChave() {
 		return chave;
 	}
+
+	public static DiaSemana getEnumFor(Integer dia) {
+		if (dia != null) {
+			for (DiaSemana d : DiaSemana.values()) {
+				if (d.ordinal() == dia)
+					return d;
+			}
+		}
+		return null;
+	}
 }

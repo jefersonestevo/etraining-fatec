@@ -8,7 +8,7 @@ public class ConsultaEstatisticaIndividualVO implements IVO {
 
 	private static final long serialVersionUID = -688632742490483029L;
 
-	private Long idUsuario;
+	private Long idAluno;
 	private Date dataInicio;
 	private Date dataFim;
 
@@ -28,12 +28,12 @@ public class ConsultaEstatisticaIndividualVO implements IVO {
 		this.dataFim = dataFim;
 	}
 
-	public Long getIdUsuario() {
-		return idUsuario;
+	public Long getIdAluno() {
+		return idAluno;
 	}
 
-	public void setIdUsuario(Long idUsuario) {
-		this.idUsuario = idUsuario;
+	public void setIdAluno(Long idAluno) {
+		this.idAluno = idAluno;
 	}
 
 }

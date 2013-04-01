@@ -57,6 +57,10 @@ public class EntProgramaTreinamento extends BeanJPA {
 	@Temporal(TemporalType.DATE)
 	private Date dataVencimento;
 
+	@Column(name = "data_cancelamento")
+	@Temporal(TemporalType.DATE)
+	private Date dataCancelamento;
+
 	@Column(nullable = false)
 	private Boolean cancelado = false;
 
@@ -115,6 +119,14 @@ public class EntProgramaTreinamento extends BeanJPA {
 
 	public void setCancelado(Boolean cancelado) {
 		this.cancelado = cancelado;
+	}
+
+	public Date getDataCancelamento() {
+		return dataCancelamento;
+	}
+
+	public void setDataCancelamento(Date dataCancelamento) {
+		this.dataCancelamento = dataCancelamento;
 	}
 
 }

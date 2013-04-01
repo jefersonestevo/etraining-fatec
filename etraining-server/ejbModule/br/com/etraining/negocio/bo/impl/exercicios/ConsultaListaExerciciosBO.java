@@ -7,8 +7,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import br.com.etraining.client.vo.impl.entidades.ExercicioVO;
-import br.com.etraining.client.vo.impl.listaexercicios.ConsultaListaExerciciosVO;
-import br.com.etraining.client.vo.impl.listaexercicios.RespostaConsultaListaExerciciosVO;
+import br.com.etraining.client.vo.impl.exercicios.ConsultaListaExerciciosVO;
+import br.com.etraining.client.vo.impl.exercicios.RespostaConsultaListaExerciciosVO;
 import br.com.etraining.exception.ETrainingException;
 import br.com.etraining.modelo.dao.interfaces.IDaoExercicio;
 import br.com.etraining.modelo.entidades.EntExercicio;

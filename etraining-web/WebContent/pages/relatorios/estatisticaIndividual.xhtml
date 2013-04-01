@@ -11,7 +11,7 @@
 			<p:menuitem value="#{message.Header_Relatorio_Individual}" url="#" />
 		</p:breadCrumb>
 	</ui:define>
-	
+
 	<ui:define name="ajuda">
 		<p:commandButton icon="ui-icon-help" immediate="true" global="false"
 			onclick="mostrarModal('/pages/ajuda/telas/estatisticaIndividual.jsf')" />
@@ -92,7 +92,8 @@
 			<p:outputPanel
 				rendered="#{estatisticaIndividualController.possuiResultado}">
 
-				<p:lineChart id="charEstatisticaIndividual" minY="0"
+				<p:lineChart id="charEstatisticaIndividual" legendPosition="ne"
+					minY="0" datatipFormat="%s - %2s"
 					title="#{estatisticaIndividualController.tituloGrafico}"
 					value="#{estatisticaIndividualController.grafico}" />
 

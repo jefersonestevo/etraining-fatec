@@ -9,7 +9,7 @@ public class ConsultaEstatisticaGeralVO implements IVO {
 	private static final long serialVersionUID = -688632742490483029L;
 
 	private Long idExercicio;
-	private Integer tipoConsulta = ConsultaEstatisticaConstants.CONSULTA_POR_PONTOS;
+	private Integer tipoGrafico = ConsultaEstatisticaConstants.CONSULTA_POR_PONTOS;
 	private Date dataInicio;
 	private Date dataFim;
 
@@ -21,12 +21,12 @@ public class ConsultaEstatisticaGeralVO implements IVO {
 		this.idExercicio = idExercicio;
 	}
 
-	public Integer getTipoConsulta() {
-		return tipoConsulta;
+	public Integer getTipoGrafico() {
+		return tipoGrafico;
 	}
 
-	public void setTipoConsulta(Integer tipoConsulta) {
-		this.tipoConsulta = tipoConsulta;
+	public void setTipoGrafico(Integer tipoGrafico) {
+		this.tipoGrafico = tipoGrafico;
 	}
 
 	public Date getDataInicio() {

@@ -12,4 +12,7 @@ public interface IDaoExercicioRealizado extends IDaoCRUD<EntExercicioRealizado> 
 	public List<EntExercicioRealizado> pesquisarListaPorUsuarioData(
 			Long idUsuario, Date data) throws ETrainingException;
 
+	public List<EntExercicioRealizado> pesquisarListaPorDataExercicioAluno(
+			Date dataInicial, Date dataFinal, Long idExercicio, Long idAluno)
+			throws ETrainingException;
 }

@@ -131,4 +131,68 @@ public class DaoProgramaTreinamentoJPA extends
 		return null;
 	}
 
+	@Override
+	public List<EntProgramaTreinamento> pesquisarLista(Date dataInicial,
+			Date dataFinal, Long idExercicio, Long idAluno)
+			throws ETrainingException {
+		StringBuilder queryFrom = new StringBuilder();
+		StringBuilder queryJoin = new StringBuilder();
+		StringBuilder queryWhere = new StringBuilder();
+		List<Object> listaParametros = new ArrayList<Object>();
+
+		queryFrom.append(" SELECT DISTINCT  p FROM ");
+		queryFrom.append(EntProgramaTreinamento.class.getName() + " AS p ");
+
+		boolean where = false;
+		if (dataInicial != null) {
+			if (!where) {
+				queryWhere.append(" WHERE ");
+				where = true;
+			} else
+				queryWhere.append(" AND ");
+
+			queryWhere.append(" p.dataVencimento >= ? ");
+			listaParametros.add(dataInicial);
+		}
+
+		if (dataFinal != null) {
+			if (!where) {
+				queryWhere.append(" WHERE ");
+				where = true;
+			} else
+				queryWhere.append(" AND ");
+
+			queryWhere.append(" p.dataVencimento <= ? ");
+			listaParametros.add(dataFinal);
+		}
+
+		if (idExercicio != null) {
+			if (!where) {
+				queryWhere.append(" WHERE ");
+				where = true;
+			} else
+				queryWhere.append(" AND ");
+
+			queryJoin.append(" JOIN p.listaExercicioProposto as exercProp ");
+			queryWhere.append(" exercProp.exercicio.id = ? ");
+			listaParametros.add(idExercicio);
+		}
+
+		if (idAluno != null) {
+			if (!where) {
+				queryWhere.append(" WHERE ");
+				where = true;
+			} else
+				queryWhere.append(" AND ");
+
+			queryWhere.append(" p.aluno.id = ? ");
+			listaParametros.add(idAluno);
+		}
+
+		String queryFinal = queryFrom.toString() + queryJoin.toString()
+				+ queryWhere.toString();
+		return getTemplate().pesquisarQuery(EntProgramaTreinamento.class,
+				queryFinal, listaParametros.toArray());
+
+	}
 }

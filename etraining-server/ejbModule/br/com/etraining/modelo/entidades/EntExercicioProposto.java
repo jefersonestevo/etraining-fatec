@@ -1,5 +1,6 @@
 package br.com.etraining.modelo.entidades;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -44,6 +45,9 @@ public class EntExercicioProposto extends BeanJPA {
 	@JoinColumn(name = "id_progtreinamento", nullable = false)
 	private EntProgramaTreinamento programaTreinamento;
 
+	@Column(name = "qntd_exerc_sugerida", nullable = false)
+	private Integer quantidadeExercicioSugerida = 1;
+
 	public Long getId() {
 		return id;
 	}
@@ -75,6 +79,15 @@ public class EntExercicioProposto extends BeanJPA {
 	public void setProgramaTreinamento(
 			EntProgramaTreinamento programaTreinamento) {
 		this.programaTreinamento = programaTreinamento;
+	}
+
+	public Integer getQuantidadeExercicioSugerida() {
+		return quantidadeExercicioSugerida;
+	}
+
+	public void setQuantidadeExercicioSugerida(
+			Integer quantidadeExercicioSugerida) {
+		this.quantidadeExercicioSugerida = quantidadeExercicioSugerida;
 	}
 
 }

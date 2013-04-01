@@ -12,6 +12,14 @@ public class ExercicioVO implements IVO {
 	private Long idCategoriaExercicio;
 	private AtividadeVO atividade;
 
+	public ExercicioVO() {
+	}
+
+	public ExercicioVO(Long id) {
+		super();
+		this.id = id;
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -44,20 +52,19 @@ public class ExercicioVO implements IVO {
 		this.idCategoriaExercicio = idCategoriaExercicio;
 	}
 
+	public AtividadeVO getAtividade() {
+		return atividade;
+	}
+
+	public void setAtividade(AtividadeVO atividade) {
+		this.atividade = atividade;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime
-				* result
-				+ ((idCategoriaExercicio == null) ? 0 : idCategoriaExercicio
-						.hashCode());
-		result = prime
-				* result
-				+ ((pontosPorAtividade == null) ? 0 : pontosPorAtividade
-						.hashCode());
-		result = prime * result + ((titulo == null) ? 0 : titulo.hashCode());
 		return result;
 	}
 
@@ -75,30 +82,7 @@ public class ExercicioVO implements IVO {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (idCategoriaExercicio == null) {
-			if (other.idCategoriaExercicio != null)
-				return false;
-		} else if (!idCategoriaExercicio.equals(other.idCategoriaExercicio))
-			return false;
-		if (pontosPorAtividade == null) {
-			if (other.pontosPorAtividade != null)
-				return false;
-		} else if (!pontosPorAtividade.equals(other.pontosPorAtividade))
-			return false;
-		if (titulo == null) {
-			if (other.titulo != null)
-				return false;
-		} else if (!titulo.equals(other.titulo))
-			return false;
 		return true;
-	}
-
-	public AtividadeVO getAtividade() {
-		return atividade;
-	}
-
-	public void setAtividade(AtividadeVO atividade) {
-		this.atividade = atividade;
 	}
 
 }

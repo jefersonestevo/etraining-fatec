@@ -3,7 +3,9 @@ package br.com.etraining.negocio.gerador.fake;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -96,33 +98,61 @@ public class GeradorProgramaTreinamentoRandomico implements
 				int mediaPontosExercicios = calcularMediaPontuacaoExercicio(listaExercicios);
 
 				for (EntDiaSemana diaSemana : listaDiasSemana) {
+					Set<Long> mapExercicioAdicionado = new HashSet<Long>();
+
 					int pontosGastosDia = 0;
 					// Deve utilizar pelo menos 90% dos pontos do dia
 					int pontosMinimosAceitaveis = new Double(
 							qntdPontosPorDia * 0.9).intValue();
 					int pontosMaximosAceitaveis = qntdPontosPorDia;
 
-					while (pontosGastosDia < pontosMinimosAceitaveis) {
+					// Variável par controlar a tentativa de inserção do
+					// exercicio por dia. Caso seja realizado 5 tentativas de
+					// adicionar o mesmo exercício no dia, para o while para
+					// evitar um possível loop infinito
+					int tentativasInsercaoExercicio = 0;
+					while ((pontosGastosDia < pontosMinimosAceitaveis)
+							&& (tentativasInsercaoExercicio < 5)) {
 						if ((pontosGastosDia + mediaPontosExercicios) > pontosMaximosAceitaveis) {
 							break;
+						}
+
+						int indexLista = new Double(Math.random()
+								* listaExercicios.size()).intValue();
+						EntExercicio exerc = listaExercicios.get(indexLista);
+
+						// Não permite que seja adicionar o mesmo exercício duas
+						// vezes no mesmo dia
+						if (mapExercicioAdicionado.contains(exerc.getId())) {
+							tentativasInsercaoExercicio++;
+							continue;
+						}
+						mapExercicioAdicionado.add(exerc.getId());
+
+						int qntdExercSugerida = 1;
+						// Se os pontos do exercicio forem menores que 33% da
+						// media dos exercicios, cria uma quantidade sugerida de
+						// 1 a 3 para o exercício.
+						if (exerc.getPontosPorAtividade() < (mediaPontosExercicios / 3)) {
+							qntdExercSugerida = new Double(Math.random() * 3)
+									.intValue() + 1;
+						}
+
+						int pontosSugeridos = exerc.getPontosPorAtividade()
+								* qntdExercSugerida;
+						int quantidadePontosAtualizada = pontosGastosDia
+								+ pontosSugeridos;
+						if (quantidadePontosAtualizada > pontosMaximosAceitaveis) {
+							continue;
 						}
 
 						EntExercicioProposto exercicioProposto = new EntExercicioProposto();
 						exercicioProposto.setDiaSemana(diaSemana);
 						exercicioProposto
 								.setProgramaTreinamento(progTreinamento);
-
-						int indexLista = new Double(Math.random()
-								* listaExercicios.size()).intValue();
-						EntExercicio exerc = listaExercicios.get(indexLista);
-
-						int quantidadePontosAtualizada = pontosGastosDia
-								+ exerc.getPontosPorAtividade();
-						if (quantidadePontosAtualizada > pontosMaximosAceitaveis) {
-							continue;
-						}
-
 						exercicioProposto.setExercicio(exerc);
+						exercicioProposto
+								.setQuantidadeExercicioSugerida(qntdExercSugerida);
 						pontosGastosDia = quantidadePontosAtualizada;
 
 						progTreinamento.getListaExercicioProposto().add(

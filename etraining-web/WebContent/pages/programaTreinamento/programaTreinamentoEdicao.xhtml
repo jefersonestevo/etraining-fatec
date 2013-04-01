@@ -49,38 +49,61 @@
 
 		<p:separator styleClass="invisivel" />
 
-		<p:fieldset collapsed="true" toggleable="true"
-			rendered="#{programaTreinamentoController.editavel}"
-			legend="#{message.Header_Programa_Treinamento_Adicionar_Exercicio}">
-			<p:panelGrid columns="3" styleClass="panel-grid full-width"
-				columnClasses="width-75, width-25">
+		<p:outputPanel rendered="#{programaTreinamentoController.editavel}">
+			<p:fieldset collapsed="true" toggleable="true"
+				id="panelAdicionarExercicio"
+				legend="#{message.Header_Programa_Treinamento_Adicionar_Exercicio}">
 				<p:panelGrid columns="3" styleClass="panel-grid full-width"
-					columnClasses="width-25, width-1, width-75">
+					columnClasses="width-75, width-25">
+					<p:outputPanel>
+						<p:panelGrid columns="3" styleClass="panel-grid full-width"
+							columnClasses="width-25, width-1, width-75">
 
-					<h:outputText
-						value="#{message.Programa_Treinamento_Selecione_Exercicio}" />
-					<p:separator styleClass="separador-campos" />
-					<p:selectOneMenu id="selectExercicio"
-						value="#{programaTreinamentoController.exercicioProposto.id}">
-						<f:selectItems
-							value="#{programaTreinamentoController.listaExercicios}" />
-					</p:selectOneMenu>
+							<h:outputText
+								value="#{message.Programa_Treinamento_Selecione_Exercicio}" />
+							<p:separator styleClass="separador-campos" />
+							<p:selectOneMenu id="selectExercicio"
+								value="#{programaTreinamentoController.exercicio.id}">
+								<p:ajax event="change" update="panelQuantidadeSugerida"
+									immediate="true" global="false" />
+								<f:selectItems
+									value="#{programaTreinamentoController.listaExercicios}" />
+							</p:selectOneMenu>
+						</p:panelGrid>
 
-					<h:outputText
-						value="#{message.Programa_Treinamento_Selecione_Dias_Semana}" />
-					<p:separator styleClass="separador-campos" />
-					<p:selectManyButton
-						value="#{programaTreinamentoController.listaDiasSemana}">
-						<f:selectItems value="#{viewDataUtils.listaDiasSemana}" />
-					</p:selectManyButton>
+						<p:outputPanel id="panelQuantidadeSugerida">
+							<p:panelGrid columns="3" styleClass="panel-grid full-width"
+								rendered="#{programaTreinamentoController.exercicio.id ne null and programaTreinamentoController.exercicio.id ne 0}"
+								columnClasses="width-25, width-1, width-75">
+
+								<h:outputText
+									value="#{message.Programa_Treinamento_Quantidade_Sugerida}" />
+								<p:separator styleClass="separador-campos" />
+								<p:inputMask mask="99"
+									value="#{programaTreinamentoController.quantidadeSugerida}" />
+
+							</p:panelGrid>
+						</p:outputPanel>
+
+						<p:panelGrid columns="3" styleClass="panel-grid full-width"
+							columnClasses="width-25, width-1, width-75">
+
+							<h:outputText
+								value="#{message.Programa_Treinamento_Selecione_Dias_Semana}" />
+							<p:separator styleClass="separador-campos" />
+							<p:selectManyButton
+								value="#{programaTreinamentoController.listaDiasSemana}">
+								<f:selectItems value="#{viewDataUtils.listaDiasSemana}" />
+							</p:selectManyButton>
+						</p:panelGrid>
+					</p:outputPanel>
+					<p:commandButton
+						actionListener="#{programaTreinamentoController.adicionarExercicio}"
+						value="#{message.Adicionar}" global="false"
+						update=":main:panelExerciciosPropostos, :main:panelAdicionarExercicio" />
 				</p:panelGrid>
-
-				<p:commandButton
-					actionListener="#{programaTreinamentoController.adicionarExercicio}"
-					value="#{message.Adicionar}" global="false"
-					update=":main:panelExerciciosPropostos" />
-			</p:panelGrid>
-		</p:fieldset>
+			</p:fieldset>
+		</p:outputPanel>
 
 		<p:separator styleClass="invisivel" />
 
@@ -97,18 +120,24 @@
 					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
 
 					<p:column headerText="#{message.Programa_Treinamento_Dia_Semana}"
-						styleClass="width-25">
+						styleClass="width-25" sortBy="#{exerc.diaSemana.nome}">
 						<h:outputText value="#{exerc.diaSemana.nome}" />
 					</p:column>
 
 					<p:column headerText="#{message.Programa_Treinamento_Exercicio}"
-						styleClass="width-25">
+						styleClass="width-25" sortBy="#{exerc.exercicio.titulo}">
 						<h:outputText value="#{exerc.exercicio.titulo}" />
 					</p:column>
 
 					<p:column headerText="#{message.Programa_Treinamento_Atividade}"
-						styleClass="width-25">
+						styleClass="width-25" sortBy="#{exerc.exercicio.atividade.titulo}">
 						<h:outputText value="#{exerc.exercicio.atividade.titulo}" />
+					</p:column>
+
+					<p:column
+						headerText="#{message.Programa_Treinamento_Quantidade_Sugerida}"
+						styleClass="width-25">
+						<h:outputText value="#{exerc.quantidadeExercicioSugerida}" />
 					</p:column>
 
 					<p:column headerText="#{message.Remover}"
@@ -116,6 +145,8 @@
 						<p:commandButton global="false" value="#{message.Remover}"
 							actionListener="#{programaTreinamentoController.removerExercicio}"
 							update=":main:panelExerciciosPropostos">
+							<f:param name="idExercicio" value="#{exerc.exercicio.id}" />
+							<f:param name="idDiaSemana" value="#{exerc.diaSemana.id}" />
 						</p:commandButton>
 					</p:column>
 

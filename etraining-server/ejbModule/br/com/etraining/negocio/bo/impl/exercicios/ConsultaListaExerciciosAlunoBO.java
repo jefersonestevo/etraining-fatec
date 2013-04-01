@@ -9,8 +9,8 @@ import javax.inject.Named;
 import org.apache.commons.collections.CollectionUtils;
 
 import br.com.etraining.client.vo.impl.entidades.ExercicioVO;
-import br.com.etraining.client.vo.impl.listaexercicios.ConsultaListaExerciciosAlunoVO;
-import br.com.etraining.client.vo.impl.listaexercicios.RespostaConsultaListaExerciciosAlunoVO;
+import br.com.etraining.client.vo.impl.exercicios.ConsultaListaExerciciosAlunoVO;
+import br.com.etraining.client.vo.impl.exercicios.RespostaConsultaListaExerciciosAlunoVO;
 import br.com.etraining.client.vo.transporte.CodigoExcecao;
 import br.com.etraining.exception.ETrainingBusinessException;
 import br.com.etraining.exception.ETrainingException;

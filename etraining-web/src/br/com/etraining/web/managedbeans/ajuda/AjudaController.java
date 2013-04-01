@@ -1,5 +1,6 @@
 package br.com.etraining.web.managedbeans.ajuda;
 
+import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
@@ -16,7 +17,8 @@ public class AjudaController extends EtrainingManagedBean {
 
 	private TreeNode mapaSite;
 
-	private void preencherMapaSite() {
+	@PostConstruct
+	public void preencherMapaSite() {
 		mapaSite = new DefaultTreeNode(getMessage("Sistema_Nome"), null);
 
 		// HOME
@@ -67,9 +69,6 @@ public class AjudaController extends EtrainingManagedBean {
 	}
 
 	public TreeNode getMapaSite() {
-		if (mapaSite == null) {
-			preencherMapaSite();
-		}
 		return mapaSite;
 	}
 

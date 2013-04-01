@@ -15,7 +15,8 @@ public class RespostaConsultaEstatisticaVO implements IVO {
 	private Integer tipoGrafico;
 	private ExercicioVO exercicio;
 	private AlunoVO aluno;
-	private List<PontoGraficoVO> listaPontos = new ArrayList<PontoGraficoVO>();
+	private List<PontoGraficoVO> listaPontosReais = new ArrayList<PontoGraficoVO>();
+	private List<PontoGraficoVO> listaPontosPropostos = new ArrayList<PontoGraficoVO>();
 
 	public Integer getTipoGrafico() {
 		return tipoGrafico;
@@ -33,12 +34,12 @@ public class RespostaConsultaEstatisticaVO implements IVO {
 		this.exercicio = exercicio;
 	}
 
-	public List<PontoGraficoVO> getListaPontos() {
-		return listaPontos;
+	public List<PontoGraficoVO> getListaPontosReais() {
+		return listaPontosReais;
 	}
 
-	public void setListaPontos(List<PontoGraficoVO> listaPontos) {
-		this.listaPontos = listaPontos;
+	public void setListaPontosReais(List<PontoGraficoVO> listaPontosReais) {
+		this.listaPontosReais = listaPontosReais;
 	}
 
 	public AlunoVO getAluno() {
@@ -47,6 +48,15 @@ public class RespostaConsultaEstatisticaVO implements IVO {
 
 	public void setAluno(AlunoVO aluno) {
 		this.aluno = aluno;
+	}
+
+	public List<PontoGraficoVO> getListaPontosPropostos() {
+		return listaPontosPropostos;
+	}
+
+	public void setListaPontosPropostos(
+			List<PontoGraficoVO> listaPontosPropostos) {
+		this.listaPontosPropostos = listaPontosPropostos;
 	}
 
 }

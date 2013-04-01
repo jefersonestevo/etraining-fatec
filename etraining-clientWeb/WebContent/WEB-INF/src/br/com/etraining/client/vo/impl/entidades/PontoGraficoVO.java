@@ -9,7 +9,12 @@ public class PontoGraficoVO implements IVO {
 	private static final long serialVersionUID = -1126992093868671138L;
 
 	private Date data;
-	private Long pontos;
+	private Long pontos = 0l;
+
+	public PontoGraficoVO(Date data) {
+		super();
+		this.data = data;
+	}
 
 	public Long getPontos() {
 		return pontos;

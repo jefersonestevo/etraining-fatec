@@ -59,6 +59,7 @@ public class ConversorProgramaTreinamento implements
 		for (EntExercicioProposto exerc : entidade.getListaExercicioProposto()) {
 			vo.getListaExercicioProposto().add(
 					conversorExercicioProposto.toVO(exerc));
+			exerc.setProgramaTreinamento(entidade);
 		}
 
 		return vo;
