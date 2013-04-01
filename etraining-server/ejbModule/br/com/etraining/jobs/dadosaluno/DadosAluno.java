@@ -8,11 +8,11 @@ import java.util.Date;
 
 import org.apache.commons.lang.StringUtils;
 
+import br.com.etraining.client.dom.Sexo;
 import br.com.etraining.modelo.entidades.EntAluno;
 import br.com.etraining.modelo.entidades.EntDadosCorporais;
 import br.com.etraining.modelo.entidades.EntDiaSemana;
 import br.com.etraining.modelo.entidades.EntMatricula;
-import br.com.etraining.modelo.entidades.dom.Sexo;
 
 public class DadosAluno implements Serializable {
 

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import br.com.etraining.client.dom.StatusProgramaTreinamento;
 import br.com.etraining.client.vo.interfaces.IVO;
 
 public class ProgramaTreinamentoVO implements IVO {
@@ -12,9 +13,9 @@ public class ProgramaTreinamentoVO implements IVO {
 
 	private Long id;
 	private Integer versao;
-	private Boolean versaoAprovada;
+	private StatusProgramaTreinamento status;
 	private Date dataVencimento;
-	private Boolean cancelado;
+	private Date dataCancelamento;
 	private AlunoVO aluno;
 	private List<ExercicioPropostoVO> listaExercicioProposto = new ArrayList<ExercicioPropostoVO>();
 
@@ -34,28 +35,12 @@ public class ProgramaTreinamentoVO implements IVO {
 		this.versao = versao;
 	}
 
-	public Boolean getVersaoAprovada() {
-		return versaoAprovada;
-	}
-
-	public void setVersaoAprovada(Boolean versaoAprovada) {
-		this.versaoAprovada = versaoAprovada;
-	}
-
 	public Date getDataVencimento() {
 		return dataVencimento;
 	}
 
 	public void setDataVencimento(Date dataVencimento) {
 		this.dataVencimento = dataVencimento;
-	}
-
-	public Boolean getCancelado() {
-		return cancelado;
-	}
-
-	public void setCancelado(Boolean cancelado) {
-		this.cancelado = cancelado;
 	}
 
 	public AlunoVO getAluno() {
@@ -73,6 +58,22 @@ public class ProgramaTreinamentoVO implements IVO {
 	public void setListaExercicioProposto(
 			List<ExercicioPropostoVO> listaExercicioProposto) {
 		this.listaExercicioProposto = listaExercicioProposto;
+	}
+
+	public StatusProgramaTreinamento getStatus() {
+		return status;
+	}
+
+	public void setStatus(StatusProgramaTreinamento status) {
+		this.status = status;
+	}
+
+	public Date getDataCancelamento() {
+		return dataCancelamento;
+	}
+
+	public void setDataCancelamento(Date dataCancelamento) {
+		this.dataCancelamento = dataCancelamento;
 	}
 
 }

@@ -5,7 +5,6 @@ import javax.inject.Named;
 
 import br.com.etraining.client.vo.impl.entidades.AlunoVO;
 import br.com.etraining.modelo.entidades.EntAluno;
-import br.com.etraining.modelo.entidades.dom.Sexo;
 import br.com.etraining.negocio.conversor.IConversorVOEntidade;
 
 @Named
@@ -26,7 +25,7 @@ public class ConversorAluno implements IConversorVOEntidade<EntAluno, AlunoVO> {
 		entidade.setNome(vo.getNome());
 		entidade.setEmail(vo.getEmail());
 		entidade.setDataNascimento(vo.getDataNascimento());
-		entidade.setSexo(Sexo.getEnumFromOrdinal(vo.getSexo()));
+		entidade.setSexo(vo.getSexo());
 		entidade.setTelefone(vo.getTelefone());
 		entidade.setMatricula(conversorMatricula.fromVO(vo.getMatricula()));
 		entidade.setDadosCorporais(conversorDadosCorporais.fromVO(vo
@@ -43,7 +42,7 @@ public class ConversorAluno implements IConversorVOEntidade<EntAluno, AlunoVO> {
 		vo.setNome(entidade.getNome());
 		vo.setEmail(entidade.getEmail());
 		vo.setDataNascimento(entidade.getDataNascimento());
-		vo.setSexo(entidade.getSexo().ordinal());
+		vo.setSexo(entidade.getSexo());
 		vo.setTelefone(entidade.getTelefone());
 		vo.setMatricula(conversorMatricula.toVO(entidade.getMatricula()));
 		vo.setDadosCorporais(conversorDadosCorporais.toVO(entidade

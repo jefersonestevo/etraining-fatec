@@ -15,6 +15,7 @@ import javax.inject.Named;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
 
+import br.com.etraining.client.dom.StatusProgramaTreinamento;
 import br.com.etraining.client.vo.transporte.CodigoExcecao;
 import br.com.etraining.exception.ETrainingBusinessException;
 import br.com.etraining.exception.ETrainingException;
@@ -72,20 +73,22 @@ public class GeradorProgramaTreinamentoRandomico implements
 			progTreinamento = new EntProgramaTreinamento();
 			progTreinamento.setAluno(aluno);
 			progTreinamento.setVersao(versao);
-			progTreinamento.setVersaoAprovada(false);
+			progTreinamento
+					.setStatus(StatusProgramaTreinamento.AGUARDANDO_APROVACAO);
 			progTreinamento
 					.setListaExercicioProposto(new ArrayList<EntExercicioProposto>());
 
-			Calendar cal = Calendar.getInstance();
-
-			Date dataAtual = new Date();
+			Date dataAtual = null;
 			if (programaTreinamentoAnterior != null
 					&& programaTreinamentoAnterior.getDataVencimento() != null) {
 				dataAtual = programaTreinamentoAnterior.getDataVencimento();
+
+				Calendar cal = Calendar.getInstance();
+				cal.setTime(dataAtual);
+				cal.add(Calendar.DATE, 7);
+				dataAtual = cal.getTime();
 			}
-			cal.setTime(dataAtual);
-			cal.add(Calendar.DATE, 7);
-			progTreinamento.setDataVencimento(cal.getTime());
+			progTreinamento.setDataVencimento(dataAtual);
 
 			Integer qntdMaxPontos = aluno.getPontuacaoSemanalAluno();
 			List<EntDiaSemana> listaDiasSemana = aluno.getMatricula()
@@ -161,6 +164,21 @@ public class GeradorProgramaTreinamentoRandomico implements
 				}
 
 				daoProgramaTreinamento.inserir(progTreinamento);
+
+				if (programaTreinamentoAnterior != null
+						&& programaTreinamentoAnterior.getDataVencimento() != null) {
+					// Após gerar o novo programa de treinamento, cancelar todos
+					// os que estiverem aguardando aprovacao
+					List<EntProgramaTreinamento> listaPendentesAprovacao = daoProgramaTreinamento
+							.pesquisarListaProgramaPendenteAprovacaoPorAluno(programaTreinamentoAnterior
+									.getAluno().getId());
+					for (EntProgramaTreinamento prog : listaPendentesAprovacao) {
+						prog.setDataCancelamento(new Date());
+						prog.setStatus(StatusProgramaTreinamento.CANCELADO);
+						daoProgramaTreinamento.alterar(prog);
+					}
+
+				}
 
 				log.debug("Termino da geração do programa de treinamento para o aluno ID: "
 						+ aluno.getId());

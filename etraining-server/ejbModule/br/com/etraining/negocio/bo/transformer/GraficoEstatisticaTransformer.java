@@ -2,14 +2,17 @@ package br.com.etraining.negocio.bo.transformer;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.time.DateUtils;
 
 import br.com.etraining.client.vo.impl.entidades.PontoGraficoVO;
@@ -58,46 +61,135 @@ public class GraficoEstatisticaTransformer {
 			throws ETrainingException {
 
 		List<EntProgramaTreinamento> listaProgramaTreinamento = programaTreinamentoDao
-				.pesquisarLista(dataInicio, dataFim, idExercicio, idAluno);
+				.pesquisarListaAprovadosCancelados(dataInicio, dataFim,
+						idExercicio, idAluno);
+
+		if (CollectionUtils.isEmpty(listaProgramaTreinamento)) {
+			return null;
+		}
 
 		Map<Date, PontoGraficoVO> pontosReais = new HashMap<Date, PontoGraficoVO>();
 
-		for (EntProgramaTreinamento programaTreinamento : listaProgramaTreinamento) {
-			Date dataProg = programaTreinamento.getDataVencimento();
-			// Procura o proximo domingo
-			Date data = DataUtils.getProximaData(dataProg, Calendar.SUNDAY);
+		Map<Long, List<EntProgramaTreinamento>> mapProgramaTreinamentoPorUsuario = new HashMap<Long, List<EntProgramaTreinamento>>();
 
-			// Se o programa de treinamento foi cancelado antes do domingo, não
-			// o considera para contagem
-			if (programaTreinamento.getDataCancelamento() != null
-					&& data.after(DateUtils.truncate(
-							programaTreinamento.getDataCancelamento(),
-							Calendar.DATE))) {
-				continue;
+		for (EntProgramaTreinamento programa : listaProgramaTreinamento) {
+			List<EntProgramaTreinamento> listaPT = mapProgramaTreinamentoPorUsuario
+					.get(programa.getAluno().getId());
+			if (listaPT == null) {
+				listaPT = new ArrayList<EntProgramaTreinamento>();
+				mapProgramaTreinamentoPorUsuario.put(programa.getAluno()
+						.getId(), listaPT);
 			}
+			listaPT.add(programa);
+		}
 
-			PontoGraficoVO ponto = pontosReais.get(data);
-			if (ponto == null) {
-				ponto = new PontoGraficoVO(data);
-				pontosReais.put(data, ponto);
-			}
-			for (EntExercicioProposto exercProposto : programaTreinamento
-					.getListaExercicioProposto()) {
+		// Itera nos programas de treinamento para cada usuario
+		for (Entry<Long, List<EntProgramaTreinamento>> entry : mapProgramaTreinamentoPorUsuario
+				.entrySet()) {
+			List<EntProgramaTreinamento> listaPT = entry.getValue();
+			// Ordena os programas de treinamento pela data de aprovação, para
+			// realizar a contagem de forma crescente no tempo
+			Collections.sort(listaPT,
+					new ComparadorProgramaTreinamentoDataAprovacao());
 
-				if (idExercicio != null) {
-					if (!idExercicio.equals(exercProposto.getExercicio()
-							.getId()))
-						continue;
+			// Itera sobre os programas de treinamento do usuário
+			for (EntProgramaTreinamento prog : listaPT) {
+				Date dataFinal = prog.getDataCancelamento();
+				if (dataFinal == null)
+					dataFinal = prog.getDataVencimento();
+				if (dataFinal.after(new Date()))
+					dataFinal = new Date();
+
+				Date dataInicial = DateUtils.truncate(prog.getDataAprovacao(),
+						Calendar.DATE);
+				dataFinal = DateUtils.truncate(dataFinal, Calendar.DATE);
+
+				// Percorre todas as datas entre a data de aprovação e a data de
+				// cancelamento (ou atual) do programa de treinamento para
+				// contabilizar os pontos
+				while (!dataFinal.after(dataInicial)) {
+					Date data = DataUtils.getProximaData(dataFinal,
+							Calendar.SUNDAY);
+					PontoGraficoVO ponto = pontosReais.get(data);
+					if (ponto == null) {
+						ponto = new PontoGraficoVO(data);
+						pontosReais.put(data, ponto);
+					}
+					// Para cada data percorrida, verifica seu dia da semana e
+					// quantos pontos estavam propostos para aquele dia da
+					// semana no programa de treinamento
+					Long pontuacao = ponto.getPontos()
+							+ getPontuacao(dataFinal,
+									prog.getListaExercicioProposto());
+					ponto.setPontos(pontuacao);
+
+					dataFinal = DateUtils.addDays(dataFinal, 1);
 				}
 
-				Long pontuacao = ponto.getPontos()
-						+ (exercProposto.getExercicio().getPontosPorAtividade() * exercProposto
-								.getQuantidadeExercicioSugerida());
-				ponto.setPontos(pontuacao);
 			}
 		}
 
+		// TODO - Utilizar dataAprovacao e dataCancelamento para validar as
+		// datas dos programas de treinamento
+		// for (EntProgramaTreinamento programaTreinamento :
+		// listaProgramaTreinamento) {
+		// Date dataProg = programaTreinamento.getDataVencimento();
+		// // Procura o proximo domingo
+		// Date data = DataUtils.getProximaData(dataProg, Calendar.SUNDAY);
+		//
+		// // Se o programa de treinamento foi cancelado antes do domingo, não
+		// // o considera para contagem
+		// if (programaTreinamento.getDataCancelamento() != null
+		// && data.after(DateUtils.truncate(
+		// programaTreinamento.getDataCancelamento(),
+		// Calendar.DATE))) {
+		// continue;
+		// }
+		//
+		// PontoGraficoVO ponto = pontosReais.get(data);
+		// if (ponto == null) {
+		// ponto = new PontoGraficoVO(data);
+		// pontosReais.put(data, ponto);
+		// }
+		// for (EntExercicioProposto exercProposto : programaTreinamento
+		// .getListaExercicioProposto()) {
+		//
+		// if (idExercicio != null) {
+		// if (!idExercicio.equals(exercProposto.getExercicio()
+		// .getId()))
+		// continue;
+		// }
+		//
+		// Long pontuacao = ponto.getPontos()
+		// + (exercProposto.getExercicio().getPontosPorAtividade() *
+		// exercProposto
+		// .getQuantidadeExercicioSugerida());
+		// ponto.setPontos(pontuacao);
+		// }
+		// }
+
 		return new ArrayList<PontoGraficoVO>(pontosReais.values());
+	}
+
+	private Long getPontuacao(Date data,
+			List<EntExercicioProposto> listaExercicioProposto) {
+		if (data == null)
+			return 0l;
+
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(data);
+		Long indice = new Long(cal.get(Calendar.DAY_OF_WEEK));
+
+		Long pontuacao = 0l;
+		for (EntExercicioProposto prop : listaExercicioProposto) {
+			if (indice.equals(prop.getId())) {
+				pontuacao = new Long(prop.getQuantidadeExercicioSugerida()
+						* prop.getExercicio().getPontosPorAtividade());
+				break;
+			}
+		}
+
+		return pontuacao;
 	}
 
 	public IDaoExercicioRealizado getExercicioRealizadoDao() {

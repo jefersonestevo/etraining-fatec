@@ -15,9 +15,9 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import br.com.etraining.client.dom.Sexo;
 import br.com.etraining.client.utils.TamanhoCampo;
 import br.com.etraining.modelo.def.impl.jpa.BeanJPA;
-import br.com.etraining.modelo.entidades.dom.Sexo;
 
 @Entity
 @Table(name = EntAluno.NOME_ENTIDADE)

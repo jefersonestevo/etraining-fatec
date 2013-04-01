@@ -98,7 +98,6 @@ public class EstatisticaGeralController extends EtrainingManagedBean {
 		// resposta.getListaPontosPropostos().add(ponto);
 		// }
 
-		// TODO - Fazer EJB Funcionar
 		try {
 			resposta = (RespostaConsultaEstatisticaVO) service
 					.executa(consulta);

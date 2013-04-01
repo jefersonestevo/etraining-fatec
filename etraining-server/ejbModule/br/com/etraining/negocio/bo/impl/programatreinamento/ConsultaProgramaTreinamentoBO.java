@@ -28,7 +28,7 @@ public class ConsultaProgramaTreinamentoBO
 		RespostaConsultaProgramaTreinamentoVO resposta = new RespostaConsultaProgramaTreinamentoVO();
 
 		EntProgramaTreinamento programaTreinamento = daoProgramaTreinamento
-				.pesquisarAtualPorIdAluno(request.getIdAluno());
+				.pesquisarUltimoPorIdAluno(request.getIdAluno());
 
 		resposta.setProgramaTreinamento(conversorProgramaTreinamento
 				.toVO(programaTreinamento));

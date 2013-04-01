@@ -10,10 +10,16 @@ import br.com.etraining.modelo.entidades.EntProgramaTreinamento;
 public interface IDaoProgramaTreinamento extends
 		IDaoCRUD<EntProgramaTreinamento> {
 
-	public EntProgramaTreinamento pesquisarAtualPorIdAluno(Long idAluno)
+	public EntProgramaTreinamento pesquisarAtualAprovadoPorIdAluno(Long idAluno)
+			throws ETrainingException;
+
+	public EntProgramaTreinamento pesquisarUltimoPorIdAluno(Long idAluno)
 			throws ETrainingException;
 
 	public EntProgramaTreinamento pesquisarPendenteAprovacaoPorIdAluno(
+			Long idAluno) throws ETrainingException;
+
+	public List<EntProgramaTreinamento> pesquisarListaProgramaPendenteAprovacaoPorAluno(
 			Long idAluno) throws ETrainingException;
 
 	public List<EntProgramaTreinamento> pesquisarPendentesAtualizacao()
@@ -22,7 +28,10 @@ public interface IDaoProgramaTreinamento extends
 	public List<EntProgramaTreinamento> pesquisarVersoesPosteriores(
 			Long idAluno, Integer versaoAtual) throws ETrainingException;
 
-	public List<EntProgramaTreinamento> pesquisarLista(Date dataInicial,
+	public List<EntProgramaTreinamento> pesquisarListaAprovadosCancelados(Date dataInicial,
 			Date dataFinal, Long idExercicio, Long idAluno)
 			throws ETrainingException;
+
+	public List<EntProgramaTreinamento> pesquisarListaProgramaAprovadoPorAluno(
+			Long idAluno) throws ETrainingException;
 }

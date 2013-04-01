@@ -7,73 +7,77 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 
-<h:head>
-	<title><h:outputText value="#{message.Sistema_Nome}" /></title>
-	<h:outputStylesheet name="style.css" library="css" />
-</h:head>
+<f:view contentType="text/html">
+	<h:head>
+		<title><h:outputText value="#{message.Sistema_Nome}" /></title>
+		<h:outputStylesheet name="style.css" library="css" />
+	</h:head>
 
-<h:body>
+	<h:body>
 
-	<h:form id="main">
-		<div id="page">
+		<h:form id="main">
+			<div id="page">
 
-			<div id="header">
-				<ui:insert name="header">
-					<ui:include src="/pages/template/header.xhtml" />
-				</ui:insert>
+				<div id="header">
+					<ui:insert name="header">
+						<ui:include src="/pages/template/header.xhtml" />
+					</ui:insert>
+				</div>
+
+				<p:outputPanel styles="display: none;">
+					<p:dialog modal="true" widgetVar="modalAjuda" height="300"
+						width="500" styleClass="modal-ajuda" header="#{message.Ajuda}">
+						<h:outputText id="ajuda" styleClass="modal-texto-ajuda" />
+
+						<f:facet name="footer">
+							<p:outputPanel styleClass="no-border align-center full-width"
+								layout="block">
+								<p:commandButton value="#{message.Fechar}"
+									styleClass="no-border" onclick="modalAjuda.hide()" />
+							</p:outputPanel>
+						</f:facet>
+					</p:dialog>
+				</p:outputPanel>
+
+				<script type="text/javascript">
+					var contextoPagina = "#{facesContext.externalContext.requestContextPath}";
+
+					function mostrarModal(pagina) {
+						$('.modal-texto-ajuda').load(contextoPagina + pagina);
+						modalAjuda.show();
+					}
+				</script>
+
+				<div id="endereco">
+					<p:panelGrid columns="2" styleClass="full-width"
+						columnClasses="width-90, width-10">
+						<p:outputPanel>
+							<ui:insert name="endereco">
+							</ui:insert>
+						</p:outputPanel>
+						<p:outputPanel layout="block" styleClass="align-right">
+							<ui:insert name="ajuda">
+							</ui:insert>
+						</p:outputPanel>
+					</p:panelGrid>
+				</div>
+				<p:outputPanel styleClass="panel-separador" layout="block" />
+				<p:messages closable="true" autoUpdate="true" />
+
+				<div id="content">
+					<ui:insert name="content">
+						<ui:include src="/pages/template/content.xhtml" />
+					</ui:insert>
+				</div>
+
+				<div id="footer">
+					<ui:insert name="footer">
+						<ui:include src="/pages/template/footer.xhtml" />
+					</ui:insert>
+				</div>
+
 			</div>
-
-			<p:dialog modal="true" widgetVar="modalAjuda" height="300"
-				width="500" styleClass="modal-ajuda" header="#{message.Ajuda}">
-				<h:outputText id="ajuda" styleClass="modal-texto-ajuda" />
-
-				<f:facet name="footer">
-					<p:outputPanel styleClass="no-border align-center full-width"
-						layout="block">
-						<p:commandButton value="#{message.Fechar}" styleClass="no-border"
-							onclick="modalAjuda.hide()" />
-					</p:outputPanel>
-				</f:facet>
-			</p:dialog>
-
-			<script type="text/javascript">
-				var contextoPagina = "#{facesContext.externalContext.requestContextPath}";
-
-				function mostrarModal(pagina) {
-					$('.modal-texto-ajuda').load(contextoPagina + pagina);
-					modalAjuda.show();
-				}
-			</script>
-
-			<div id="endereco">
-				<p:panelGrid columns="2" styleClass="full-width"
-					columnClasses="width-90, width-10">
-					<p:outputPanel>
-						<ui:insert name="endereco">
-						</ui:insert>
-					</p:outputPanel>
-					<p:outputPanel layout="block" styleClass="align-right">
-						<ui:insert name="ajuda">
-						</ui:insert>
-					</p:outputPanel>
-				</p:panelGrid>
-			</div>
-			<p:outputPanel styleClass="panel-separador" layout="block" />
-			<p:messages closable="true" autoUpdate="true" />
-
-			<div id="content">
-				<ui:insert name="content">
-					<ui:include src="/pages/template/content.xhtml" />
-				</ui:insert>
-			</div>
-
-			<div id="footer">
-				<ui:insert name="footer">
-					<ui:include src="/pages/template/footer.xhtml" />
-				</ui:insert>
-			</div>
-
-		</div>
-	</h:form>
-</h:body>
+		</h:form>
+	</h:body>
+</f:view>
 </html>

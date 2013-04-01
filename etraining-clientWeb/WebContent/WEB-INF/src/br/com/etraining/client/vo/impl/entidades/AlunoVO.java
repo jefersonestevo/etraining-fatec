@@ -2,6 +2,7 @@ package br.com.etraining.client.vo.impl.entidades;
 
 import java.util.Date;
 
+import br.com.etraining.client.dom.Sexo;
 import br.com.etraining.client.vo.interfaces.IVO;
 
 public class AlunoVO implements IVO {
@@ -13,7 +14,7 @@ public class AlunoVO implements IVO {
 	private String email;
 	private String telefone;
 	private Date dataNascimento;
-	private int sexo;
+	private Sexo sexo;
 	private MatriculaVO matricula;
 	private DadosCorporaisVO dadosCorporais;
 
@@ -57,11 +58,11 @@ public class AlunoVO implements IVO {
 		this.dataNascimento = dataNascimento;
 	}
 
-	public int getSexo() {
+	public Sexo getSexo() {
 		return sexo;
 	}
 
-	public void setSexo(int sexo) {
+	public void setSexo(Sexo sexo) {
 		this.sexo = sexo;
 	}
 

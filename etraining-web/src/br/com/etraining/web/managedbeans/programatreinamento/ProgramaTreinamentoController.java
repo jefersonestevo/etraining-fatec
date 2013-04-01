@@ -25,8 +25,10 @@ import br.com.etraining.client.vo.impl.exercicios.ConsultaExercicioVO;
 import br.com.etraining.client.vo.impl.exercicios.ConsultaListaExerciciosVO;
 import br.com.etraining.client.vo.impl.exercicios.RespostaConsultaExercicioVO;
 import br.com.etraining.client.vo.impl.exercicios.RespostaConsultaListaExerciciosVO;
+import br.com.etraining.client.vo.impl.programatreinamento.AprovarProgramaTreinamentoVO;
 import br.com.etraining.client.vo.impl.programatreinamento.ConsultaProgramaTreinamentoAprovacaoVO;
 import br.com.etraining.client.vo.impl.programatreinamento.ConsultaProgramaTreinamentoVO;
+import br.com.etraining.client.vo.impl.programatreinamento.GerarProgramaTreinamentoVO;
 import br.com.etraining.client.vo.impl.programatreinamento.RespostaConsultaProgramaTreinamentoVO;
 import br.com.etraining.client.vo.transporte.CodigoExcecao;
 import br.com.etraining.web.exceptions.ViewException;
@@ -69,22 +71,11 @@ public class ProgramaTreinamentoController extends EtrainingManagedBean {
 			return null;
 
 		try {
-			this.editavel = false;
-			this.aprovacao = true;
 			ConsultaProgramaTreinamentoAprovacaoVO consulta = new ConsultaProgramaTreinamentoAprovacaoVO();
 			consulta.setIdAluno(alunoSelecionado.getId());
 			resposta = (RespostaConsultaProgramaTreinamentoVO) service
 					.executa(consulta);
-
-			if (resposta.getProgramaTreinamento() == null
-					|| resposta.getProgramaTreinamento().getId() == null) {
-				throw new ViewException(
-						CodigoExcecao.PROGRAMA_TREINAMENTO_INEXISTENTE);
-			}
-
-			Collections.sort(resposta.getProgramaTreinamento()
-					.getListaExercicioProposto(),
-					new ComparadorExercicioPropostoPorDiaSemana());
+			preparaTela(false, true);
 		} catch (ViewException e) {
 			addExceptionMessage(e);
 			return null;
@@ -93,36 +84,55 @@ public class ProgramaTreinamentoController extends EtrainingManagedBean {
 		return "/pages/programaTreinamento/programaTreinamentoEdicao.xhtml";
 	}
 
-	public String irParaTelaEdicao() {
+	public String aprovar() {
+		try {
+			AprovarProgramaTreinamentoVO aprovar = new AprovarProgramaTreinamentoVO();
+			aprovar.setProgramaTreinamento(resposta.getProgramaTreinamento());
+
+			resposta = (RespostaConsultaProgramaTreinamentoVO) service
+					.executa(aprovar);
+			preparaTela(false, true);
+			showSuccessMessage();
+		} catch (ViewException e) {
+			addExceptionMessage(e);
+			return null;
+		}
+		return "/pages/programaTreinamento/programaTreinamentoEdicao.xhtml";
+	}
+
+	public String irParaTelaGeracao() {
 		boolean hasError = validaCampos();
 		if (hasError)
 			return null;
 
 		try {
-			this.editavel = true;
-			this.aprovacao = false;
 			ConsultaProgramaTreinamentoVO consulta = new ConsultaProgramaTreinamentoVO();
 			consulta.setIdAluno(alunoSelecionado.getId());
 			resposta = (RespostaConsultaProgramaTreinamentoVO) service
 					.executa(consulta);
-
-			if (resposta.getProgramaTreinamento() == null
-					|| resposta.getProgramaTreinamento().getId() == null) {
-				throw new ViewException(
-						CodigoExcecao.PROGRAMA_TREINAMENTO_INEXISTENTE);
-			}
-
-			this.exercicio = new ExercicioVO();
-			Collections.sort(resposta.getProgramaTreinamento()
-					.getListaExercicioProposto(),
-					new ComparadorExercicioPropostoPorDiaSemana());
-
-			preencherListaExercicio();
+			preparaTela(true, false);
 		} catch (ViewException e) {
 			addExceptionMessage(e);
 			return null;
 		}
 
+		return "/pages/programaTreinamento/programaTreinamentoEdicao.xhtml";
+	}
+
+	public String gerar() {
+		try {
+			GerarProgramaTreinamentoVO gerar = new GerarProgramaTreinamentoVO();
+			gerar.setProgramaTreinamentoAnterior(resposta
+					.getProgramaTreinamento());
+
+			resposta = (RespostaConsultaProgramaTreinamentoVO) service
+					.executa(gerar);
+			preparaTela(true, false);
+			showSuccessMessage();
+		} catch (ViewException e) {
+			addExceptionMessage(e);
+			return null;
+		}
 		return "/pages/programaTreinamento/programaTreinamentoEdicao.xhtml";
 	}
 
@@ -135,16 +145,23 @@ public class ProgramaTreinamentoController extends EtrainingManagedBean {
 		return hasError;
 	}
 
-	public String alterar() {
+	private void preparaTela(boolean editavel, boolean aprovacao)
+			throws ViewException {
+		if (resposta.getProgramaTreinamento() == null
+				|| resposta.getProgramaTreinamento().getId() == null) {
+			throw new ViewException(
+					CodigoExcecao.PROGRAMA_TREINAMENTO_INEXISTENTE);
+		}
 
-		// TODO - Fazer EJB Funcionar
-		return "/pages/programaTreinamento/programaTreinamentoEdicao.xhtml";
-	}
+		this.exercicio = new ExercicioVO();
+		Collections.sort(resposta.getProgramaTreinamento()
+				.getListaExercicioProposto(),
+				new ComparadorExercicioPropostoPorDiaSemana());
 
-	public String aprovar() {
+		preencherListaExercicio();
 
-		// TODO - Fazer EJB Funcionar
-		return "/pages/programaTreinamento/programaTreinamentoEdicao.xhtml";
+		this.editavel = editavel;
+		this.aprovacao = aprovacao;
 	}
 
 	public void adicionarExercicio() {

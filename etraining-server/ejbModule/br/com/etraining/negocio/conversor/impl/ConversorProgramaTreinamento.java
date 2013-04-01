@@ -28,10 +28,10 @@ public class ConversorProgramaTreinamento implements
 
 		EntProgramaTreinamento entidade = new EntProgramaTreinamento();
 		entidade.setId(vo.getId());
-		entidade.setCancelado(vo.getCancelado());
 		entidade.setDataVencimento(vo.getDataVencimento());
 		entidade.setVersao(vo.getVersao());
-		entidade.setVersaoAprovada(vo.getVersaoAprovada());
+		entidade.setStatus(vo.getStatus());
+		entidade.setDataCancelamento(vo.getDataCancelamento());
 
 		entidade.setListaExercicioProposto(new ArrayList<EntExercicioProposto>());
 		for (ExercicioPropostoVO exerc : vo.getListaExercicioProposto()) {
@@ -49,10 +49,10 @@ public class ConversorProgramaTreinamento implements
 
 		ProgramaTreinamentoVO vo = new ProgramaTreinamentoVO();
 		vo.setId(entidade.getId());
-		vo.setCancelado(entidade.getCancelado());
+		vo.setStatus(entidade.getStatus());
 		vo.setDataVencimento(entidade.getDataVencimento());
 		vo.setVersao(entidade.getVersao());
-		vo.setVersaoAprovada(entidade.getVersaoAprovada());
+		vo.setDataCancelamento(entidade.getDataCancelamento());
 		vo.setAluno(conversorAluno.toVO(entidade.getAluno()));
 
 		vo.setListaExercicioProposto(new ArrayList<ExercicioPropostoVO>());

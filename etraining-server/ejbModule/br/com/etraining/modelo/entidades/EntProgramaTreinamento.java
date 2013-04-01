@@ -7,10 +7,13 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
@@ -18,6 +21,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import br.com.etraining.client.dom.StatusProgramaTreinamento;
 import br.com.etraining.modelo.def.impl.jpa.BeanJPA;
 
 @Entity
@@ -42,6 +46,7 @@ public class EntProgramaTreinamento extends BeanJPA {
 	private Long id;
 
 	@ManyToOne(targetEntity = EntAluno.class, fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_aluno", nullable = false)
 	private EntAluno aluno;
 
 	@OneToMany(targetEntity = EntExercicioProposto.class, mappedBy = "programaTreinamento", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -51,7 +56,12 @@ public class EntProgramaTreinamento extends BeanJPA {
 	private Integer versao = 1;
 
 	@Column(nullable = false)
-	private Boolean versaoAprovada = false;
+	@Enumerated(EnumType.ORDINAL)
+	private StatusProgramaTreinamento status = StatusProgramaTreinamento.AGUARDANDO_APROVACAO;
+
+	@Column(name = "data_aprovacao")
+	@Temporal(TemporalType.DATE)
+	private Date dataAprovacao;
 
 	@Column(name = "data_vencimento")
 	@Temporal(TemporalType.DATE)
@@ -60,9 +70,6 @@ public class EntProgramaTreinamento extends BeanJPA {
 	@Column(name = "data_cancelamento")
 	@Temporal(TemporalType.DATE)
 	private Date dataCancelamento;
-
-	@Column(nullable = false)
-	private Boolean cancelado = false;
 
 	public Long getId() {
 		return id;
@@ -88,14 +95,6 @@ public class EntProgramaTreinamento extends BeanJPA {
 		this.versao = versao;
 	}
 
-	public Boolean getVersaoAprovada() {
-		return versaoAprovada;
-	}
-
-	public void setVersaoAprovada(Boolean versaoAprovada) {
-		this.versaoAprovada = versaoAprovada;
-	}
-
 	public List<EntExercicioProposto> getListaExercicioProposto() {
 		return listaExercicioProposto;
 	}
@@ -113,20 +112,28 @@ public class EntProgramaTreinamento extends BeanJPA {
 		this.dataVencimento = dataVencimento;
 	}
 
-	public Boolean getCancelado() {
-		return cancelado;
-	}
-
-	public void setCancelado(Boolean cancelado) {
-		this.cancelado = cancelado;
-	}
-
 	public Date getDataCancelamento() {
 		return dataCancelamento;
 	}
 
 	public void setDataCancelamento(Date dataCancelamento) {
 		this.dataCancelamento = dataCancelamento;
+	}
+
+	public StatusProgramaTreinamento getStatus() {
+		return status;
+	}
+
+	public void setStatus(StatusProgramaTreinamento status) {
+		this.status = status;
+	}
+
+	public Date getDataAprovacao() {
+		return dataAprovacao;
+	}
+
+	public void setDataAprovacao(Date dataAprovacao) {
+		this.dataAprovacao = dataAprovacao;
 	}
 
 }

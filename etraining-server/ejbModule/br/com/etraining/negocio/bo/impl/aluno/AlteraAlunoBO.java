@@ -49,7 +49,7 @@ public class AlteraAlunoBO extends
 		EntAluno aluno = conversorAluno.fromVO(alunoVO);
 
 		EntProgramaTreinamento programaTreinamento = programaTreinamentoDao
-				.pesquisarAtualPorIdAluno(aluno.getId());
+				.pesquisarAtualAprovadoPorIdAluno(aluno.getId());
 		Integer novaPontuacao = calculadoraPontos.calcularNovaPontuacaoAluno(
 				aluno, programaTreinamento);
 		aluno.setPontuacaoSemanalAluno(novaPontuacao);

@@ -38,7 +38,7 @@ public class ConsultaListaExerciciosAlunoBO
 		RespostaConsultaListaExerciciosAlunoVO response = new RespostaConsultaListaExerciciosAlunoVO();
 
 		EntProgramaTreinamento programaTreinamento = programaTreinamentoDao
-				.pesquisarAtualPorIdAluno(request.getIdAluno());
+				.pesquisarAtualAprovadoPorIdAluno(request.getIdAluno());
 
 		if (programaTreinamento == null || programaTreinamento.getId() == null) {
 			throw new ETrainingBusinessException(
