@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -23,6 +24,7 @@ public class DadosAluno implements Serializable {
 	private EntAluno aluno;
 	private EntMatricula matricula;
 	private EntDadosCorporais dadosCorporais;
+	private List<String> listaPerfilAcesso = new ArrayList<String>();
 
 	public DadosAluno(String[] dadosAluno) {
 		aluno = new EntAluno();
@@ -42,9 +44,6 @@ public class DadosAluno implements Serializable {
 		matricula
 				.setNumeroMatricula(dadosAluno[EnumPosicionalDadosAluno.MATRICULA
 						.ordinal()]);
-		matricula
-				.setPerfilAcesso(dadosAluno[EnumPosicionalDadosAluno.PERFIL_ACESSO
-						.ordinal()]);
 		matricula.setSenhaUsuario(dadosAluno[EnumPosicionalDadosAluno.SENHA
 				.ordinal()]);
 		matricula.setListaDiasTreinamento(new ArrayList<EntDiaSemana>());
@@ -54,6 +53,12 @@ public class DadosAluno implements Serializable {
 			matricula.getListaDiasTreinamento().add(diaSemana);
 		}
 
+		// Perfil Acesso
+		String[] perfis = dadosAluno[EnumPosicionalDadosAluno.PERFIL_ACESSO
+				.ordinal()].split(",");
+		for (String p : perfis) {
+			listaPerfilAcesso.add(StringUtils.upperCase(StringUtils.trim(p)));
+		}
 		dadosCorporais = new EntDadosCorporais();
 		dadosCorporais.setAluno(aluno);
 		dadosCorporais
@@ -120,6 +125,14 @@ public class DadosAluno implements Serializable {
 
 	public void setDadosCorporais(EntDadosCorporais dadosCorporais) {
 		this.dadosCorporais = dadosCorporais;
+	}
+
+	public List<String> getListaPerfilAcesso() {
+		return listaPerfilAcesso;
+	}
+
+	public void setListaPerfilAcesso(List<String> listaPerfilAcesso) {
+		this.listaPerfilAcesso = listaPerfilAcesso;
 	}
 
 }

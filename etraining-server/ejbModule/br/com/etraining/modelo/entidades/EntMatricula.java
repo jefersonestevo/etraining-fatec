@@ -52,8 +52,9 @@ public class EntMatricula extends BeanJPA {
 	@Column(name = "usuario_ativo")
 	private Boolean usuarioAtivo = true;
 
-	@Column(name = "perfil_acesso", updatable = false)
-	private String perfilAcesso;
+	@ManyToMany(targetEntity = EntPerfilAcesso.class, fetch = FetchType.LAZY)
+	@JoinTable(name = "matricula_perfilacesso", joinColumns = @JoinColumn(name = "id_matricula", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "id_perfil_acesso", referencedColumnName = "id"))
+	private List<EntPerfilAcesso> listaPerfilAcesso;
 
 	@Column
 	private String rg;
@@ -129,12 +130,12 @@ public class EntMatricula extends BeanJPA {
 		this.listaDiasTreinamento = listaDiasTreinamento;
 	}
 
-	public String getPerfilAcesso() {
-		return perfilAcesso;
+	public List<EntPerfilAcesso> getListaPerfilAcesso() {
+		return listaPerfilAcesso;
 	}
 
-	public void setPerfilAcesso(String perfilAcesso) {
-		this.perfilAcesso = perfilAcesso;
+	public void setListaPerfilAcesso(List<EntPerfilAcesso> listaPerfilAcesso) {
+		this.listaPerfilAcesso = listaPerfilAcesso;
 	}
 
 }

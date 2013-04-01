@@ -18,6 +18,7 @@
 		<class>br.com.etraining.modelo.entidades.EntExercicioRealizado</class>
 		<class>br.com.etraining.modelo.entidades.EntProgramaTreinamento</class>
 		<class>br.com.etraining.modelo.entidades.EntParametros</class>
+		<class>br.com.etraining.modelo.entidades.EntPerfilAcesso</class>
 
 		<properties>
 			<!--<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" 
@@ -31,8 +32,8 @@
 			<!-- <property name="hibernate.show_sql" value="true"/> <property name="hibernate.format_sql" 
 				value="true"/> -->
 
-			<property name="hibernate.hbm2ddl.auto" value="update" />
-<!-- 			<property name="hibernate.hbm2ddl.auto" value="create-drop" /> -->
+<!-- 			<property name="hibernate.hbm2ddl.auto" value="update" /> -->
+			<property name="hibernate.hbm2ddl.auto" value="create-drop" />
 		</properties>
 
 	</persistence-unit>

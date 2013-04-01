@@ -6,7 +6,9 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -23,9 +25,11 @@ import br.com.etraining.exception.ETrainingInfraException;
 import br.com.etraining.modelo.dao.interfaces.IDaoAluno;
 import br.com.etraining.modelo.dao.interfaces.IDaoDadosCorporais;
 import br.com.etraining.modelo.dao.interfaces.IDaoMatricula;
+import br.com.etraining.modelo.dao.interfaces.IDaoPerfilAcesso;
 import br.com.etraining.modelo.entidades.EntAluno;
 import br.com.etraining.modelo.entidades.EntDadosCorporais;
 import br.com.etraining.modelo.entidades.EntMatricula;
+import br.com.etraining.modelo.entidades.EntPerfilAcesso;
 import br.com.etraining.negocio.gerador.ICalculadoraDePontos;
 import br.com.etraining.negocio.gerador.IGeradorProgramaTreinamento;
 import br.com.etraining.utils.io.IOUtils;
@@ -49,6 +53,9 @@ public class ImportadorDadosAluno {
 
 	@Inject
 	private ICalculadoraDePontos calculadoraPontosAluno;
+
+	@Inject
+	private IDaoPerfilAcesso perfilAcessoDao;
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void importarDadosAluno(File arquivoAlunos)
@@ -78,6 +85,13 @@ public class ImportadorDadosAluno {
 				}
 			}
 
+			List<EntPerfilAcesso> listaPerfilAcesso = perfilAcessoDao
+					.pesquisarLista();
+			Map<String, EntPerfilAcesso> mapPerfilAcesso = new HashMap<String, EntPerfilAcesso>();
+			for (EntPerfilAcesso p : listaPerfilAcesso) {
+				mapPerfilAcesso.put(StringUtils.upperCase(p.getNome()), p);
+			}
+
 			for (DadosAluno dadosAluno : listaDadosAluno) {
 				EntAluno aluno = dadosAluno.getAluno();
 				EntMatricula matricula = dadosAluno.getMatricula();
@@ -90,6 +104,17 @@ public class ImportadorDadosAluno {
 
 				alunoDao.inserir(aluno);
 				matricula.setAluno(aluno);
+
+				// Preenche os perfis de acesso
+				matricula
+						.setListaPerfilAcesso(new ArrayList<EntPerfilAcesso>());
+				for (String perfilStr : dadosAluno.getListaPerfilAcesso()) {
+					EntPerfilAcesso p = mapPerfilAcesso.get(StringUtils
+							.upperCase(perfilStr));
+					if (p != null)
+						matricula.getListaPerfilAcesso().add(p);
+				}
+
 				matriculaDao.inserir(matricula);
 				dadosCorporais.setAluno(aluno);
 				dadosCorporaisDao.inserir(dadosCorporais);
@@ -181,6 +206,23 @@ public class ImportadorDadosAluno {
 	public void setCalculadoraPontosAluno(
 			ICalculadoraDePontos calculadoraPontosAluno) {
 		this.calculadoraPontosAluno = calculadoraPontosAluno;
+	}
+
+	public IDaoPerfilAcesso getPerfilAcessoDao() {
+		return perfilAcessoDao;
+	}
+
+	public void setPerfilAcessoDao(IDaoPerfilAcesso perfilAcessoDao) {
+		this.perfilAcessoDao = perfilAcessoDao;
+	}
+
+	public IGeradorProgramaTreinamento getGeradorProgramaTreinamento() {
+		return geradorProgramaTreinamento;
+	}
+
+	public void setGeradorProgramaTreinamento(
+			IGeradorProgramaTreinamento geradorProgramaTreinamento) {
+		this.geradorProgramaTreinamento = geradorProgramaTreinamento;
 	}
 
 }

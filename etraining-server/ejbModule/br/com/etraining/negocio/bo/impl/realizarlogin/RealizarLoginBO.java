@@ -15,6 +15,7 @@ import br.com.etraining.exception.ETrainingBusinessException;
 import br.com.etraining.exception.ETrainingException;
 import br.com.etraining.modelo.dao.interfaces.IDaoAluno;
 import br.com.etraining.modelo.entidades.EntAluno;
+import br.com.etraining.modelo.entidades.EntPerfilAcesso;
 import br.com.etraining.negocio.bo.interfaces.AbstractBO;
 
 @Named("RealizarLoginVO")
@@ -58,7 +59,10 @@ public class RealizarLoginBO extends
 			response.setNome(aluno.getNome());
 
 			List<String> listaPermissoes = new ArrayList<String>();
-			listaPermissoes.add(aluno.getMatricula().getPerfilAcesso());
+			for (EntPerfilAcesso perfilAcesso : aluno.getMatricula()
+					.getListaPerfilAcesso()) {
+				listaPermissoes.add(perfilAcesso.getNome());
+			}
 			response.setListaPermissoes(listaPermissoes);
 		} else {
 			throw new ETrainingBusinessException(CodigoExcecao.USUARIO_INATIVO);

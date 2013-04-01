@@ -3,11 +3,11 @@ package br.com.etraining.modelo.dao.jpa.impl;
 import javax.inject.Named;
 
 import br.com.etraining.modelo.dao.interfaces.IDaoDiaSemana;
-import br.com.etraining.modelo.def.impl.jpa.DaoCRUDJPA;
+import br.com.etraining.modelo.def.impl.jpa.DaoPesquisaJPA;
 import br.com.etraining.modelo.entidades.EntDiaSemana;
 
 @Named
-public class DaoDiaSemanaJPA extends DaoCRUDJPA<EntDiaSemana> implements
+public class DaoDiaSemanaJPA extends DaoPesquisaJPA<EntDiaSemana> implements
 		IDaoDiaSemana {
 
 	@Override
