@@ -1,4 +1,4 @@
-package br.com.etraining.web.security;
+package br.com.etraining.web.managedbeans.security;
 
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;

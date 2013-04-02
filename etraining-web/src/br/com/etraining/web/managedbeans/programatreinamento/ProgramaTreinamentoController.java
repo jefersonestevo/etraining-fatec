@@ -91,13 +91,12 @@ public class ProgramaTreinamentoController extends EtrainingManagedBean {
 
 			resposta = (RespostaConsultaProgramaTreinamentoVO) service
 					.executa(aprovar);
-			preparaTela(false, true);
 			showSuccessMessage();
 		} catch (ViewException e) {
 			addExceptionMessage(e);
 			return null;
 		}
-		return "/pages/programaTreinamento/programaTreinamentoEdicao.xhtml";
+		return irParaTelaPesquisa();
 	}
 
 	public String irParaTelaGeracao() {

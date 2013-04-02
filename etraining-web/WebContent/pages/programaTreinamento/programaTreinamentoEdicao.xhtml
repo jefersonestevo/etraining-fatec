@@ -60,6 +60,18 @@
 							columnClasses="width-25, width-1, width-75">
 
 							<h:outputText
+								value="#{message.Programa_Treinamento_Selecione_Dias_Semana}" />
+							<p:separator styleClass="separador-campos" />
+							<p:selectManyButton
+								value="#{programaTreinamentoController.listaDiasSemana}">
+								<f:selectItems value="#{viewDataUtils.listaDiasSemana}" />
+							</p:selectManyButton>
+						</p:panelGrid>
+
+						<p:panelGrid columns="3" styleClass="panel-grid full-width"
+							columnClasses="width-25, width-1, width-75">
+
+							<h:outputText
 								value="#{message.Programa_Treinamento_Selecione_Exercicio}" />
 							<p:separator styleClass="separador-campos" />
 							<p:selectOneMenu id="selectExercicio"
@@ -85,17 +97,6 @@
 							</p:panelGrid>
 						</p:outputPanel>
 
-						<p:panelGrid columns="3" styleClass="panel-grid full-width"
-							columnClasses="width-25, width-1, width-75">
-
-							<h:outputText
-								value="#{message.Programa_Treinamento_Selecione_Dias_Semana}" />
-							<p:separator styleClass="separador-campos" />
-							<p:selectManyButton
-								value="#{programaTreinamentoController.listaDiasSemana}">
-								<f:selectItems value="#{viewDataUtils.listaDiasSemana}" />
-							</p:selectManyButton>
-						</p:panelGrid>
 					</p:outputPanel>
 					<p:commandButton
 						actionListener="#{programaTreinamentoController.adicionarExercicio}"
@@ -160,19 +161,41 @@
 			<p:outputPanel styleClass="invisivel" />
 			<p:outputPanel>
 				<p:commandButton value="#{message.Aprovar}" global="false"
-					rendered="#{programaTreinamentoController.aprovacao}"
-					rendered="#{securityChecker.temPermissao('PROFESSOR')}"
-					action="#{programaTreinamentoController.aprovar}" immediate="true" />
+					rendered="#{programaTreinamentoController.aprovacao and securityChecker.temPermissao('PROFESSOR')}"
+					immediate="true" onclick="confirmacaoAprovacao.show()" />
 				<p:commandButton value="#{message.Gerar}" global="false"
-					rendered="#{programaTreinamentoController.editavel}"
-					rendered="#{securityChecker.temPermissao('PROFESSOR')}"
-					action="#{programaTreinamentoController.gerar}" immediate="true" />
+					rendered="#{programaTreinamentoController.editavel and securityChecker.temPermissao('PROFESSOR')}"
+					immediate="true" onclick="confirmacaoGeracao.show()" />
 				<p:commandButton value="#{message.Voltar}"
 					action="#{programaTreinamentoController.irParaTelaPesquisa}"
 					immediate="true" />
 			</p:outputPanel>
 			<p:outputPanel styleClass="invisivel" />
 		</p:panelGrid>
+
+		<p:confirmDialog id="confirmDialogGeracao"
+			header="#{message.Header_Confirmacao_Geracao}"
+			message="#{message.Confirmar_Geracao_Programa_Treinamento}"
+			width="500" widgetVar="confirmacaoGeracao">
+
+			<p:commandButton id="confirmarGeracao" value="#{message.Sim}"
+				action="#{programaTreinamentoController.gerar}" immediate="true"
+				oncomplete="confirmacaoGeracao.hide()" />
+			<p:commandButton id="recusarGeracao" value="#{message.Nao}"
+				immediate="true" onclick="confirmacaoGeracao.hide()" type="button" />
+		</p:confirmDialog>
+
+		<p:confirmDialog id="confirmDialogAprovacao"
+			header="#{message.Header_Confirmacao_Aprovacao}" width="500"
+			message="#{message.Confirmar_Aprovacao_Programa_Treinamento}"
+			widgetVar="confirmacaoAprovacao">
+
+			<p:commandButton id="confirmarAprovacao" value="#{message.Sim}"
+				action="#{programaTreinamentoController.aprovar}" immediate="true"
+				oncomplete="confirmacaoAprovacao.hide()" />
+			<p:commandButton id="recusarAprovacao" value="#{message.Nao}"
+				immediate="true" onclick="confirmacaoAprovacao.hide()" type="button" />
+		</p:confirmDialog>
 
 	</ui:define>
 
