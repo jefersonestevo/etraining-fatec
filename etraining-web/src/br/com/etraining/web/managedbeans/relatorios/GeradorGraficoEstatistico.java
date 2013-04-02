@@ -17,6 +17,15 @@ public class GeradorGraficoEstatistico extends EtrainingManagedBean {
 	public CartesianChartModel gerarGraficoCartesiano(
 			RespostaConsultaEstatisticaVO resposta) {
 
+		boolean possuiPropostos = CollectionUtils.isNotEmpty(resposta
+				.getListaPontosPropostos());
+		boolean possuiReal = CollectionUtils.isNotEmpty(resposta
+				.getListaPontosReais());
+
+		if (!possuiReal && !possuiPropostos) {
+			return null;
+		}
+
 		CartesianChartModel grafico = new CartesianChartModel();
 
 		LineChartSeries serieReal = new LineChartSeries();
@@ -26,11 +35,6 @@ public class GeradorGraficoEstatistico extends EtrainingManagedBean {
 		LineChartSeries serieProposta = new LineChartSeries();
 		serieProposta.setMarkerStyle("diamond");
 		serieProposta.setLabel(getLabel(false));
-
-		boolean possuiPropostos = CollectionUtils.isNotEmpty(resposta
-				.getListaPontosPropostos());
-		boolean possuiReal = CollectionUtils.isNotEmpty(resposta
-				.getListaPontosReais());
 
 		// Preenche os pontos reais
 		if (possuiReal) {

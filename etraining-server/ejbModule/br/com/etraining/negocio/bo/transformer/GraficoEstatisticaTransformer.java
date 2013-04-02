@@ -120,7 +120,8 @@ public class GraficoEstatisticaTransformer {
 					// semana no programa de treinamento
 					Long pontuacao = ponto.getPontos()
 							+ getPontuacao(dataFinal,
-									prog.getListaExercicioProposto());
+									prog.getListaExercicioProposto(),
+									idExercicio);
 					ponto.setPontos(pontuacao);
 
 					dataFinal = DateUtils.addDays(dataFinal, 1);
@@ -129,50 +130,11 @@ public class GraficoEstatisticaTransformer {
 			}
 		}
 
-		// TODO - Utilizar dataAprovacao e dataCancelamento para validar as
-		// datas dos programas de treinamento
-		// for (EntProgramaTreinamento programaTreinamento :
-		// listaProgramaTreinamento) {
-		// Date dataProg = programaTreinamento.getDataVencimento();
-		// // Procura o proximo domingo
-		// Date data = DataUtils.getProximaData(dataProg, Calendar.SUNDAY);
-		//
-		// // Se o programa de treinamento foi cancelado antes do domingo, não
-		// // o considera para contagem
-		// if (programaTreinamento.getDataCancelamento() != null
-		// && data.after(DateUtils.truncate(
-		// programaTreinamento.getDataCancelamento(),
-		// Calendar.DATE))) {
-		// continue;
-		// }
-		//
-		// PontoGraficoVO ponto = pontosReais.get(data);
-		// if (ponto == null) {
-		// ponto = new PontoGraficoVO(data);
-		// pontosReais.put(data, ponto);
-		// }
-		// for (EntExercicioProposto exercProposto : programaTreinamento
-		// .getListaExercicioProposto()) {
-		//
-		// if (idExercicio != null) {
-		// if (!idExercicio.equals(exercProposto.getExercicio()
-		// .getId()))
-		// continue;
-		// }
-		//
-		// Long pontuacao = ponto.getPontos()
-		// + (exercProposto.getExercicio().getPontosPorAtividade() *
-		// exercProposto
-		// .getQuantidadeExercicioSugerida());
-		// ponto.setPontos(pontuacao);
-		// }
-		// }
-
 		return new ArrayList<PontoGraficoVO>(pontosReais.values());
 	}
 
 	private Long getPontuacao(Date data,
-			List<EntExercicioProposto> listaExercicioProposto) {
+			List<EntExercicioProposto> listaExercicioProposto, Long idExercicio) {
 		if (data == null)
 			return 0l;
 
@@ -182,10 +144,21 @@ public class GraficoEstatisticaTransformer {
 
 		Long pontuacao = 0l;
 		for (EntExercicioProposto prop : listaExercicioProposto) {
-			if (indice.equals(prop.getId())) {
-				pontuacao = new Long(prop.getQuantidadeExercicioSugerida()
-						* prop.getExercicio().getPontosPorAtividade());
-				break;
+			if (indice.equals(prop.getDiaSemana().getId())) {
+				// realizar a contagem do exercicio proposto por padrão
+				boolean contar = true;
+
+				// Se possuir exercício e o exercicio do exercicio proposto não
+				// for o informado, não o conta.
+				if (idExercicio != null
+						&& !idExercicio.equals(prop.getExercicio().getId())) {
+					contar = false;
+				}
+
+				if (contar) {
+					pontuacao += new Long(prop.getQuantidadeExercicioSugerida()
+							* prop.getExercicio().getPontosPorAtividade());
+				}
 			}
 		}
 

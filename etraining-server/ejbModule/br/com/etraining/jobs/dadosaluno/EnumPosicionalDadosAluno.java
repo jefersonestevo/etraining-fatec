@@ -19,7 +19,7 @@ public enum EnumPosicionalDadosAluno {
 	PRESSAO_MAXIMA(false, TamanhoCampo.TAMANHO_MEDIO, true), //
 	PRESSAO_MINIMA(false, TamanhoCampo.TAMANHO_MEDIO, true), //
 	TEMPO_ESTEIRA(false, TamanhoCampo.TAMANHO_MEDIO, true), //
-	PERFIL_ACESSO(true, TamanhoCampo.TAMANHO_MUITO_PEQUENO, false), //
+	PERFIL_ACESSO(true, TamanhoCampo.TAMANHO_MEDIO, false), //
 	DIAS_TREINAMENTO(true, TamanhoCampo.TAMANHO_PEQUENO, false), //
 	;
 

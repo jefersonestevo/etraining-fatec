@@ -64,40 +64,6 @@ public class EstatisticaGeralController extends EtrainingManagedBean {
 	}
 
 	public void pesquisar() {
-
-		// ExercicioVO exercicio = new ExercicioVO();
-		// exercicio.setTitulo("EXERCICIO 01");
-		// resposta.setExercicio(exercicio);
-		// resposta.setTipoGrafico(ConsultaEstatisticaConstants.CONSULTA_POR_EXERCICIOS);
-		// resposta.setListaPontosReais(new ArrayList<PontoGraficoVO>());
-		//
-		// Calendar cal = Calendar.getInstance();
-		// cal.setTime(new Date());
-		// cal.add(Calendar.DATE, -30);
-		//
-		// Calendar calFinal = Calendar.getInstance();
-		// calFinal.setTime(new Date());
-		// calFinal.add(Calendar.DATE, 60);
-		//
-		// while (cal.before(calFinal)) {
-		// cal.add(Calendar.DATE, 7);
-		// PontoGraficoVO ponto = new PontoGraficoVO(cal.getTime());
-		// ponto.setPontos(new Double(Math.random() * 500).longValue());
-		// resposta.getListaPontosReais().add(ponto);
-		// }
-		//
-		// cal = Calendar.getInstance();
-		// cal.setTime(new Date());
-		// cal.add(Calendar.DATE, -30);
-		//
-		// while (cal.before(calFinal)) {
-		// cal.add(Calendar.DATE, 7);
-		// PontoGraficoVO ponto = new PontoGraficoVO(cal.getTime());
-		// ponto.setPontos(new Long(new Double(Math.random() *
-		// 500).intValue()));
-		// resposta.getListaPontosPropostos().add(ponto);
-		// }
-
 		try {
 			resposta = (RespostaConsultaEstatisticaVO) service
 					.executa(consulta);
@@ -112,7 +78,12 @@ public class EstatisticaGeralController extends EtrainingManagedBean {
 			}
 
 			this.grafico = geradorGrafico.gerarGraficoCartesiano(resposta);
-			this.possuiResultado = true;
+
+			if (this.grafico != null) {
+				this.possuiResultado = true;
+			} else {
+				this.possuiResultado = false;
+			}
 		} catch (ViewException e) {
 			addExceptionMessage(e);
 			this.possuiResultado = false;

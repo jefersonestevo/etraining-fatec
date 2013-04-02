@@ -70,40 +70,6 @@ public class EstatisticaIndividualController extends EtrainingManagedBean {
 		if (hasError)
 			return;
 
-		//
-		// AlunoVO aluno = new AlunoVO();
-		// aluno.setNome("ALUNO TESTE 01");
-		// resposta.setAluno(aluno);
-		// resposta.setListaPontosReais(new ArrayList<PontoGraficoVO>());
-		//
-		// Calendar cal = Calendar.getInstance();
-		// cal.setTime(new Date());
-		// cal.add(Calendar.DATE, -30);
-		//
-		// Calendar calFinal = Calendar.getInstance();
-		// calFinal.setTime(new Date());
-		// calFinal.add(Calendar.DATE, 60);
-		//
-		// while (cal.before(calFinal)) {
-		// cal.add(Calendar.DATE, 7);
-		// PontoGraficoVO ponto = new PontoGraficoVO(cal.getTime());
-		// ponto.setPontos(new Long(new Double(Math.random() *
-		// 500).intValue()));
-		// resposta.getListaPontosReais().add(ponto);
-		// }
-		//
-		// cal = Calendar.getInstance();
-		// cal.setTime(new Date());
-		// cal.add(Calendar.DATE, -30);
-		//
-		// while (cal.before(calFinal)) {
-		// cal.add(Calendar.DATE, 7);
-		// PontoGraficoVO ponto = new PontoGraficoVO(cal.getTime());
-		// ponto.setPontos(new Long(new Double(Math.random() *
-		// 500).intValue()));
-		// resposta.getListaPontosPropostos().add(ponto);
-		// }
-
 		try {
 			consulta.setIdAluno(alunoSelecionado.getId());
 			resposta = (RespostaConsultaEstatisticaVO) service
@@ -112,7 +78,12 @@ public class EstatisticaIndividualController extends EtrainingManagedBean {
 					+ resposta.getAluno().getNome());
 
 			this.grafico = geradorGrafico.gerarGraficoCartesiano(resposta);
-			this.possuiResultado = true;
+
+			if (this.grafico != null) {
+				this.possuiResultado = true;
+			} else {
+				this.possuiResultado = false;
+			}
 		} catch (ViewException e) {
 			addExceptionMessage(e);
 			return;

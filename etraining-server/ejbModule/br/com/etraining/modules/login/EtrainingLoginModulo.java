@@ -69,8 +69,11 @@ public class EtrainingLoginModulo extends UsernamePasswordLoginModule {
 					.getBOFor(RealizarLoginVO.class);
 			return bo.executa(realizarLogin);
 		} catch (NamingException e) {
+			e.printStackTrace();
 		} catch (ETrainingException e) {
+			e.printStackTrace();
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		return null;
 	}

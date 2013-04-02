@@ -52,7 +52,7 @@ public class EntMatricula extends BeanJPA {
 	@Column(name = "usuario_ativo")
 	private Boolean usuarioAtivo = true;
 
-	@ManyToMany(targetEntity = EntPerfilAcesso.class, fetch = FetchType.LAZY)
+	@ManyToMany(targetEntity = EntPerfilAcesso.class, fetch = FetchType.EAGER)
 	@JoinTable(name = "matricula_perfilacesso", joinColumns = @JoinColumn(name = "id_matricula", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "id_perfil_acesso", referencedColumnName = "id"))
 	private List<EntPerfilAcesso> listaPerfilAcesso;
 

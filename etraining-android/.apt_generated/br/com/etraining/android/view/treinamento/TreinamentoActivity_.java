@@ -42,29 +42,14 @@ public final class TreinamentoActivity_
     private void init_(Bundle savedInstanceState) {
         pref = new EtrainingPref_(this);
         injectExtras_();
-        exerciciosHolder = ExercicioHolder_.getInstance_(this);
         service = EtrainingAndroidService_.getInstance_(this);
+        exerciciosHolder = ExercicioHolder_.getInstance_(this);
         restoreSavedInstanceState_(savedInstanceState);
     }
 
     private void afterSetContentView_() {
-        listaItens = ((ListView) findViewById(id.lista_items));
         dataSelecionada = ((TextView) findViewById(id.lbl_data_selecionada));
-        {
-            View view = findViewById(id.btn_primario);
-            if (view!= null) {
-                view.setOnClickListener(new OnClickListener() {
-
-
-                    @Override
-                    public void onClick(View view) {
-                        TreinamentoActivity_.this.pressBotaoPrincipal();
-                    }
-
-                }
-                );
-            }
-        }
+        listaItens = ((ListView) findViewById(id.lista_items));
         {
             View view = findViewById(id.btn_secundario);
             if (view!= null) {
@@ -80,8 +65,23 @@ public final class TreinamentoActivity_
                 );
             }
         }
-        ((ExercicioHolder_) exerciciosHolder).afterSetContentView_();
+        {
+            View view = findViewById(id.btn_primario);
+            if (view!= null) {
+                view.setOnClickListener(new OnClickListener() {
+
+
+                    @Override
+                    public void onClick(View view) {
+                        TreinamentoActivity_.this.pressBotaoPrincipal();
+                    }
+
+                }
+                );
+            }
+        }
         ((EtrainingAndroidService_) service).afterSetContentView_();
+        ((ExercicioHolder_) exerciciosHolder).afterSetContentView_();
     }
 
     @Override
@@ -132,14 +132,14 @@ public final class TreinamentoActivity_
     }
 
     @Override
-    public void finalizarCarregamentoListaExercicio(final List<ExercicioVO> listaExercicio, final EtrainingViewException exception) {
+    public void finalizarCarregamentoListaExercicioRealizado(final RespostaConsultaListaExercicioRealizadoVO response, final EtrainingViewException exception) {
         handler_.post(new Runnable() {
 
 
             @Override
             public void run() {
                 try {
-                    TreinamentoActivity_.super.finalizarCarregamentoListaExercicio(listaExercicio, exception);
+                    TreinamentoActivity_.super.finalizarCarregamentoListaExercicioRealizado(response, exception);
                 } catch (RuntimeException e) {
                     Log.e("TreinamentoActivity_", "A runtime exception was thrown while executing code in a runnable", e);
                 }
@@ -150,14 +150,14 @@ public final class TreinamentoActivity_
     }
 
     @Override
-    public void finalizarCarregamentoListaExercicioRealizado(final RespostaConsultaListaExercicioRealizadoVO response, final EtrainingViewException exception) {
+    public void finalizarCarregamentoListaExercicio(final List<ExercicioVO> listaExercicio, final EtrainingViewException exception) {
         handler_.post(new Runnable() {
 
 
             @Override
             public void run() {
                 try {
-                    TreinamentoActivity_.super.finalizarCarregamentoListaExercicioRealizado(response, exception);
+                    TreinamentoActivity_.super.finalizarCarregamentoListaExercicio(listaExercicio, exception);
                 } catch (RuntimeException e) {
                     Log.e("TreinamentoActivity_", "A runtime exception was thrown while executing code in a runnable", e);
                 }
