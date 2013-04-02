@@ -161,9 +161,11 @@
 			<p:outputPanel>
 				<p:commandButton value="#{message.Aprovar}" global="false"
 					rendered="#{programaTreinamentoController.aprovacao}"
+					rendered="#{securityChecker.temPermissao('PROFESSOR')}"
 					action="#{programaTreinamentoController.aprovar}" immediate="true" />
 				<p:commandButton value="#{message.Gerar}" global="false"
 					rendered="#{programaTreinamentoController.editavel}"
+					rendered="#{securityChecker.temPermissao('PROFESSOR')}"
 					action="#{programaTreinamentoController.gerar}" immediate="true" />
 				<p:commandButton value="#{message.Voltar}"
 					action="#{programaTreinamentoController.irParaTelaPesquisa}"

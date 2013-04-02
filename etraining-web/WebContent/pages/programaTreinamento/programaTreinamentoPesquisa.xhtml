@@ -60,9 +60,11 @@
 			<p:outputPanel>
 				<p:commandButton
 					action="#{programaTreinamentoController.irParaTelaAprovacao}"
+					rendered="#{securityChecker.temPermissao('PROFESSOR')}"
 					global="false" value="#{message.Aprovar}" />
 				<p:commandButton
 					action="#{programaTreinamentoController.irParaTelaGeracao}"
+					rendered="#{securityChecker.temPermissao('PROFESSOR')}"
 					global="false" value="#{message.Gerar}" />
 				<p:commandButton value="#{message.Voltar}" global="false"
 					action="/pages/home.xhtml" immediate="true" />

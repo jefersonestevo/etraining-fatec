@@ -20,6 +20,18 @@
 		<url-pattern>*.jsf</url-pattern>
 	</servlet-mapping>
 
+	<login-config>
+		<auth-method>FORM</auth-method>
+		<form-login-config>
+			<form-login-page>/login.xhtml</form-login-page>
+			<form-error-page>/error.xhtml</form-error-page>
+		</form-login-config>
+	</login-config>
+
+	<session-config>
+		<session-timeout>30</session-timeout>
+	</session-config>
+	
 	<security-constraint>
 		<display-name>Paginas WEB</display-name>
 		<web-resource-collection>
@@ -33,17 +45,43 @@
 			<role-name>PROFESSOR</role-name>
 		</auth-constraint>
 	</security-constraint>
+	
+	<security-constraint>
+		<display-name>Paginas Relatorios</display-name>
+		<web-resource-collection>
+			<web-resource-name>Paginas Relatorios</web-resource-name>
+			<description />
+			<url-pattern>/pages/relatorios/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>ADM</role-name>
+		</auth-constraint>
+	</security-constraint>
+	
+	<security-constraint>
+		<display-name>Paginas Alteracao Aluno</display-name>
+		<web-resource-collection>
+			<web-resource-name>Paginas Alteracao Aluno</web-resource-name>
+			<description />
+			<url-pattern>/pages/aluno/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>ADM</role-name>
+			<role-name>PROFESSOR</role-name>
+		</auth-constraint>
+	</security-constraint>
 
-	<login-config>
-		<auth-method>FORM</auth-method>
-		<form-login-config>
-			<form-login-page>/login.xhtml</form-login-page>
-			<form-error-page>/error.xhtml</form-error-page>
-		</form-login-config>
-	</login-config>
-
-	<session-config>
-		<session-timeout>30</session-timeout>
-	</session-config>
-
+	<security-constraint>
+		<display-name>Paginas Programa Treinamento</display-name>
+		<web-resource-collection>
+			<web-resource-name>Paginas Programa Treinamento</web-resource-name>
+			<description />
+			<url-pattern>/pages/programaTreinamento/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>PROFESSOR</role-name>
+		</auth-constraint>
+	</security-constraint>
+	
+	
 </web-app>

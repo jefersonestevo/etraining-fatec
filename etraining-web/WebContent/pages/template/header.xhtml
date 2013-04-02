@@ -8,11 +8,13 @@
 	<p:menubar id="menuPrincipal">
 		<p:menuitem value="#{message.Menu_Home}" icon="ui-icon-home"
 			action="/pages/home.xhtml" immediate="true" />
-		<p:submenu label="#{message.Menu_Administracao}" icon="ui-icon-note">
+		<p:submenu label="#{message.Menu_Administracao}" icon="ui-icon-note"
+			rendered="#{securityChecker.temPermissao('ADM') or securityChecker.temPermissao('PROFESSOR')}">
 			<p:menuitem value="#{message.Menu_Dados_Usuario}"
 				icon="ui-icon-pencil" immediate="true"
 				action="#{alunoController.irParaTelaPesquisa}" />
-			<p:submenu label="#{message.Menu_Relatorios}" icon="ui-icon-disk">
+			<p:submenu label="#{message.Menu_Relatorios}" icon="ui-icon-disk"
+				rendered="#{securityChecker.temPermissao('ADM')}">
 				<p:menuitem value="#{message.Menu_Relatorios_Estatistica_Geral}"
 					action="#{estatisticaGeralController.irParaTelaPesquisa}"
 					immediate="true" icon="ui-icon-search" />
@@ -27,6 +29,7 @@
 				action="#{listaExercicioController.irParaTelaPesquisa}" />
 			<p:menuitem value="#{message.Menu_Rotina_Treinamento}"
 				icon="ui-icon-pencil" immediate="true"
+				rendered="#{securityChecker.temPermissao('PROFESSOR')}"
 				action="#{programaTreinamentoController.irParaTelaPesquisa}" />
 		</p:submenu>
 		<p:submenu label="#{message.Menu_Ajuda}" icon="ui-icon-help">
