@@ -46,8 +46,14 @@ public class InsercaoExercicioRealizadoBO
 			InsercaoExercicioRealizadoVO request) throws ETrainingException {
 
 		DiaExercicioVO diaExercicioVO = request.getDiaExercicio();
-		EntDiaExercicio diaExercicio = diaExercicioDao.pesquisar(request
-				.getDiaExercicio().getId());
+		EntDiaExercicio diaExercicio = null;
+
+		if (request.getIdAluno() != null
+				&& request.getDiaExercicio().getData() != null) {
+			diaExercicio = diaExercicioDao.pesquisar(request.getIdAluno(),
+					request.getDiaExercicio().getData());
+		}
+
 		if (diaExercicio == null || diaExercicio.getId() == null) {
 			// Se nao existir o dia de exercicio, insere-o na base
 			diaExercicio = converdorDiaExercicio.fromVO(diaExercicioVO);

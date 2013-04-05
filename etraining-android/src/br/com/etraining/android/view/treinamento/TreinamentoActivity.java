@@ -1,9 +1,12 @@
 package br.com.etraining.android.view.treinamento;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.DialogFragment;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.View;
@@ -18,14 +21,23 @@ import br.com.etraining.android.exceptions.EtrainingViewException;
 import br.com.etraining.android.exceptions.TradutorExcecaoView;
 import br.com.etraining.android.service.EtrainingAndroidService;
 import br.com.etraining.android.service.ExercicioHolder;
+import br.com.etraining.android.utils.DialogView;
+import br.com.etraining.android.utils.DialogView.Action;
+import br.com.etraining.android.utils.DialogView.ActionQuantidadeAtividade;
 import br.com.etraining.android.utils.EtrainingAndroidConstants;
 import br.com.etraining.android.utils.ExtraConstants;
+import br.com.etraining.android.utils.fragment.DatePickerFragment;
+import br.com.etraining.android.utils.fragment.DatePickerFragment.DatePickerListener;
 import br.com.etraining.android.utils.pref.EtrainingPref_;
 import br.com.etraining.android.view.interfaces.TreinamentoStrategy;
 import br.com.etraining.android.view.treinamento.adapters.ExercicioAdapter;
 import br.com.etraining.android.view.treinamento.adapters.TreinamentoAdapter;
+import br.com.etraining.client.vo.impl.entidades.DiaExercicioVO;
+import br.com.etraining.client.vo.impl.entidades.ExercicioRealizadoSimplesVO;
 import br.com.etraining.client.vo.impl.entidades.ExercicioVO;
 import br.com.etraining.client.vo.impl.exerciciorealizado.ConsultaListaExercicioRealizadoVO;
+import br.com.etraining.client.vo.impl.exerciciorealizado.InsercaoExercicioRealizadoVO;
+import br.com.etraining.client.vo.impl.exerciciorealizado.RemocaoExercicioRealizadoVO;
 import br.com.etraining.client.vo.impl.exerciciorealizado.RespostaConsultaListaExercicioRealizadoVO;
 import br.com.etraining.client.vo.transporte.CodigoExcecao;
 
@@ -41,7 +53,7 @@ import com.googlecode.androidannotations.annotations.sharedpreferences.Pref;
 
 @EActivity
 public class TreinamentoActivity extends Activity implements
-		OnItemLongClickListener, OnItemClickListener {
+		OnItemLongClickListener, OnItemClickListener, DatePickerListener {
 
 	ProgressDialog progressDialog;
 
@@ -142,6 +154,9 @@ public class TreinamentoActivity extends Activity implements
 		@Override
 		public void inicializarCampos() {
 			carregarListaExercicioRealizado();
+
+			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+			dataSelecionada.setText(sdf.format(pref.dataSelecionada().get()));
 		}
 
 		@Override
@@ -152,7 +167,10 @@ public class TreinamentoActivity extends Activity implements
 
 		@Override
 		public void botaoSecundario() {
-			// TODO - Abrir modal para selecao de data
+			DialogFragment dateFragment = new DatePickerFragment(
+					TreinamentoActivity.this);
+			dateFragment.show(getFragmentManager(),
+					"treinamentoDatePickerFragment");
 		}
 
 		@Override
@@ -167,10 +185,19 @@ public class TreinamentoActivity extends Activity implements
 		}
 
 		@Override
-		public boolean onItemListaLongPress(int position) {
-			// TODO - Abrir modal para remover exercicio realizado
+		public boolean onItemListaLongPress(final int position) {
+			DialogView.exibirDialogConfirmacao(TreinamentoActivity.this,
+					R.string.msg_confirmacao_remocao_exercicio_realizado,
+					new Action() {
 
-			return false;
+						@Override
+						public void execute() {
+							ExercicioRealizadoSimplesVO exerc = (ExercicioRealizadoSimplesVO) listAdapter
+									.getItem(position);
+							removerExercicioRealizado(exerc);
+						}
+					});
+			return true;
 		}
 
 	}
@@ -205,9 +232,18 @@ public class TreinamentoActivity extends Activity implements
 		}
 
 		@Override
-		public void onItemListaPress(int position) {
-			// TODO - Abrir modal para selecao de atividade e insercao do
-			// exercicio realizado
+		public void onItemListaPress(final int position) {
+			DialogView.exibirDialogConfirmacaoQuantidade(
+					TreinamentoActivity.this,
+					R.string.header_insercao_quantidade,
+					new ActionQuantidadeAtividade() {
+						@Override
+						public void execute(Integer qntd) {
+							ExercicioVO exerc = (ExercicioVO) listAdapter
+									.getItem(position);
+							inserirExercicioRealizado(exerc, qntd);
+						}
+					});
 
 		}
 
@@ -277,6 +313,84 @@ public class TreinamentoActivity extends Activity implements
 		} else {
 			listAdapter = new ExercicioAdapter(this, listaExercicio);
 			listaItens.setAdapter(listAdapter);
+		}
+	}
+
+	@Override
+	public Date getData() {
+		return new Date(pref.dataSelecionada().get());
+	}
+
+	@Override
+	public void alterarData(int year, int month, int day) {
+		final Calendar c = Calendar.getInstance();
+		c.set(Calendar.YEAR, year);
+		c.set(Calendar.MONTH, month);
+		c.set(Calendar.DATE, day);
+		c.set(Calendar.HOUR, 0);
+		c.set(Calendar.MINUTE, 0);
+		c.set(Calendar.SECOND, 0);
+
+		pref.dataSelecionada().put(c.getTime().getTime());
+		inicializar();
+	}
+
+	@Background
+	protected void removerExercicioRealizado(ExercicioRealizadoSimplesVO exerc) {
+		EtrainingViewException exception = null;
+		RemocaoExercicioRealizadoVO remocao = new RemocaoExercicioRealizadoVO();
+		try {
+			remocao.setData(new Date(pref.dataSelecionada().get()));
+			remocao.setIdAluno(pref.idAluno().get());
+			remocao.setIdExercicioRealizado(exerc.getIdExercicioRealizado());
+			service.executa(remocao);
+		} catch (Exception e) {
+			exception = new EtrainingViewException(
+					CodigoExcecao.ERRO_DESCONHECIDO);
+		}
+
+		finalizarRemocaoExercicioRealizado(exception);
+	}
+
+	@UiThread
+	public void finalizarRemocaoExercicioRealizado(
+			EtrainingViewException exception) {
+		if (exception != null) {
+			TradutorExcecaoView.gerarMensagemExcecao(this, exception);
+		} else {
+			inicializar();
+		}
+	}
+
+	@Background
+	protected void inserirExercicioRealizado(ExercicioVO exerc,
+			Integer quantidade) {
+		EtrainingViewException exception = null;
+		InsercaoExercicioRealizadoVO insercao = new InsercaoExercicioRealizadoVO();
+		try {
+			insercao.setIdAluno(pref.idAluno().get());
+			insercao.setQuantidadeAtividade(quantidade);
+			insercao.setIdExercicio(exerc.getId());
+			DiaExercicioVO diaExercicio = new DiaExercicioVO();
+			diaExercicio.setData(new Date(pref.dataSelecionada().get()));
+			insercao.setDiaExercicio(diaExercicio);
+			service.executa(insercao);
+		} catch (Exception e) {
+			exception = new EtrainingViewException(
+					CodigoExcecao.ERRO_DESCONHECIDO);
+		}
+
+		finalizarInsercaoExercicioRealizado(exception);
+	}
+
+	@UiThread
+	public void finalizarInsercaoExercicioRealizado(
+			EtrainingViewException exception) {
+		if (exception != null) {
+			TradutorExcecaoView.gerarMensagemExcecao(this, exception);
+		} else {
+			this.strategy = getStrategy(EtrainingAndroidConstants.ACAO_LISTAR_TREINAMENTO);
+			inicializar();
 		}
 	}
 

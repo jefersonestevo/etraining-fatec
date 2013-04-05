@@ -107,8 +107,8 @@ public class GraficoEstatisticaTransformer {
 				// Percorre todas as datas entre a data de aprovação e a data de
 				// cancelamento (ou atual) do programa de treinamento para
 				// contabilizar os pontos
-				while (!dataFinal.after(dataInicial)) {
-					Date data = DataUtils.getProximaData(dataFinal,
+				while (!dataInicial.after(dataFinal)) {
+					Date data = DataUtils.getProximaData(dataInicial,
 							Calendar.SUNDAY);
 					PontoGraficoVO ponto = pontosReais.get(data);
 					if (ponto == null) {
@@ -119,12 +119,12 @@ public class GraficoEstatisticaTransformer {
 					// quantos pontos estavam propostos para aquele dia da
 					// semana no programa de treinamento
 					Long pontuacao = ponto.getPontos()
-							+ getPontuacao(dataFinal,
+							+ getPontuacao(dataInicial,
 									prog.getListaExercicioProposto(),
 									idExercicio);
 					ponto.setPontos(pontuacao);
 
-					dataFinal = DateUtils.addDays(dataFinal, 1);
+					dataInicial = DateUtils.addDays(dataInicial, 1);
 				}
 
 			}
