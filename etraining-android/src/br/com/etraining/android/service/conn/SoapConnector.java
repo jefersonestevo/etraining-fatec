@@ -30,26 +30,18 @@ public class SoapConnector<T> {
 	private String paramName;
 	private VORequestWS request;
 	private VOResponseWS response;
-	private Class<T> classResponse;
+	private Class<?> classResponse;
 	private Type collectionType;
 
-	public SoapConnector(SoapActionEnum connectorEnum, Class<T> classResponse) {
+	public SoapConnector(SoapActionEnum connectorEnum) {
 		this.connectorEnum = connectorEnum;
-		this.classResponse = classResponse;
 		this.request = new VORequestWS();
-		this.request.setClasse(classResponse.getName());
-	}
-
-	public SoapConnector(SoapActionEnum connectorEnum, Type collectionType) {
-		this.connectorEnum = connectorEnum;
-		this.collectionType = collectionType;
-		this.request = new VORequestWS();
-		this.request.setClasse(collectionType.getClass().getName());
 	}
 
 	public void putRequest(String nome, Object obj) {
-		paramName = nome;
-		request.setRequest(getGson().toJson(obj));
+		this.paramName = nome;
+		this.request.setRequest(getGson().toJson(obj));
+		this.request.setClasse(obj.getClass().getName());
 	}
 
 	public void execute() throws EtrainingViewException {
@@ -68,6 +60,7 @@ public class SoapConnector<T> {
 
 			response = getGson().fromJson(envelope.getResponse().toString(),
 					VOResponseWS.class);
+			classResponse = Class.forName(response.getClasse());
 		} catch (XmlPullParserException e) {
 			Log.e("ERROR", "XmlPullParserException", e);
 			throw new EtrainingViewException(
@@ -84,9 +77,14 @@ public class SoapConnector<T> {
 			Log.e("ERROR", "IOException", e);
 			throw new EtrainingViewException(
 					CodigoExcecao.ANDROID_ENTRADA_SAIDA_SERVIDOR);
+		} catch (ClassNotFoundException e) {
+			Log.e("ERROR", "ClassNotFoundException", e);
+			throw new EtrainingViewException(
+					CodigoExcecao.ANDROID_ENTRADA_SAIDA_SERVIDOR);
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public T getResponse() throws EtrainingViewException {
 		if (response.getResponse() == null || "".equals(response.getResponse())) {
 			return null;
@@ -96,7 +94,7 @@ public class SoapConnector<T> {
 
 		String resp = response.getResponse().toString();
 		if (classResponse != null)
-			return getGson().fromJson(resp, classResponse);
+			return (T) getGson().fromJson(resp, classResponse);
 		else if (collectionType != null) {
 			JsonReader reader = new JsonReader(new StringReader(resp));
 			reader.setLenient(true);

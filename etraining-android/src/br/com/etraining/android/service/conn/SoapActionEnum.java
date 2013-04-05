@@ -1,7 +1,7 @@
 package br.com.etraining.android.service.conn;
 
 public enum SoapActionEnum {
-	EXECUTAR("executar", "executar"), //
+	EXECUTAR("executa", "executa"), //
 	;
 
 	public static final String URL = "http://10.0.2.2:8080/etraining-server/ETrainingServiceWS?wsdl";

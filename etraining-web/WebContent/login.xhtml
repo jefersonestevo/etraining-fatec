@@ -1,36 +1,50 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html">
 <head>
-<title>E-Training</title>
+	<title>E-Training</title>
+
+	<link rel="stylesheet" href="/etraining-web/resources/css/login.css" />
+
 </head>
 <body>
-	<div style="height: 35px;"></div>
-	<div align="center" style="top: 30px;">
-		<h2>E-TRAINING</h2>
-	</div>
+
+	<header class="title">
+		<div>
+			<h1>e-Training System</h1>
+		</div>
+	</header>
+
 	<form method="POST" action="j_security_check">
-		<div class="center" align="center"
-			style="width: 100%; text-align: center;">
-			<div style="height: 35px; width: 35%; float: left"></div>
-			<div class="formBlock" align="center"
-				style="border: 1px solid black; width: 30%; float: left">
-				<div style="padding-top: 15px; margin-left: 0.5em;">
-					<div class="label" align="center">Matrícula:</div>
-					<div align="center">
-						<input type="text" style="width: 20em" name="j_username" id="user" />
-					</div>
+		<div class="login-form">
+			<h1>Log in<span>e-Training</span></h1>
+			<div>
+				<div>
+					<label>Matricula</label>
 				</div>
-				<div style="clear: both; margin-left: 0.5em;">
-					<div align="center" class="label">Senha:</div>
-					<div align="center">
-						<input type="password" style="width: 20em" name="j_password" />
-					</div>
+				<div>
+					<input type="text" name="j_username" id="user" class="input-text-type" />
 				</div>
-				<div align="center" style="padding-top: 15px; margin-right: 0.5em; margin-bottom: 0.5em;">
-					<input type="submit" style="width: 10em;" value="Logar" />
+			</div>
+			<div>
+				<div>
+					<label>Senha</label>
+				</div>
+				<div>
+					<input type="password" name="j_password" class="input-text-type" />
+				</div>
+			</div>
+			<div>
+				<div>
+					<input type="submit" value="Entrar" class="button" />
 				</div>
 			</div>
 		</div>
 	</form>
+
+	<footer class="footer">
+		<div>
+			<div>Faculdade de Tecnologia de São Paulo - Análise e Desenvolvimento de Sistemas</div>
+		</div>
+	</footer>
 </body>
 </html>

@@ -7,7 +7,6 @@ package br.com.etraining.android.service;
 
 import android.app.Activity;
 import android.content.Context;
-import android.net.ConnectivityManager;
 import android.view.View;
 
 public final class EtrainingAndroidService_
@@ -41,7 +40,6 @@ public final class EtrainingAndroidService_
         if (context_ instanceof Activity) {
             Activity activity = ((Activity) context_);
         }
-        connectivityManager = ((ConnectivityManager) context_.getSystemService(Context.CONNECTIVITY_SERVICE));
     }
 
     public static EtrainingAndroidService_ getInstance_(Context context) {

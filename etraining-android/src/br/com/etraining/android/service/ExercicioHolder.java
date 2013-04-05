@@ -56,6 +56,10 @@ public class ExercicioHolder {
 		}
 
 		if (!itensAtualizados) {
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+			}
 			validarPreenchimento();
 		}
 	}

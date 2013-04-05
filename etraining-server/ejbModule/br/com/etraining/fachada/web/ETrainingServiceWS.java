@@ -24,7 +24,7 @@ public class ETrainingServiceWS {
 	@Inject
 	private BOResolver boResolver;
 
-	@WebMethod
+	@WebMethod(action = "executa")
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public String executa(@WebParam(name = "request") String requestStr) {
 		Gson gson = new GsonBuilder().create();
