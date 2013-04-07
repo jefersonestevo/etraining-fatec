@@ -4,6 +4,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.apache.commons.lang.time.DateUtils;
+
 public class DataUtils {
 
 	public static Date getDataInicialDia(Date data) {
@@ -39,7 +41,7 @@ public class DataUtils {
 		while (!(cal.get(Calendar.DAY_OF_WEEK) == proximoDiaSemana)) {
 			cal.add(Calendar.DATE, 1);
 		}
-		return cal.getTime();
+		return DateUtils.truncate(cal.getTime(), Calendar.DATE);
 	}
 
 }

@@ -44,6 +44,12 @@ public class GraficoEstatisticaTransformer {
 		for (EntExercicioRealizado exercRealizado : listaExerciciosRealizados) {
 			Date data = DataUtils.getProximaData(exercRealizado
 					.getDiaExercicio().getDataRealizacao(), Calendar.SUNDAY);
+
+			Date dataAtual = DateUtils.truncate(new Date(), Calendar.DATE);
+			if (dataAtual.after(data)) {
+				data = dataAtual;
+			}
+
 			PontoGraficoVO ponto = pontosReais.get(data);
 			if (ponto == null) {
 				ponto = new PontoGraficoVO(data);
@@ -110,6 +116,13 @@ public class GraficoEstatisticaTransformer {
 				while (!dataInicial.after(dataFinal)) {
 					Date data = DataUtils.getProximaData(dataInicial,
 							Calendar.SUNDAY);
+
+					Date dataAtual = DateUtils.truncate(new Date(),
+							Calendar.DATE);
+					if (dataAtual.after(data)) {
+						data = dataAtual;
+					}
+
 					PontoGraficoVO ponto = pontosReais.get(data);
 					if (ponto == null) {
 						ponto = new PontoGraficoVO(data);

@@ -3,6 +3,8 @@ package br.com.etraining.negocio.bo.impl.aluno;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.apache.commons.lang.StringUtils;
+
 import br.com.etraining.client.vo.impl.aluno.ConsultaAlunoVO;
 import br.com.etraining.client.vo.impl.aluno.RespostaConsultaAlunoVO;
 import br.com.etraining.exception.ETrainingException;
@@ -25,7 +27,12 @@ public class ConsultaAlunoBO extends
 	protected RespostaConsultaAlunoVO executarRegrasEspecificas(
 			ConsultaAlunoVO request) throws ETrainingException {
 
-		EntAluno aluno = daoAluno.pesquisar(request.getIdAluno());
+		EntAluno aluno = null;
+		if (request.getIdAluno() != null) {
+			aluno = daoAluno.pesquisar(request.getIdAluno());
+		} else if (StringUtils.isNotBlank(request.getMatricula())) {
+			aluno = daoAluno.pesquisarPorMatricula(request.getMatricula());
+		}
 
 		RespostaConsultaAlunoVO resposta = new RespostaConsultaAlunoVO();
 		resposta.setAluno(conversorAluno.toVO(aluno));

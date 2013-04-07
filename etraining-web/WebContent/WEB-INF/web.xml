@@ -54,6 +54,7 @@
 			<url-pattern>/pages/relatorios/*</url-pattern>
 		</web-resource-collection>
 		<auth-constraint>
+			<role-name>ALUNO</role-name>
 			<role-name>ADM</role-name>
 		</auth-constraint>
 	</security-constraint>

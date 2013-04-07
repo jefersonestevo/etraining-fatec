@@ -10,14 +10,24 @@
 	</parent>
 
 	<dependencies>
-	    
-	    <dependency>
+
+		<dependency>
 			<groupId>commons-beanutils</groupId>
 			<artifactId>commons-beanutils</artifactId>
 		</dependency>
-	
+
+		<dependency>
+			<groupId>commons-collections</groupId>
+			<artifactId>commons-collections</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+		</dependency>
+
 	</dependencies>
-	
+
 	<build>
 		<sourceDirectory>WebContent/WEB-INF/src</sourceDirectory>
 		<plugins>

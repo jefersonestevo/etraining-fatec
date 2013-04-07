@@ -14,4 +14,7 @@ public interface IDaoAluno extends IDaoCRUD<EntAluno> {
 	public List<EntAluno> pesquisarPorMatriculaNome(String matricula,
 			String nome) throws ETrainingException;
 
+	public EntAluno pesquisarPorMatricula(String matricula)
+			throws ETrainingException;
+
 }

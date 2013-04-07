@@ -4,6 +4,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
+import br.com.etraining.client.dom.PerfilAcesso;
 import br.com.etraining.web.managedbeans.EtrainingManagedBean;
 
 @Named
@@ -15,6 +16,14 @@ public class SecurityChecker extends EtrainingManagedBean {
 	public boolean temPermissao(String role) {
 		return FacesContext.getCurrentInstance().getExternalContext()
 				.isUserInRole(role);
+	}
+
+	public boolean temPermissao(PerfilAcesso perfil) {
+		if (perfil == null)
+			return false;
+
+		return FacesContext.getCurrentInstance().getExternalContext()
+				.isUserInRole(perfil.getNome());
 	}
 
 }

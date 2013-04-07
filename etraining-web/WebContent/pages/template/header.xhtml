@@ -8,18 +8,20 @@
 	<p:menubar id="menuPrincipal">
 		<p:menuitem value="#{message.Menu_Home}" icon="ui-icon-home"
 			action="/pages/home.xhtml" immediate="true" />
-		<p:submenu label="#{message.Menu_Administracao}" icon="ui-icon-note"
-			rendered="#{securityChecker.temPermissao('ADM') or securityChecker.temPermissao('PROFESSOR')}">
+		<p:submenu label="#{message.Menu_Administracao}" icon="ui-icon-note">
 			<p:menuitem value="#{message.Menu_Dados_Usuario}"
 				icon="ui-icon-pencil" immediate="true"
+				rendered="#{securityChecker.temPermissao('ADM') or securityChecker.temPermissao('PROFESSOR')}"
 				action="#{alunoController.irParaTelaPesquisa}" />
 			<p:submenu label="#{message.Menu_Relatorios}" icon="ui-icon-disk"
-				rendered="#{securityChecker.temPermissao('ADM')}">
+				rendered="#{securityChecker.temPermissao('ADM') or securityChecker.temPermissao('ALUNO')}">
 				<p:menuitem value="#{message.Menu_Relatorios_Estatistica_Geral}"
 					action="#{estatisticaGeralController.irParaTelaPesquisa}"
-					immediate="true" icon="ui-icon-search" />
+					rendered="#{securityChecker.temPermissao('ADM')}" immediate="true"
+					icon="ui-icon-search" />
 				<p:menuitem value="#{message.Menu_Relatorios_Evolucao_Individual}"
 					action="#{estatisticaIndividualController.irParaTelaPesquisa}"
+					rendered="#{securityChecker.temPermissao('ADM') or securityChecker.temPermissao('ALUNO')}"
 					immediate="true" icon="ui-icon-search" />
 			</p:submenu>
 		</p:submenu>

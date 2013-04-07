@@ -11,7 +11,10 @@ import javax.inject.Named;
 
 import org.primefaces.model.chart.CartesianChartModel;
 
+import br.com.etraining.client.dom.PerfilAcesso;
+import br.com.etraining.client.vo.impl.aluno.ConsultaAlunoVO;
 import br.com.etraining.client.vo.impl.aluno.ConsultaListaAlunoSimplesVO;
+import br.com.etraining.client.vo.impl.aluno.RespostaConsultaAlunoVO;
 import br.com.etraining.client.vo.impl.aluno.RespostaConsultaListaAlunoSimplesVO;
 import br.com.etraining.client.vo.impl.entidades.AlunoSimplesVO;
 import br.com.etraining.client.vo.impl.entidades.ExercicioVO;
@@ -22,6 +25,8 @@ import br.com.etraining.client.vo.impl.relatorios.geral.RespostaConsultaEstatist
 import br.com.etraining.web.exceptions.ViewException;
 import br.com.etraining.web.fachada.ITratadorNegocioService;
 import br.com.etraining.web.managedbeans.EtrainingManagedBean;
+import br.com.etraining.web.managedbeans.security.SecurityChecker;
+import br.com.etraining.web.utils.ViewUtils;
 import br.com.etraining.web.utils.comparador.ComparadorAlunoSimplesAlfabetico;
 
 @Named
@@ -36,9 +41,16 @@ public class EstatisticaIndividualController extends EtrainingManagedBean {
 	@Inject
 	private GeradorGraficoEstatistico geradorGrafico;
 
+	@Inject
+	private SecurityChecker securityChecker;
+
+	@Inject
+	private ViewUtils viewUtils;
+
 	private ConsultaEstatisticaIndividualVO consulta = new ConsultaEstatisticaIndividualVO();
 	private RespostaConsultaEstatisticaVO resposta = new RespostaConsultaEstatisticaVO();
 
+	private boolean exibeSelecaoUsuario = true;
 	private boolean possuiResultado = false;
 	private List<SelectItem> listaExercicios = new ArrayList<SelectItem>();
 	private CartesianChartModel grafico;
@@ -56,7 +68,22 @@ public class EstatisticaIndividualController extends EtrainingManagedBean {
 		this.possuiResultado = false;
 
 		preencherListaExercicio();
-		preencherListaAluno();
+
+		exibeSelecaoUsuario = securityChecker.temPermissao(PerfilAcesso.ADM);
+		if (exibeSelecaoUsuario) {
+			preencherListaAluno();
+		} else {
+			try {
+				ConsultaAlunoVO consulta = new ConsultaAlunoVO();
+				consulta.setMatricula(viewUtils.getNomeUsuarioLogado());
+				RespostaConsultaAlunoVO resposta = (RespostaConsultaAlunoVO) service
+						.executa(consulta);
+				this.alunoSelecionado.setId(resposta.getAluno().getId());
+			} catch (ViewException e) {
+				addExceptionMessage(e);
+				return null;
+			}
+		}
 
 		return "/pages/relatorios/estatisticaIndividual.xhtml";
 	}
@@ -214,6 +241,22 @@ public class EstatisticaIndividualController extends EtrainingManagedBean {
 
 	public void setGeradorGrafico(GeradorGraficoEstatistico geradorGrafico) {
 		this.geradorGrafico = geradorGrafico;
+	}
+
+	public SecurityChecker getSecurityChecker() {
+		return securityChecker;
+	}
+
+	public void setSecurityChecker(SecurityChecker securityChecker) {
+		this.securityChecker = securityChecker;
+	}
+
+	public boolean getExibeSelecaoUsuario() {
+		return exibeSelecaoUsuario;
+	}
+
+	public void setExibeSelecaoUsuario(boolean exibeSelecaoUsuario) {
+		this.exibeSelecaoUsuario = exibeSelecaoUsuario;
 	}
 
 }

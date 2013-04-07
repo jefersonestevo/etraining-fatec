@@ -76,4 +76,20 @@ public class DaoAlunoJPA extends DaoCRUDJPA<EntAluno> implements IDaoAluno {
 
 		return getTemplate().pesquisarQuery(EntAluno.class, query.toString());
 	}
+
+	@Override
+	public EntAluno pesquisarPorMatricula(String matricula)
+			throws ETrainingException {
+		StringBuilder query = new StringBuilder();
+		query.append(" SELECT a FROM ");
+		query.append(EntAluno.class.getName() + " AS a ");
+		query.append(" WHERE ");
+		query.append(" a.matricula.numeroMatricula = ? ");
+
+		List<EntAluno> lista = getTemplate().pesquisarQuery(EntAluno.class,
+				query.toString(), new Object[] { matricula });
+		if (CollectionUtils.isNotEmpty(lista))
+			return lista.get(0);
+		return null;
+	}
 }
