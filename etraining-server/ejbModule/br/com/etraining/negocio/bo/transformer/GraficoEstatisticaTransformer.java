@@ -46,7 +46,7 @@ public class GraficoEstatisticaTransformer {
 					.getDiaExercicio().getDataRealizacao(), Calendar.SUNDAY);
 
 			Date dataAtual = DateUtils.truncate(new Date(), Calendar.DATE);
-			if (dataAtual.after(data)) {
+			if (dataAtual.before(data)) {
 				data = dataAtual;
 			}
 
@@ -59,7 +59,10 @@ public class GraficoEstatisticaTransformer {
 					+ exercRealizado.getPontos()).longValue();
 			ponto.setPontos(pontuacao);
 		}
-		return new ArrayList<PontoGraficoVO>(pontosReais.values());
+		List<PontoGraficoVO> lista = new ArrayList<PontoGraficoVO>(
+				pontosReais.values());
+		Collections.sort(lista, new ComparadorPontoGrafico());
+		return lista;
 	}
 
 	public List<PontoGraficoVO> getPontosPropostos(Date dataInicio,
@@ -74,7 +77,7 @@ public class GraficoEstatisticaTransformer {
 			return null;
 		}
 
-		Map<Date, PontoGraficoVO> pontosReais = new HashMap<Date, PontoGraficoVO>();
+		Map<Date, PontoGraficoVO> pontosPropostos = new HashMap<Date, PontoGraficoVO>();
 
 		Map<Long, List<EntProgramaTreinamento>> mapProgramaTreinamentoPorUsuario = new HashMap<Long, List<EntProgramaTreinamento>>();
 
@@ -119,14 +122,14 @@ public class GraficoEstatisticaTransformer {
 
 					Date dataAtual = DateUtils.truncate(new Date(),
 							Calendar.DATE);
-					if (dataAtual.after(data)) {
+					if (dataAtual.before(data)) {
 						data = dataAtual;
 					}
 
-					PontoGraficoVO ponto = pontosReais.get(data);
+					PontoGraficoVO ponto = pontosPropostos.get(data);
 					if (ponto == null) {
 						ponto = new PontoGraficoVO(data);
-						pontosReais.put(data, ponto);
+						pontosPropostos.put(data, ponto);
 					}
 					// Para cada data percorrida, verifica seu dia da semana e
 					// quantos pontos estavam propostos para aquele dia da
@@ -143,7 +146,10 @@ public class GraficoEstatisticaTransformer {
 			}
 		}
 
-		return new ArrayList<PontoGraficoVO>(pontosReais.values());
+		List<PontoGraficoVO> lista = new ArrayList<PontoGraficoVO>(
+				pontosPropostos.values());
+		Collections.sort(lista, new ComparadorPontoGrafico());
+		return lista;
 	}
 
 	private Long getPontuacao(Date data,

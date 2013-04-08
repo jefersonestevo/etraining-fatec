@@ -48,6 +48,14 @@
 					}
 				</script>
 
+				<p:outputPanel styles="display: none;">
+					<p:dialog modal="true" widgetVar="modalStatus" width="200"
+						height="150" header="#{message.Carregando}" draggable="false"
+						closable="false" styleClass="align-center" resizable="false">
+						<p:graphicImage url="/resources/images/carregando.gif" />
+					</p:dialog>
+				</p:outputPanel>
+
 				<div id="endereco">
 					<p:panelGrid columns="2" styleClass="full-width"
 						columnClasses="width-90, width-10">

@@ -7,36 +7,43 @@
 
 	<p:menubar id="menuPrincipal">
 		<p:menuitem value="#{message.Menu_Home}" icon="ui-icon-home"
-			action="/pages/home.xhtml" immediate="true" />
+			action="/pages/home.xhtml" immediate="true"
+			onstart="modalStatus.show()" oncomplete="modalStatus.hide()" />
 		<p:submenu label="#{message.Menu_Administracao}" icon="ui-icon-note">
 			<p:menuitem value="#{message.Menu_Dados_Usuario}"
 				icon="ui-icon-pencil" immediate="true"
 				rendered="#{securityChecker.temPermissao('ADM') or securityChecker.temPermissao('PROFESSOR')}"
-				action="#{alunoController.irParaTelaPesquisa}" />
+				action="#{alunoController.irParaTelaPesquisa}"
+				onstart="modalStatus.show()" oncomplete="modalStatus.hide()" />
 			<p:submenu label="#{message.Menu_Relatorios}" icon="ui-icon-disk"
 				rendered="#{securityChecker.temPermissao('ADM') or securityChecker.temPermissao('ALUNO')}">
 				<p:menuitem value="#{message.Menu_Relatorios_Estatistica_Geral}"
 					action="#{estatisticaGeralController.irParaTelaPesquisa}"
 					rendered="#{securityChecker.temPermissao('ADM')}" immediate="true"
-					icon="ui-icon-search" />
+					icon="ui-icon-search" onstart="modalStatus.show()"
+					oncomplete="modalStatus.hide()" />
 				<p:menuitem value="#{message.Menu_Relatorios_Evolucao_Individual}"
 					action="#{estatisticaIndividualController.irParaTelaPesquisa}"
 					rendered="#{securityChecker.temPermissao('ADM') or securityChecker.temPermissao('ALUNO')}"
-					immediate="true" icon="ui-icon-search" />
+					immediate="true" icon="ui-icon-search" onstart="modalStatus.show()"
+					oncomplete="modalStatus.hide()" />
 			</p:submenu>
 		</p:submenu>
 		<p:submenu label="#{message.Menu_Treinamento}" icon="ui-icon-contact">
 			<p:menuitem value="#{message.Menu_Lista_Exercicios}" immediate="true"
 				icon="ui-icon-document"
-				action="#{listaExercicioController.irParaTelaPesquisa}" />
+				action="#{listaExercicioController.irParaTelaPesquisa}"
+				onstart="modalStatus.show()" oncomplete="modalStatus.hide()" />
 			<p:menuitem value="#{message.Menu_Rotina_Treinamento}"
 				icon="ui-icon-pencil" immediate="true"
 				rendered="#{securityChecker.temPermissao('PROFESSOR')}"
-				action="#{programaTreinamentoController.irParaTelaPesquisa}" />
+				action="#{programaTreinamentoController.irParaTelaPesquisa}"
+				onstart="modalStatus.show()" oncomplete="modalStatus.hide()" />
 		</p:submenu>
 		<p:submenu label="#{message.Menu_Ajuda}" icon="ui-icon-help">
 			<p:menuitem value="#{message.Menu_Mapa_Site}" icon="ui-icon-image"
-				action="/pages/ajuda/mapaSite.xhtml" immediate="true" />
+				action="/pages/ajuda/mapaSite.xhtml" immediate="true"
+				onstart="modalStatus.show()" oncomplete="modalStatus.hide()" />
 		</p:submenu>
 
 		<f:facet name="options">
