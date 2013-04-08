@@ -3,6 +3,7 @@
     <string name="app_name">Etraining</string>
     <string name="menu_settings">Configurações</string>
     <string name="btn_login">Logar</string>
+    <string name="btn_selecionar_categoria">Selecionar Categoria</string>
     <string name="hint_digitar_login">Digite sua matrícula</string>
     <string name="hint_digitar_senha">Digite sua senha</string>
     <string name="header_insercao_quantidade">Inserir Exercício</string>

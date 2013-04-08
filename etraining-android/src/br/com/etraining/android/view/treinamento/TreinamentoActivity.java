@@ -8,6 +8,7 @@ import java.util.List;
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -30,6 +31,7 @@ import br.com.etraining.android.utils.fragment.DatePickerFragment;
 import br.com.etraining.android.utils.fragment.DatePickerFragment.DatePickerListener;
 import br.com.etraining.android.utils.pref.EtrainingPref_;
 import br.com.etraining.android.view.interfaces.TreinamentoStrategy;
+import br.com.etraining.android.view.login.LoginActivity_;
 import br.com.etraining.android.view.treinamento.adapters.ExercicioAdapter;
 import br.com.etraining.android.view.treinamento.adapters.TreinamentoAdapter;
 import br.com.etraining.client.vo.impl.entidades.DiaExercicioVO;
@@ -95,10 +97,11 @@ public class TreinamentoActivity extends Activity implements
 	private void inicializar() {
 		setContentView(strategy.getContentView());
 
-		progressDialog = ProgressDialog.show(this,
-				getString(R.string.msg_carregando),
-				getString(R.string.msg_favor_aguardar));
-		progressDialog.show();
+		if (progressDialog == null)
+			progressDialog = ProgressDialog.show(this,
+					getString(R.string.msg_carregando),
+					getString(R.string.msg_favor_aguardar));
+
 		if (pref.dataSelecionada().get() == 0l) {
 			pref.dataSelecionada().put(new Date().getTime());
 		}
@@ -107,7 +110,6 @@ public class TreinamentoActivity extends Activity implements
 			listaItens.setOnItemClickListener(this);
 			listaItens.setOnItemLongClickListener(this);
 		}
-		progressDialog.hide();
 	}
 
 	private TreinamentoStrategy getStrategy(Integer acaoStrategy) {
@@ -130,6 +132,11 @@ public class TreinamentoActivity extends Activity implements
 	@Click(R.id.btn_secundario)
 	public void pressBotaoSecundario() {
 		strategy.botaoSecundario();
+	}
+
+	@Click(R.id.btn_voltar)
+	public void pressBotaoVoltar() {
+		strategy.botaoVoltar();
 	}
 
 	@Override
@@ -175,8 +182,11 @@ public class TreinamentoActivity extends Activity implements
 
 		@Override
 		public void botaoVoltar() {
-			// TODO - Deslogar da aplicacao
-
+			Intent intent = new Intent(TreinamentoActivity.this,
+					LoginActivity_.class);
+			intent.putExtra(ExtraConstants.DESLOGAR_USUARIO, true);
+			startActivity(intent);
+			finish();
 		}
 
 		@Override
@@ -192,6 +202,10 @@ public class TreinamentoActivity extends Activity implements
 
 						@Override
 						public void execute() {
+
+							if (progressDialog != null)
+								progressDialog.show();
+
 							ExercicioRealizadoSimplesVO exerc = (ExercicioRealizadoSimplesVO) listAdapter
 									.getItem(position);
 							removerExercicioRealizado(exerc);
@@ -211,13 +225,14 @@ public class TreinamentoActivity extends Activity implements
 
 		@Override
 		public void inicializarCampos() {
+			if (progressDialog != null)
+				progressDialog.show();
 			carregarListaExercicio();
 		}
 
 		@Override
 		public void botaoPrincipal() {
-			strategy = getStrategy(EtrainingAndroidConstants.ACAO_LISTAR_TREINAMENTO);
-			TreinamentoActivity.this.inicializar();
+			// TODO - Construit Filtro de categoria
 		}
 
 		@Override
@@ -239,6 +254,8 @@ public class TreinamentoActivity extends Activity implements
 					new ActionQuantidadeAtividade() {
 						@Override
 						public void execute(Integer qntd) {
+							if (progressDialog != null)
+								progressDialog.show();
 							ExercicioVO exerc = (ExercicioVO) listAdapter
 									.getItem(position);
 							inserirExercicioRealizado(exerc, qntd);
@@ -289,6 +306,9 @@ public class TreinamentoActivity extends Activity implements
 					response.getListaExercicioRealizado());
 			listaItens.setAdapter(listAdapter);
 		}
+
+		if (progressDialog != null)
+			progressDialog.hide();
 	}
 
 	@Background
@@ -314,6 +334,9 @@ public class TreinamentoActivity extends Activity implements
 			listAdapter = new ExercicioAdapter(this, listaExercicio);
 			listaItens.setAdapter(listAdapter);
 		}
+
+		if (progressDialog != null)
+			progressDialog.hide();
 	}
 
 	@Override

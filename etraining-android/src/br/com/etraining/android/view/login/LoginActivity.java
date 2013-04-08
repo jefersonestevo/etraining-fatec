@@ -59,17 +59,16 @@ public class LoginActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.login_view);
 
+		if (deslogarUsuario != null && deslogarUsuario) {
+			pref.idAluno().put(0);
+			pref.numeroMatricula().put("");
+			pref.dataSelecionada().put(0l);
+		}
+
 		if (pref.idAluno().get() != 0
 				&& StringUtils.isNotBlank(pref.numeroMatricula().get())) {
 			irParaTelaListagemExerciciosRealizados();
 			return;
-		} else {
-			deslogarUsuario = true;
-		}
-
-		if (deslogarUsuario != null && deslogarUsuario) {
-			pref.idAluno().put(0);
-			pref.numeroMatricula().put("");
 		}
 	}
 
