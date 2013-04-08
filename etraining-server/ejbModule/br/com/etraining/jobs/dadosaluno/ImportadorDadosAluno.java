@@ -98,9 +98,13 @@ public class ImportadorDadosAluno {
 				EntDadosCorporais dadosCorporais = dadosAluno
 						.getDadosCorporais();
 
+				aluno.setDadosCorporais(dadosCorporais);
+				aluno.setMatricula(matricula);
 				Integer novaPontuacaoAluno = calculadoraPontosAluno
 						.calcularNovaPontuacaoAluno(aluno, null);
 				aluno.setPontuacaoSemanalAluno(novaPontuacaoAluno);
+				aluno.setDadosCorporais(null);
+				aluno.setMatricula(null);
 
 				alunoDao.inserir(aluno);
 				matricula.setAluno(aluno);

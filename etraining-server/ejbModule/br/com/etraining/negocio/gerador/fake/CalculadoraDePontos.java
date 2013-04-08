@@ -3,7 +3,6 @@ package br.com.etraining.negocio.gerador.fake;
 import javax.inject.Named;
 
 import br.com.etraining.client.dom.Sexo;
-import br.com.etraining.client.vo.impl.entidades.DadosCorporaisVO;
 import br.com.etraining.modelo.entidades.EntAluno;
 import br.com.etraining.modelo.entidades.EntDadosCorporais;
 import br.com.etraining.modelo.entidades.EntExercicioProposto;
@@ -16,26 +15,34 @@ public class CalculadoraDePontos implements ICalculadoraDePontos {
 	@Override
 	public Integer calcularNovaPontuacaoAluno(EntAluno aluno,
 			EntProgramaTreinamento programaTreinamento) {
-		EntDadosCorporais dadosCorporais = aluno.getDadosCorporais();
-		double multiplicadorFinal = Sexo.M.equals(aluno.getSexo()) ? 1 : 0.9;
 
-		int pontuacao = 0;
+		int qntdDias = aluno.getMatricula().getListaDiasTreinamento().size();
+
+		EntDadosCorporais dadosCorporais = aluno.getDadosCorporais();
+		double multiplicadorFinal = Sexo.M.equals(aluno.getSexo()) ? 1.1 : 1;
+
+		int pontuacao = 100;
 
 		pontuacao += getPontosIMC(dadosCorporais);
 		pontuacao += getPontosIndiceGorduraCorporal(dadosCorporais);
 		pontuacao += getPontosTempoEsteira(dadosCorporais);
+		pontuacao += getPontosPressaoArterial(dadosCorporais);
 
 		if (programaTreinamento != null) {
 			int pontosProgTreinamento = getPontosProgramaTreinamento(programaTreinamento);
 			pontosProgTreinamento = new Double(pontosProgTreinamento * 0.9)
 					.intValue();
 
+			// Calcula a pontuacao media do programa de treinamento por dia
+			pontosProgTreinamento = pontosProgTreinamento / qntdDias;
 			if (pontuacao < pontosProgTreinamento) {
+				// Se a quantidade de pontuacao atual for menor que a média do
+				// prog anterior, aumenta ela em 10%
 				multiplicadorFinal += 0.1;
 			}
 		}
-		// TODO - Implementar Calculo de pontos do aluno corretamente
-		return new Double(pontuacao * multiplicadorFinal).intValue();
+
+		return new Double(pontuacao * multiplicadorFinal).intValue() * qntdDias;
 	}
 
 	private int getPontosProgramaTreinamento(EntProgramaTreinamento prog) {
@@ -48,46 +55,82 @@ public class CalculadoraDePontos implements ICalculadoraDePontos {
 	}
 
 	private int getPontosIMC(EntDadosCorporais dadosCorporais) {
+		if (dadosCorporais.getPeso() == null
+				|| dadosCorporais.getAltura() == null)
+			return EnumCalculoPontos.IMC.getMedio();
+
 		double imc = dadosCorporais.getPeso()
 				/ (dadosCorporais.getAltura() * dadosCorporais.getAltura());
 
 		if (imc < 25) {
-			return 80;
+			return EnumCalculoPontos.IMC.getMedio();
 		} else if (imc < 30) {
-			return 120;
+			return EnumCalculoPontos.IMC.getMinimo();
 		} else if (imc < 35) {
-			return 80;
+			return EnumCalculoPontos.IMC.getMaximo();
 		} else {
-			return 60;
+			return EnumCalculoPontos.IMC.getMinimo();
 		}
 	}
 
 	private int getPontosIndiceGorduraCorporal(EntDadosCorporais dadosCorporais) {
+		if (dadosCorporais.getIndiceGorduraCorporal() == null)
+			return EnumCalculoPontos.IND_GORD_CORPORAL.getMedio();
+
 		double indice = dadosCorporais.getIndiceGorduraCorporal();
 		indice = indice * 100;
 
 		if (indice < 25) {
-			return 80;
+			return EnumCalculoPontos.IND_GORD_CORPORAL.getMedio();
 		} else if (indice < 50) {
-			return 120;
+			return EnumCalculoPontos.IND_GORD_CORPORAL.getMaximo();
 		} else if (indice < 75) {
-			return 100;
+			return EnumCalculoPontos.IND_GORD_CORPORAL.getMedio();
 		} else {
-			return 80;
+			return EnumCalculoPontos.IND_GORD_CORPORAL.getMinimo();
 		}
 	}
 
 	private int getPontosTempoEsteira(EntDadosCorporais dadosCorporais) {
+		if (dadosCorporais.getTempoEsteira() == null)
+			return EnumCalculoPontos.TEMPO_ESTEIRA.getMedio();
 		double tempo = dadosCorporais.getTempoEsteira();
 
 		if (tempo < 25) {
-			return 80;
+			return EnumCalculoPontos.TEMPO_ESTEIRA.getMinimo();
 		} else if (tempo < 50) {
-			return 100;
-		} else if (tempo < 75) {
-			return 120;
+			return EnumCalculoPontos.TEMPO_ESTEIRA.getMedio();
 		} else {
-			return 140;
+			return EnumCalculoPontos.TEMPO_ESTEIRA.getMaximo();
 		}
+	}
+
+	private int getPontosPressaoArterial(EntDadosCorporais dadosCorporais) {
+		if (dadosCorporais.getPressaoArterialMaxima() == null
+				|| dadosCorporais.getPressaoArterialMinima() == null)
+			return EnumCalculoPontos.PRESSAO_ARTERIAL.getMedio();
+
+		int valor = 0;
+		double minima = dadosCorporais.getPressaoArterialMinima();
+
+		if (minima < 6) {
+			valor = EnumCalculoPontos.PRESSAO_ARTERIAL.getMinimo();
+		} else if (minima < 8) {
+			valor = EnumCalculoPontos.PRESSAO_ARTERIAL.getMedio();
+		} else {
+			valor = EnumCalculoPontos.PRESSAO_ARTERIAL.getMaximo();
+		}
+
+		double maxima = dadosCorporais.getPressaoArterialMaxima();
+
+		if (maxima < 9) {
+			valor += EnumCalculoPontos.PRESSAO_ARTERIAL.getMinimo();
+		} else if (maxima < 11) {
+			valor += EnumCalculoPontos.PRESSAO_ARTERIAL.getMedio();
+		} else {
+			valor += EnumCalculoPontos.PRESSAO_ARTERIAL.getMaximo();
+		}
+
+		return valor / 2;
 	}
 }

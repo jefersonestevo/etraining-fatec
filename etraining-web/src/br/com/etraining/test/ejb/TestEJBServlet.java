@@ -9,18 +9,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.StringUtils;
-
-import br.com.etraining.client.fachada.ejb.IEtrainingService;
-import br.com.etraining.client.vo.impl.programatreinamento.ConsultaProgramaTreinamentoVO;
-import br.com.etraining.client.vo.transporte.impl.VORequest;
+import br.com.etraining.client.fachada.ejb.PopuladorBase;
 
 @WebServlet(value = "/TestEJBServlet")
 public class TestEJBServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	@EJB
-	private IEtrainingService service;
+	private PopuladorBase service;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -37,13 +33,16 @@ public class TestEJBServlet extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("TESTE EJB SERVLET");
 
-		if (StringUtils.isNotBlank(getClass().getName())) {
-			System.out.println("TESTE");
-		}
+		try {
+			service.gerarDadosPopularBase();
 
-		VORequest req = new VORequest();
-		req.setRequest(new ConsultaProgramaTreinamentoVO());
-		service.executa(req);
+			response.getWriter().print("DADOS GERADOS!");
+			System.out.println("DADOS GERADOS!");
+		} catch (RuntimeException e) {
+			response.getWriter().print("ERRO NA GERACAO DOS DADOS!");
+			System.out.println("ERRO NA GERACAO DOS DADOS!");
+		}
+		response.getWriter().flush();
 
 	}
 
