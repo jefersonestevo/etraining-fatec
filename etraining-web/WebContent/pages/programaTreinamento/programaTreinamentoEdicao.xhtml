@@ -10,14 +10,21 @@
 			<p:menuitem action="/pages/home.xhtml" immediate="true" />
 			<p:menuitem value="#{message.Header_Programa_Treinamento}"
 				action="#{programaTreinamentoController.irParaTelaPesquisa}" />
-			<p:menuitem value="#{message.Header_Programa_Treinamento_Edicao}"
+			<p:menuitem
+				value="#{programaTreinamentoController.aprovacao ? message.Header_Programa_Treinamento_Aprovacao : message.Header_Programa_Treinamento_Edicao}"
 				url="#" />
 		</p:breadCrumb>
 	</ui:define>
 
 	<ui:define name="ajuda">
-		<p:commandButton icon="ui-icon-help" immediate="true" global="false"
-			onclick="mostrarModal('/pages/ajuda/telas/programaTreinamentoEdicao.jsf')" />
+		<p:outputPanel>
+			<p:commandButton icon="ui-icon-help" immediate="true" global="false"
+				rendered="#{!programaTreinamentoController.aprovacao}"
+				onclick="mostrarModal('/pages/ajuda/telas/programaTreinamentoEdicao.jsf')" />
+			<p:commandButton icon="ui-icon-help" immediate="true" global="false"
+				rendered="#{programaTreinamentoController.aprovacao}"
+				onclick="mostrarModal('/pages/ajuda/telas/programaTreinamentoAprovacao.jsf')" />
+		</p:outputPanel>
 	</ui:define>
 
 	<ui:define name="content">

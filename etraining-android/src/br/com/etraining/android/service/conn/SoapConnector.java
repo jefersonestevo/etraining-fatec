@@ -60,7 +60,10 @@ public class SoapConnector<T> {
 
 			response = getGson().fromJson(envelope.getResponse().toString(),
 					VOResponseWS.class);
-			classResponse = Class.forName(response.getClasse());
+			if (response.getClasse() != null)
+				classResponse = Class.forName(response.getClasse());
+			else if (response.getCodigoErro() != null)
+				throw new EtrainingViewException(response.getCodigoErro());
 		} catch (XmlPullParserException e) {
 			Log.e("ERROR", "XmlPullParserException", e);
 			throw new EtrainingViewException(
@@ -81,6 +84,9 @@ public class SoapConnector<T> {
 			Log.e("ERROR", "ClassNotFoundException", e);
 			throw new EtrainingViewException(
 					CodigoExcecao.ANDROID_ENTRADA_SAIDA_SERVIDOR);
+		} catch (Exception e) {
+			Log.e("ERROR", "Exception", e);
+			throw new EtrainingViewException(CodigoExcecao.ERRO_DESCONHECIDO);
 		}
 	}
 

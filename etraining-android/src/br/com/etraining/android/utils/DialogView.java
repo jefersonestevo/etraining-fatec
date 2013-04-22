@@ -13,11 +13,11 @@ import br.com.etraining.android.R;
 public class DialogView {
 
 	public static void exibirMensagem(Context context, String mensagem) {
-		Toast.makeText(context, mensagem, Toast.LENGTH_SHORT).show();
+		Toast.makeText(context, mensagem, Toast.LENGTH_LONG).show();
 	}
 
 	public static void exibirMensagem(Context context, int resourceId) {
-		Toast.makeText(context, resourceId, Toast.LENGTH_SHORT).show();
+		Toast.makeText(context, resourceId, Toast.LENGTH_LONG).show();
 	}
 
 	public static ProgressDialog gerarDialogCarregando(Context context) {

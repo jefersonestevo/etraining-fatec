@@ -6,8 +6,10 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 
+import br.com.etraining.client.dom.PerfilAcesso;
 import br.com.etraining.client.vo.impl.realizarlogin.RealizarLoginVO;
 import br.com.etraining.client.vo.impl.realizarlogin.RespostaRealizarLoginVO;
 import br.com.etraining.client.vo.transporte.CodigoExcecao;
@@ -42,12 +44,30 @@ public class RealizarLoginBO extends
 		EntAluno aluno = daoAluno.pesquisarAlunoPorMatriculaSenha(
 				request.getNumeroMatricula(), request.getSenha());
 
-		RespostaRealizarLoginVO response = new RespostaRealizarLoginVO();
-
 		if (aluno == null) {
 			throw new ETrainingBusinessException(
 					CodigoExcecao.USUARIO_NAO_ENCONTRADO);
 		}
+
+		if (CollectionUtils.isNotEmpty(request.getPerfisAceitos())) {
+			// Verifica se o aluno possui algum dos perfis aceitos passados como
+			// parametro, se estes existirem
+			boolean hasPerfil = false;
+			outer: for (PerfilAcesso perfilAceito : request.getPerfisAceitos()) {
+				for (EntPerfilAcesso perfilAluno : aluno.getMatricula()
+						.getListaPerfilAcesso()) {
+					if (perfilAceito.getNome().equals(perfilAluno.getNome())) {
+						hasPerfil = true;
+						break outer;
+					}
+				}
+			}
+			if (!hasPerfil)
+				throw new ETrainingBusinessException(
+						CodigoExcecao.USUARIO_SEM_PERFIL);
+		}
+
+		RespostaRealizarLoginVO response = new RespostaRealizarLoginVO();
 
 		if (aluno.getMatricula().getUsuarioAtivo() != null
 				&& aluno.getMatricula().getUsuarioAtivo()) {

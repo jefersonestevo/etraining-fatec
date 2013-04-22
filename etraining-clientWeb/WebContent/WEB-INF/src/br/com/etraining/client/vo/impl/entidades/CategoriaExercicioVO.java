@@ -56,4 +56,9 @@ public class CategoriaExercicioVO implements IVO {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return titulo;
+	}
+
 }

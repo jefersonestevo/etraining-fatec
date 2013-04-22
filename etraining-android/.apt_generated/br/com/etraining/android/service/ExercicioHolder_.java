@@ -19,6 +19,7 @@ public final class ExercicioHolder_
     private static ExercicioHolder_ instance_;
 
     private ExercicioHolder_(Context context) {
+        super(context);
         context_ = context;
         init_();
     }

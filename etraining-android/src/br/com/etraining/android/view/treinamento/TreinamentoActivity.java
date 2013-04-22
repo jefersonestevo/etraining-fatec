@@ -1,20 +1,25 @@
 package br.com.etraining.android.view.treinamento;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DialogFragment;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import br.com.etraining.android.R;
@@ -34,6 +39,7 @@ import br.com.etraining.android.view.interfaces.TreinamentoStrategy;
 import br.com.etraining.android.view.login.LoginActivity_;
 import br.com.etraining.android.view.treinamento.adapters.ExercicioAdapter;
 import br.com.etraining.android.view.treinamento.adapters.TreinamentoAdapter;
+import br.com.etraining.client.vo.impl.entidades.CategoriaExercicioVO;
 import br.com.etraining.client.vo.impl.entidades.DiaExercicioVO;
 import br.com.etraining.client.vo.impl.entidades.ExercicioRealizadoSimplesVO;
 import br.com.etraining.client.vo.impl.entidades.ExercicioVO;
@@ -80,7 +86,13 @@ public class TreinamentoActivity extends Activity implements
 	@ViewById(R.id.lbl_data_selecionada)
 	TextView dataSelecionada;
 
+	@ViewById(R.id.btn_primario)
+	Button btnPrimario;
+
 	BaseAdapter listAdapter;
+
+	@InstanceState
+	ArrayList<ExercicioVO> listaExercicio = new ArrayList<ExercicioVO>();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -227,12 +239,65 @@ public class TreinamentoActivity extends Activity implements
 		public void inicializarCampos() {
 			if (progressDialog != null)
 				progressDialog.show();
-			carregarListaExercicio();
+			carregarListaExercicio(pref.categoriaSelecionada().get());
 		}
 
 		@Override
 		public void botaoPrincipal() {
-			// TODO - Construit Filtro de categoria
+			try {
+				List<CategoriaExercicioVO> listaCategoriaExercicio = exerciciosHolder
+						.getListaCategoriaExercicio();
+
+				AlertDialog.Builder builder = new AlertDialog.Builder(
+						TreinamentoActivity.this);
+
+				final View dialogView = TreinamentoActivity.this
+						.getLayoutInflater().inflate(
+								R.layout.dialog_sel_categoria_exercicio, null);
+				builder.setView(dialogView);
+
+				final ListView listCategoriaAlimento = (ListView) dialogView
+						.findViewById(R.id.listaCategoriaExercicio);
+
+				final ArrayAdapter<CategoriaExercicioVO> arrayAdapter = new ArrayAdapter<CategoriaExercicioVO>(
+						TreinamentoActivity.this,
+						android.R.layout.simple_list_item_1,
+						listaCategoriaExercicio);
+				listCategoriaAlimento.setAdapter(arrayAdapter);
+
+				builder.setNegativeButton(R.string.cancelar,
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int id) {
+							}
+						});
+
+				final AlertDialog dialog = builder.create();
+
+				listCategoriaAlimento
+						.setOnItemClickListener(new OnItemClickListener() {
+							@Override
+							public void onItemClick(AdapterView<?> parent,
+									View view, int position, long id) {
+								CategoriaExercicioVO categoria = arrayAdapter
+										.getItem(position);
+								Long valorId = 0l;
+								if (categoria != null
+										&& categoria.getId() != null) {
+									valorId = categoria.getId();
+								}
+								pref.categoriaSelecionada().put(valorId);
+								if (progressDialog != null)
+									progressDialog.show();
+								inicializar();
+								dialog.dismiss();
+							}
+						});
+
+				dialog.show();
+			} catch (EtrainingViewException e) {
+				TradutorExcecaoView.gerarMensagemExcecao(
+						TreinamentoActivity.this, e);
+			}
 		}
 
 		@Override
@@ -312,28 +377,42 @@ public class TreinamentoActivity extends Activity implements
 	}
 
 	@Background
-	protected void carregarListaExercicio() {
+	protected void carregarListaExercicio(Long categoriaSelecionada) {
 		EtrainingViewException exception = null;
 		List<ExercicioVO> listaExercicio = null;
+		String tituloBotao = null;
 		try {
-			listaExercicio = exerciciosHolder.getListaExercicios();
+			listaExercicio = exerciciosHolder
+					.getListaExercicios(categoriaSelecionada);
+			tituloBotao = exerciciosHolder
+					.getTituloCategoriaExercicio(categoriaSelecionada);
 		} catch (Exception e) {
 			exception = new EtrainingViewException(
 					CodigoExcecao.ERRO_DESCONHECIDO);
+			tituloBotao = exerciciosHolder.getTituloPadraoCategoriaExercicio();
 		}
 
-		finalizarCarregamentoListaExercicio(listaExercicio, exception);
+		finalizarCarregamentoListaExercicio(listaExercicio, tituloBotao,
+				exception);
 	}
 
 	@UiThread
 	public void finalizarCarregamentoListaExercicio(
-			List<ExercicioVO> listaExercicio, EtrainingViewException exception) {
+			List<ExercicioVO> exercicios, String tituloBotao,
+			EtrainingViewException exception) {
 		if (exception != null) {
 			TradutorExcecaoView.gerarMensagemExcecao(this, exception);
 		} else {
+			listaExercicio = new ArrayList<ExercicioVO>(exercicios);
 			listAdapter = new ExercicioAdapter(this, listaExercicio);
 			listaItens.setAdapter(listAdapter);
 		}
+
+		if (tituloBotao != null)
+			btnPrimario.setText(tituloBotao);
+		else
+			btnPrimario.setText(exerciciosHolder
+					.getTituloPadraoCategoriaExercicio());
 
 		if (progressDialog != null)
 			progressDialog.hide();

@@ -1,8 +1,7 @@
 package br.com.etraining.web.managedbeans.ajuda;
 
-import javax.annotation.PostConstruct;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
-import javax.inject.Singleton;
 
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
@@ -10,14 +9,13 @@ import org.primefaces.model.TreeNode;
 import br.com.etraining.web.managedbeans.EtrainingManagedBean;
 
 @Named
-@Singleton
+@SessionScoped
 public class AjudaController extends EtrainingManagedBean {
 
 	private static final long serialVersionUID = 1953667635206607234L;
 
 	private TreeNode mapaSite;
 
-	@PostConstruct
 	public void preencherMapaSite() {
 		mapaSite = new DefaultTreeNode(getMessage("Sistema_Nome"), null);
 
@@ -69,11 +67,11 @@ public class AjudaController extends EtrainingManagedBean {
 	}
 
 	public TreeNode getMapaSite() {
+		preencherMapaSite();
 		return mapaSite;
 	}
 
 	public void setMapaSite(TreeNode mapaSite) {
-		System.out.println(mapaSite);
 		this.mapaSite = mapaSite;
 	}
 

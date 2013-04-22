@@ -27,6 +27,10 @@ public final class EtrainingPref_
         return new EtrainingPref_.EtrainingPrefEditor_(getSharedPreferences());
     }
 
+    public LongPrefField categoriaSelecionada() {
+        return longField("categoriaSelecionada", 0L);
+    }
+
     public LongPrefField dataSelecionada() {
         return longField("dataSelecionada", 0L);
     }
@@ -46,6 +50,10 @@ public final class EtrainingPref_
 
         EtrainingPrefEditor_(SharedPreferences sharedPreferences) {
             super(sharedPreferences);
+        }
+
+        public LongPrefEditorField<EtrainingPref_.EtrainingPrefEditor_> categoriaSelecionada() {
+            return longField("categoriaSelecionada");
         }
 
         public LongPrefEditorField<EtrainingPref_.EtrainingPrefEditor_> dataSelecionada() {

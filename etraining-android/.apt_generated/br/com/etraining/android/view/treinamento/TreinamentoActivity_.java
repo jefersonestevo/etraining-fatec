@@ -6,6 +6,7 @@
 package br.com.etraining.android.view.treinamento;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import android.app.Activity;
 import android.content.Context;
@@ -16,6 +17,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import br.com.etraining.android.R.id;
@@ -43,29 +45,15 @@ public final class TreinamentoActivity_
     private void init_(Bundle savedInstanceState) {
         pref = new EtrainingPref_(this);
         injectExtras_();
-        service = EtrainingAndroidService_.getInstance_(this);
         exerciciosHolder = ExercicioHolder_.getInstance_(this);
+        service = EtrainingAndroidService_.getInstance_(this);
         restoreSavedInstanceState_(savedInstanceState);
     }
 
     private void afterSetContentView_() {
-        listaItens = ((ListView) findViewById(id.lista_items));
+        btnPrimario = ((Button) findViewById(id.btn_primario));
         dataSelecionada = ((TextView) findViewById(id.lbl_data_selecionada));
-        {
-            View view = findViewById(id.btn_voltar);
-            if (view!= null) {
-                view.setOnClickListener(new OnClickListener() {
-
-
-                    @Override
-                    public void onClick(View view) {
-                        TreinamentoActivity_.this.pressBotaoVoltar();
-                    }
-
-                }
-                );
-            }
-        }
+        listaItens = ((ListView) findViewById(id.lista_items));
         {
             View view = findViewById(id.btn_secundario);
             if (view!= null) {
@@ -75,6 +63,21 @@ public final class TreinamentoActivity_
                     @Override
                     public void onClick(View view) {
                         TreinamentoActivity_.this.pressBotaoSecundario();
+                    }
+
+                }
+                );
+            }
+        }
+        {
+            View view = findViewById(id.btn_voltar);
+            if (view!= null) {
+                view.setOnClickListener(new OnClickListener() {
+
+
+                    @Override
+                    public void onClick(View view) {
+                        TreinamentoActivity_.this.pressBotaoVoltar();
                     }
 
                 }
@@ -96,8 +99,8 @@ public final class TreinamentoActivity_
                 );
             }
         }
-        ((EtrainingAndroidService_) service).afterSetContentView_();
         ((ExercicioHolder_) exerciciosHolder).afterSetContentView_();
+        ((EtrainingAndroidService_) service).afterSetContentView_();
     }
 
     @Override
@@ -148,32 +151,14 @@ public final class TreinamentoActivity_
     }
 
     @Override
-    public void finalizarCarregamentoListaExercicio(final List<ExercicioVO> listaExercicio, final EtrainingViewException exception) {
+    public void finalizarInsercaoExercicioRealizado(final EtrainingViewException exception) {
         handler_.post(new Runnable() {
 
 
             @Override
             public void run() {
                 try {
-                    TreinamentoActivity_.super.finalizarCarregamentoListaExercicio(listaExercicio, exception);
-                } catch (RuntimeException e) {
-                    Log.e("TreinamentoActivity_", "A runtime exception was thrown while executing code in a runnable", e);
-                }
-            }
-
-        }
-        );
-    }
-
-    @Override
-    public void finalizarRemocaoExercicioRealizado(final EtrainingViewException exception) {
-        handler_.post(new Runnable() {
-
-
-            @Override
-            public void run() {
-                try {
-                    TreinamentoActivity_.super.finalizarRemocaoExercicioRealizado(exception);
+                    TreinamentoActivity_.super.finalizarInsercaoExercicioRealizado(exception);
                 } catch (RuntimeException e) {
                     Log.e("TreinamentoActivity_", "A runtime exception was thrown while executing code in a runnable", e);
                 }
@@ -202,14 +187,14 @@ public final class TreinamentoActivity_
     }
 
     @Override
-    public void finalizarInsercaoExercicioRealizado(final EtrainingViewException exception) {
+    public void finalizarRemocaoExercicioRealizado(final EtrainingViewException exception) {
         handler_.post(new Runnable() {
 
 
             @Override
             public void run() {
                 try {
-                    TreinamentoActivity_.super.finalizarInsercaoExercicioRealizado(exception);
+                    TreinamentoActivity_.super.finalizarRemocaoExercicioRealizado(exception);
                 } catch (RuntimeException e) {
                     Log.e("TreinamentoActivity_", "A runtime exception was thrown while executing code in a runnable", e);
                 }
@@ -220,14 +205,14 @@ public final class TreinamentoActivity_
     }
 
     @Override
-    public void removerExercicioRealizado(final ExercicioRealizadoSimplesVO exerc) {
-        BackgroundExecutor.execute(new Runnable() {
+    public void finalizarCarregamentoListaExercicio(final List<ExercicioVO> exercicios, final String tituloBotao, final EtrainingViewException exception) {
+        handler_.post(new Runnable() {
 
 
             @Override
             public void run() {
                 try {
-                    TreinamentoActivity_.super.removerExercicioRealizado(exerc);
+                    TreinamentoActivity_.super.finalizarCarregamentoListaExercicio(exercicios, tituloBotao, exception);
                 } catch (RuntimeException e) {
                     Log.e("TreinamentoActivity_", "A runtime exception was thrown while executing code in a runnable", e);
                 }
@@ -238,14 +223,14 @@ public final class TreinamentoActivity_
     }
 
     @Override
-    public void inserirExercicioRealizado(final ExercicioVO exerc, final Integer quantidade) {
+    public void carregarListaExercicio(final Long categoriaSelecionada) {
         BackgroundExecutor.execute(new Runnable() {
 
 
             @Override
             public void run() {
                 try {
-                    TreinamentoActivity_.super.inserirExercicioRealizado(exerc, quantidade);
+                    TreinamentoActivity_.super.carregarListaExercicio(categoriaSelecionada);
                 } catch (RuntimeException e) {
                     Log.e("TreinamentoActivity_", "A runtime exception was thrown while executing code in a runnable", e);
                 }
@@ -274,14 +259,32 @@ public final class TreinamentoActivity_
     }
 
     @Override
-    public void carregarListaExercicio() {
+    public void inserirExercicioRealizado(final ExercicioVO exerc, final Integer quantidade) {
         BackgroundExecutor.execute(new Runnable() {
 
 
             @Override
             public void run() {
                 try {
-                    TreinamentoActivity_.super.carregarListaExercicio();
+                    TreinamentoActivity_.super.inserirExercicioRealizado(exerc, quantidade);
+                } catch (RuntimeException e) {
+                    Log.e("TreinamentoActivity_", "A runtime exception was thrown while executing code in a runnable", e);
+                }
+            }
+
+        }
+        );
+    }
+
+    @Override
+    public void removerExercicioRealizado(final ExercicioRealizadoSimplesVO exerc) {
+        BackgroundExecutor.execute(new Runnable() {
+
+
+            @Override
+            public void run() {
+                try {
+                    TreinamentoActivity_.super.removerExercicioRealizado(exerc);
                 } catch (RuntimeException e) {
                     Log.e("TreinamentoActivity_", "A runtime exception was thrown while executing code in a runnable", e);
                 }
@@ -294,13 +297,16 @@ public final class TreinamentoActivity_
     @Override
     public void onSaveInstanceState(Bundle bundle) {
         super.onSaveInstanceState(bundle);
+        bundle.putSerializable("listaExercicio", listaExercicio);
         bundle.putSerializable("acaoStrategy", acaoStrategy);
     }
 
+    @SuppressWarnings("unchecked")
     private void restoreSavedInstanceState_(Bundle savedInstanceState) {
         if (savedInstanceState == null) {
             return ;
         }
+        listaExercicio = ((ArrayList<ExercicioVO> ) savedInstanceState.getSerializable("listaExercicio"));
         acaoStrategy = ((Integer) savedInstanceState.getSerializable("acaoStrategy"));
     }
 

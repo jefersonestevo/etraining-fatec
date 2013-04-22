@@ -1,5 +1,6 @@
 package br.com.etraining.android.view.login;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import org.apache.commons.lang.StringUtils;
@@ -20,6 +21,7 @@ import br.com.etraining.android.utils.EtrainingAndroidConstants;
 import br.com.etraining.android.utils.ExtraConstants;
 import br.com.etraining.android.utils.pref.EtrainingPref_;
 import br.com.etraining.android.view.treinamento.TreinamentoActivity_;
+import br.com.etraining.client.dom.PerfilAcesso;
 import br.com.etraining.client.vo.impl.realizarlogin.RealizarLoginVO;
 import br.com.etraining.client.vo.impl.realizarlogin.RespostaRealizarLoginVO;
 import br.com.etraining.client.vo.transporte.CodigoExcecao;
@@ -63,6 +65,7 @@ public class LoginActivity extends Activity {
 			pref.idAluno().put(0);
 			pref.numeroMatricula().put("");
 			pref.dataSelecionada().put(0l);
+			pref.categoriaSelecionada().put(0l);
 		}
 
 		if (pref.idAluno().get() != 0
@@ -83,6 +86,8 @@ public class LoginActivity extends Activity {
 		RealizarLoginVO realizarLoginVO = new RealizarLoginVO();
 		realizarLoginVO.setNumeroMatricula(txtLogin.getText().toString());
 		realizarLoginVO.setSenha(txtSenha.getText().toString());
+		realizarLoginVO.setPerfisAceitos(new ArrayList<PerfilAcesso>());
+		realizarLoginVO.getPerfisAceitos().add(PerfilAcesso.ALUNO);
 
 		if (realizarLoginVO.getNumeroMatricula() == null
 				|| StringUtils.isBlank(realizarLoginVO.getSenha())) {

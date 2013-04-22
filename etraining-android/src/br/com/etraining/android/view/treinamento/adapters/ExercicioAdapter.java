@@ -20,9 +20,10 @@ public class ExercicioAdapter extends BaseAdapter {
 	private List<ExercicioVO> listaItens = new ArrayList<ExercicioVO>();
 
 	public ExercicioAdapter(Context context, List<ExercicioVO> listaItens) {
-		if (listaItens != null) {
-			this.listaItens = new ArrayList<ExercicioVO>(listaItens);
+		if (listaItens == null) {
+			listaItens = new ArrayList<ExercicioVO>();
 		}
+		this.listaItens = new ArrayList<ExercicioVO>(listaItens);
 		inflater = LayoutInflater.from(context);
 
 		Collections.sort(this.listaItens, new ComparadorExercicio());

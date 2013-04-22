@@ -12,4 +12,6 @@ public interface EtrainingPref {
 
 	public long dataSelecionada();
 
+	public long categoriaSelecionada();
+
 }
