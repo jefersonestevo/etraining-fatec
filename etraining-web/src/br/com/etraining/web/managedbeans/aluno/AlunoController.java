@@ -35,6 +35,7 @@ public class AlunoController extends EtrainingManagedBean {
 		respostaLista = new RespostaConsultaListaAlunoSimplesVO();
 		resposta = new RespostaConsultaAlunoVO();
 
+		limparForm();
 		return "/pages/aluno/pesquisaAluno.xhtml";
 	}
 

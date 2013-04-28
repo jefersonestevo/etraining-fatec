@@ -77,4 +77,9 @@ public abstract class EtrainingManagedBean implements Serializable {
 		return FacesContext.getCurrentInstance().getExternalContext()
 				.getRequestParameterMap().get(param);
 	}
+
+	protected void limparForm() {
+		FacesContext.getCurrentInstance().getViewRoot().findComponent("main")
+				.getChildren().clear();
+	}
 }

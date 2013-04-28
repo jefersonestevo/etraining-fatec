@@ -34,6 +34,8 @@ public class ListaExercicioController extends EtrainingManagedBean {
 
 	public String irParaTelaPesquisa() {
 		try {
+			limparForm();
+
 			RespostaConsultaListaCategoriaExercicioVO respCategoria = (RespostaConsultaListaCategoriaExercicioVO) service
 					.executa(new ConsultaListaCategoriaExercicioVO());
 

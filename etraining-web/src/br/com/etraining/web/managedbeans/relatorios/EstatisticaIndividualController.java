@@ -85,6 +85,7 @@ public class EstatisticaIndividualController extends EtrainingManagedBean {
 			}
 		}
 
+		limparForm();
 		return "/pages/relatorios/estatisticaIndividual.xhtml";
 	}
 

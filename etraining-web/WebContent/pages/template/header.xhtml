@@ -42,7 +42,7 @@
 		</p:submenu>
 		<p:submenu label="#{message.Menu_Ajuda}" icon="ui-icon-help">
 			<p:menuitem value="#{message.Menu_Mapa_Site}" icon="ui-icon-image"
-				action="/pages/ajuda/mapaSite.xhtml" immediate="true"
+				action="#{ajudaController.irParaTelaMapaSite}" immediate="true"
 				onstart="modalStatus.show()" oncomplete="modalStatus.hide()" />
 		</p:submenu>
 

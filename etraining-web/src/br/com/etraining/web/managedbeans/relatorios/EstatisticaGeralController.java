@@ -60,6 +60,8 @@ public class EstatisticaGeralController extends EtrainingManagedBean {
 			pesquisar();
 		}
 
+		limparForm();
+
 		return "/pages/relatorios/estatisticaGeral.xhtml";
 	}
 

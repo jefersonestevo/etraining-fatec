@@ -62,6 +62,7 @@ public class ProgramaTreinamentoController extends EtrainingManagedBean {
 	public String irParaTelaPesquisa() {
 		alunoSelecionado = new AlunoSimplesVO();
 		preencherListaAluno();
+		limparForm();
 		return "/pages/programaTreinamento/programaTreinamentoPesquisa.xhtml";
 	}
 
