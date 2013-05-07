@@ -1,0 +1,23 @@
+<ui:composition template="/pages/template/template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="content">
+
+		<p:fieldset style="text-align: center">
+			<p:panelGrid columns="1" style="text-align: center">
+				<p:calendar />
+				<p:outputPanel layout="block" style="height: 10px" />
+				<p:commandButton value="#{message.Adicionar_Exercicio}" />
+			</p:panelGrid>
+		</p:fieldset>
+		<p:outputPanel layout="block" style="height: 10px" />
+
+		<p:dataList />
+		
+	</ui:define>
+
+</ui:composition>
+

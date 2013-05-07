@@ -1,0 +1,28 @@
+<ui:composition template="/pages/template/template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="content">
+
+		<p:outputPanel layout="block" style="height: 40px" />
+		<p:fieldset style="text-align: center">
+			<p:panelGrid columns="2">
+				<h:outputLabel id="matricula" value="#{message.Matricula}" />
+				<p:inputText />
+
+				<p:outputPanel layout="block" style="height: 10px" />
+				<p:outputPanel layout="block" style="height: 10px" />
+
+				<h:outputLabel id="senha" value="#{message.Senha}" />
+				<p:password />
+			</p:panelGrid>
+			<p:outputPanel layout="block" style="height: 20px" />
+			<p:commandButton value="#{message.Login}" />
+		</p:fieldset>
+
+	</ui:define>
+
+</ui:composition>
+
