@@ -26,6 +26,12 @@
 			<type>war</type>
 		</dependency>
 
+		<dependency>
+			<groupId>etraining</groupId>
+			<artifactId>etraining-web-mobile</artifactId>
+			<type>war</type>
+		</dependency>
+		
 	</dependencies>
 
 	<build>
@@ -43,6 +49,12 @@
 							<artifactId>etraining-web</artifactId>
 							<bundleFileName>etraining-web.war</bundleFileName>
 							<contextRoot>/etraining-web</contextRoot>
+						</webModule>
+						<webModule>
+							<groupId>etraining</groupId>
+							<artifactId>etraining-web-mobile</artifactId>
+							<bundleFileName>etraining-web-mobile.war</bundleFileName>
+							<contextRoot>/etraining-web-mobile</contextRoot>
 						</webModule>
 						<ejbModule>
 							<groupId>etraining</groupId>

@@ -6,6 +6,7 @@
 		<project>etraining-clientWeb</project>
 		<project>etraining-server</project>
 		<project>etraining-web</project>
+		<project>etraining-web-mobile</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

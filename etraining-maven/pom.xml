@@ -122,6 +122,13 @@
 
 			<dependency>
 				<groupId>etraining</groupId>
+				<artifactId>etraining-web-mobile</artifactId>
+				<version>0.0.1-SNAPSHOT</version>
+				<type>war</type>
+			</dependency>
+			
+			<dependency>
+				<groupId>etraining</groupId>
 				<artifactId>etraining-ear</artifactId>
 				<version>0.0.1-SNAPSHOT</version>
 			</dependency>

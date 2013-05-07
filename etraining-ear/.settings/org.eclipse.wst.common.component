@@ -1,9 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project-modules id="moduleCoreId" project-version="1.5.0">
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
     <wb-module deploy-name="etraining-ear-0.0.1-SNAPSHOT">
         <wb-resource deploy-path="/" source-path="/target/m2e-wtp/ear-resources"/>
         <wb-resource deploy-path="/" source-path="/EarContent" tag="defaultRootSource"/>
         <dependent-module archiveName="etraining-web.war" deploy-path="/" handle="module:/resource/etraining-web/etraining-web">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="etraining-web-mobile.war" deploy-path="/" handle="module:/resource/etraining-web-mobile/etraining-web-mobile">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="etraining-server.jar" deploy-path="/" handle="module:/resource/etraining-server/etraining-server">
