@@ -21,12 +21,14 @@ public class DadosAluno implements Serializable {
 
 	private static final SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
 
+	private Integer linha;
 	private EntAluno aluno;
 	private EntMatricula matricula;
 	private EntDadosCorporais dadosCorporais;
 	private List<String> listaPerfilAcesso = new ArrayList<String>();
 
-	public DadosAluno(String[] dadosAluno) {
+	public DadosAluno(String[] dadosAluno, Integer linha) {
+		this.linha = linha;
 		aluno = new EntAluno();
 		aluno.setNome(dadosAluno[EnumPosicionalDadosAluno.NOME.ordinal()]);
 		aluno.setTelefone(dadosAluno[EnumPosicionalDadosAluno.TELEFONE
@@ -133,6 +135,10 @@ public class DadosAluno implements Serializable {
 
 	public void setListaPerfilAcesso(List<String> listaPerfilAcesso) {
 		this.listaPerfilAcesso = listaPerfilAcesso;
+	}
+
+	public Integer getLinha() {
+		return linha;
 	}
 
 }

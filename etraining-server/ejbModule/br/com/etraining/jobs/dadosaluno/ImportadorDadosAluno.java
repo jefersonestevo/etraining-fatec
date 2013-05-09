@@ -15,13 +15,16 @@ import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.log4j.Logger;
 
 import br.com.etraining.client.vo.transporte.CodigoExcecao;
 import br.com.etraining.exception.ETrainingException;
+import br.com.etraining.exception.ETrainingImportacaoException;
 import br.com.etraining.exception.ETrainingInfraException;
+import br.com.etraining.exception.ErroImportacao;
 import br.com.etraining.modelo.dao.interfaces.IDaoAluno;
 import br.com.etraining.modelo.dao.interfaces.IDaoDadosCorporais;
 import br.com.etraining.modelo.dao.interfaces.IDaoMatricula;
@@ -61,6 +64,9 @@ public class ImportadorDadosAluno {
 	public void importarDadosAluno(File arquivoAlunos)
 			throws ETrainingException {
 
+		ETrainingImportacaoException erro = new ETrainingImportacaoException(
+				CodigoExcecao.ERRO_IMPORTACAO_DADOS_ALUNO);
+
 		FileReader fr = null;
 		BufferedReader br = null;
 		try {
@@ -76,13 +82,18 @@ public class ImportadorDadosAluno {
 			while ((linha = br.readLine()) != null) {
 				try {
 					String[] dadosAluno = linha.split(";");
-					validaDadosEntrada(dadosAluno);
-					listaDadosAluno.add(new DadosAluno(dadosAluno));
+					validaDadosEntrada(dadosAluno, num_linha);
+					listaDadosAluno.add(new DadosAluno(dadosAluno, num_linha));
 					num_linha++;
 				} catch (ETrainingInfraException e) {
-					throw new ETrainingInfraException(e.getCodigoExcecao(),
-							"LINHA: " + num_linha + " - " + e.getMessage());
+					erro.adicionarErro(new ErroImportacao(e.getCodigoExcecao(),
+							e.getMessage(), num_linha));
+					num_linha++;
 				}
+			}
+
+			if (CollectionUtils.isNotEmpty(erro.getListaErros())) {
+				throw erro;
 			}
 
 			List<EntPerfilAcesso> listaPerfilAcesso = perfilAcessoDao
@@ -93,56 +104,85 @@ public class ImportadorDadosAluno {
 			}
 
 			for (DadosAluno dadosAluno : listaDadosAluno) {
-				EntAluno aluno = dadosAluno.getAluno();
-				EntMatricula matricula = dadosAluno.getMatricula();
-				EntDadosCorporais dadosCorporais = dadosAluno
-						.getDadosCorporais();
+				try {
 
-				aluno.setDadosCorporais(dadosCorporais);
-				aluno.setMatricula(matricula);
-				Integer novaPontuacaoAluno = calculadoraPontosAluno
-						.calcularNovaPontuacaoAluno(aluno, null);
-				aluno.setPontuacaoSemanalAluno(novaPontuacaoAluno);
-				aluno.setDadosCorporais(null);
-				aluno.setMatricula(null);
+					EntAluno alunoMesmaMatricula = alunoDao
+							.pesquisarPorMatricula(dadosAluno.getMatricula()
+									.getNumeroMatricula());
+					if (alunoMesmaMatricula != null) {
+						throw new ETrainingInfraException(
+								CodigoExcecao.MATRICULA_EXISTENTE,
+								"A matricula "
+										+ dadosAluno.getMatricula()
+												.getNumeroMatricula()
+										+ " já existe.");
+					}
 
-				alunoDao.inserir(aluno);
-				matricula.setAluno(aluno);
+					EntAluno aluno = dadosAluno.getAluno();
+					EntMatricula matricula = dadosAluno.getMatricula();
+					EntDadosCorporais dadosCorporais = dadosAluno
+							.getDadosCorporais();
 
-				// Preenche os perfis de acesso
-				matricula
-						.setListaPerfilAcesso(new ArrayList<EntPerfilAcesso>());
-				for (String perfilStr : dadosAluno.getListaPerfilAcesso()) {
-					EntPerfilAcesso p = mapPerfilAcesso.get(StringUtils
-							.upperCase(perfilStr));
-					if (p != null)
-						matricula.getListaPerfilAcesso().add(p);
+					aluno.setDadosCorporais(dadosCorporais);
+					aluno.setMatricula(matricula);
+					Integer novaPontuacaoAluno = calculadoraPontosAluno
+							.calcularNovaPontuacaoAluno(aluno, null);
+					aluno.setPontuacaoSemanalAluno(novaPontuacaoAluno);
+					aluno.setDadosCorporais(null);
+					aluno.setMatricula(null);
+
+					alunoDao.inserir(aluno);
+					matricula.setAluno(aluno);
+
+					// Preenche os perfis de acesso
+					matricula
+							.setListaPerfilAcesso(new ArrayList<EntPerfilAcesso>());
+					for (String perfilStr : dadosAluno.getListaPerfilAcesso()) {
+						EntPerfilAcesso p = mapPerfilAcesso.get(StringUtils
+								.upperCase(perfilStr));
+						if (p != null)
+							matricula.getListaPerfilAcesso().add(p);
+					}
+
+					matriculaDao.inserir(matricula);
+					dadosCorporais.setAluno(aluno);
+					dadosCorporaisDao.inserir(dadosCorporais);
+
+					aluno.setMatricula(matricula);
+					aluno.setDadosCorporais(dadosCorporais);
+					geradorProgramaTreinamento.gerarProgramaTreinamento(aluno,
+							null);
+				} catch (ETrainingException e) {
+					erro.adicionarErro(new ErroImportacao(e.getCodigoExcecao(),
+							e.getMessage(), dadosAluno.getLinha()));
+					throw erro;
 				}
-
-				matriculaDao.inserir(matricula);
-				dadosCorporais.setAluno(aluno);
-				dadosCorporaisDao.inserir(dadosCorporais);
-
-				aluno.setMatricula(matricula);
-				aluno.setDadosCorporais(dadosCorporais);
-				geradorProgramaTreinamento
-						.gerarProgramaTreinamento(aluno, null);
 			}
 
 		} catch (FileNotFoundException e) {
 			log.error("Arquivo para importacao não encontrado.", e);
-			throw new ETrainingInfraException(
-					CodigoExcecao.ERRO_LEITURA_ARQUIVO_IMPORTACAO_ALUNOS);
+			erro.adicionarErro(new ErroImportacao(
+					CodigoExcecao.ERRO_LEITURA_ARQUIVO_IMPORTACAO_ALUNOS,
+					"Arquivo para importação dos alunos não encontrado  - "
+							+ arquivoAlunos.getPath()));
+			throw erro;
 		} catch (IOException e) {
 			log.error("Erro de IO para importacao de dados dos alunos", e);
-			throw new ETrainingInfraException(
-					CodigoExcecao.ERRO_LEITURA_ARQUIVO_IMPORTACAO_ALUNOS);
+			erro.adicionarErro(new ErroImportacao(
+					CodigoExcecao.ERRO_LEITURA_ARQUIVO_IMPORTACAO_ALUNOS,
+					"Erro de I/O no arquivo de importação de Alunos  - "
+							+ arquivoAlunos.getPath()));
+			throw erro;
 		} catch (Exception e) {
 			if (e instanceof ETrainingException) {
-				throw ((ETrainingInfraException) e);
+				throw (ETrainingException) e;
 			}
 			log.error("Erro inesperado na importacao de dados dos alunos", e);
-			throw new ETrainingInfraException(CodigoExcecao.ERRO_DESCONHECIDO);
+			erro.adicionarErro(new ErroImportacao(
+					CodigoExcecao.ERRO_DESCONHECIDO,
+					"Erro inesperado na importação de dados dos alunos - "
+							+ arquivoAlunos.getPath()));
+			throw erro;
 		} finally {
 			IOUtils.closeQuietly(fr);
 			IOUtils.closeQuietly(br);
@@ -150,7 +190,7 @@ public class ImportadorDadosAluno {
 
 	}
 
-	private void validaDadosEntrada(String[] dadosAlunos)
+	private void validaDadosEntrada(String[] dadosAlunos, Integer numLinha)
 			throws ETrainingException {
 		for (EnumPosicionalDadosAluno en : EnumPosicionalDadosAluno.values()) {
 			String valorDadoAtual = dadosAlunos[en.ordinal()];
