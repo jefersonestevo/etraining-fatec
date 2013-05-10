@@ -2,21 +2,83 @@
 	xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 
 	<ui:define name="content">
 
 		<p:fieldset style="text-align: center">
-			<p:panelGrid columns="1" style="text-align: center">
-				<p:calendar />
-				<p:outputPanel layout="block" style="height: 10px" />
-				<p:commandButton value="#{message.Adicionar_Exercicio}" />
+			<p:panelGrid columns="2" style="text-align: center"
+				styleClass="width-100" columnClasses="width-75, width-25">
+				<p:commandButton value="#{diaExercicioBean.diaSelecionadoStr}"
+					styleClass="width-100"
+					onclick="modalSelecaoDia.show(); return false;" />
+				<p:commandButton value="X" styleClass="width-100"
+					action="#{loginBean.voltarTelaLogin}" />
 			</p:panelGrid>
+			<p:commandButton value="#{message.Adicionar_Exercicio}"
+				action="#{diaExercicioBean.irParaTelaInserirExercicio}" />
 		</p:fieldset>
 		<p:outputPanel layout="block" style="height: 10px" />
 
-		<p:dataList />
-		
+		<p:dataTable value="#{diaExercicioBean.listaExercicioRealizado}"
+			var="exerc" styleClass="width-100" rows="10"
+			paginatorPosition="bottom" paginator="true"
+			emptyMessage="#{message.Sem_Itens}">
+			<p:column headerText="#{message.Titulo_Exercicio}">
+				<p:commandLink onclick="modalConfirmarRemocaoExercicio.show()">
+					<f:setPropertyActionListener target="#{diaExercicioBean.idExercicioRemocao}"
+						value="#{exerc.idExercicioRealizado}" />
+					<h:outputText value="#{exerc.tituloExercicio}" />
+				</p:commandLink>
+			</p:column>
+			<p:column headerText="#{message.Pontos_Exercicio}">
+				<h:outputText value="#{exerc.pontos}" />
+			</p:column>
+		</p:dataTable>
+
+		<p:dialog modal="true" widgetVar="modalSelecaoDia"
+			id="modalSelecaoDia" width="280" height="230"
+			header="#{message.Selecionar_Data}" draggable="false"
+			style="top: 100px">
+			<p:calendar pattern="dd/MM/yyyy" mode="inline"
+				value="#{diaExercicioBean.diaSelecionadoTemp}">
+			</p:calendar>
+
+			<f:facet name="footer">
+				<p:outputPanel styleClass="no-border align-center full-width"
+					layout="block">
+					<p:commandButton value="#{message.Selecionar}"
+						styleClass="no-border" update=":main:contentFrame"
+						action="#{diaExercicioBean.selecionarDia}"
+						onclick="modalSelecaoDia.hide()" />
+					<p:commandButton value="#{message.Fechar}" styleClass="no-border"
+						onclick="modalSelecaoDia.hide()"
+						action="#{diaExercicioBean.fecharSelecaoDia}" />
+				</p:outputPanel>
+			</f:facet>
+		</p:dialog>
+
+		<p:dialog modal="true" widgetVar="modalConfirmarRemocaoExercicio"
+			id="idModalConfirmarRemocaoExercicio" width="220" height="60"
+			header="#{message.Header_Confirmar_Remocao_Exercicio_Realizado}"
+			draggable="false" style="top: 100px">
+
+			<h:outputText
+				value="#{message.Confirmar_Remocao_Exercicio_Realizado}" />
+
+			<f:facet name="footer">
+				<p:outputPanel styleClass="no-border align-center full-width"
+					layout="block">
+					<p:commandButton value="#{message.Confirmar}"
+						styleClass="no-border" update=":main:contentFrame"
+						action="#{diaExercicioBean.removerExercicio}"
+						onclick="modalConfirmarRemocaoExercicio.hide()" />
+					<p:commandButton value="#{message.Fechar}" styleClass="no-border"
+						onclick="modalConfirmarRemocaoExercicio.hide()" />
+				</p:outputPanel>
+			</f:facet>
+		</p:dialog>
 	</ui:define>
 
 </ui:composition>

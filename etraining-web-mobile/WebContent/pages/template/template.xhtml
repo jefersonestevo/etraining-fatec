@@ -20,8 +20,9 @@
 			<div id="page" style="width: 100%; text-align: center">
 
 				<div id="content" style="width: 100%; text-align: center">
-					<p:fieldset legend="#{message.Sistema_Nome}"
+					<p:fieldset legend="#{message.Sistema_Nome}" id="contentFrame"
 						styleClass="width-100-px height-300-px">
+						<p:messages autoUpdate="true" closable="true" />
 						<ui:insert name="content">
 							<ui:include src="/pages/template/content.xhtml" />
 						</ui:insert>

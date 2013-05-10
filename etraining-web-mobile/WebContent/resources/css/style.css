@@ -27,7 +27,7 @@
 	top: 5px;
 }
 
-.modal-ajuda{
+.modal-ajuda {
 	width: 500px;
 	height: 300px;
 }
@@ -115,10 +115,14 @@
 	width: 1px !important;
 }
 
-.width-100-px{
+.width-100 {
+	width: 100%;
+}
+
+.width-100-px {
 	width: 350px;
 }
 
-.height-300-px{
+.height-300-px {
 	height: 500px;
 }

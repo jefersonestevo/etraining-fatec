@@ -1,6 +1,7 @@
 package br.com.etraining.web.managedbean;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.enterprise.context.SessionScoped;
@@ -9,6 +10,7 @@ import javax.inject.Named;
 
 import br.com.etraining.client.dom.PerfilAcesso;
 import br.com.etraining.client.vo.impl.realizarlogin.RealizarLoginVO;
+import br.com.etraining.client.vo.impl.realizarlogin.RespostaRealizarLoginVO;
 import br.com.etraining.web.exceptions.ViewException;
 import br.com.etraining.web.fachada.impl.TratadorNegocioService;
 
@@ -20,6 +22,12 @@ public class LoginBean extends EtrainingManagedBean {
 
 	@Inject
 	private TratadorNegocioService service;
+
+	@Inject
+	private DiaExercicioBean diaExercicioBean;
+
+	@Inject
+	private SessionBean sessionBean;
 
 	private String numeroMatricula;
 	private String senha;
@@ -34,15 +42,23 @@ public class LoginBean extends EtrainingManagedBean {
 			listaPerfisAceito.add(PerfilAcesso.ALUNO);
 			request.setPerfisAceitos(listaPerfisAceito);
 
-			RealizarLoginVO resp = (RealizarLoginVO) service.executa(request);
-			resp.getNumeroMatricula();
+			RespostaRealizarLoginVO resposta = (RespostaRealizarLoginVO) service
+					.executa(request);
+			sessionBean.setIdAluno(resposta.getIdAluno());
+			sessionBean.setNumeroMatricula(resposta.getNumeroMatricula());
 
 		} catch (ViewException e) {
 			addExceptionMessage(e);
 			return "/pages/login.jsf";
 		}
+		diaExercicioBean.setDiaSelecionado(new Date());
+		return diaExercicioBean.irParaTelaSelecionarDiaExercicio();
+	}
 
-		return "/pages/listaDiaExercicio.jsf";
+	public String voltarTelaLogin() {
+		numeroMatricula = null;
+		senha = null;
+		return "/pages/login.jsf";
 	}
 
 	public String getNumeroMatricula() {
@@ -59,6 +75,14 @@ public class LoginBean extends EtrainingManagedBean {
 
 	public void setSenha(String senha) {
 		this.senha = senha;
+	}
+
+	public DiaExercicioBean getDiaExercicioBean() {
+		return diaExercicioBean;
+	}
+
+	public void setDiaExercicioBean(DiaExercicioBean diaExercicioBean) {
+		this.diaExercicioBean = diaExercicioBean;
 	}
 
 }

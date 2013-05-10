@@ -6,20 +6,21 @@
 
 	<ui:define name="content">
 
-		<p:outputPanel layout="block" style="height: 40px" />
+		<p:outputPanel layout="block" style="height: 40px; width: 5px;" >
+		</p:outputPanel>
 		<p:fieldset style="text-align: center">
 			<p:panelGrid columns="2">
 				<h:outputLabel id="matricula" value="#{message.Matricula}" />
-				<p:inputText />
+				<p:inputText value="#{loginBean.numeroMatricula}" />
 
 				<p:outputPanel layout="block" style="height: 10px" />
 				<p:outputPanel layout="block" style="height: 10px" />
 
 				<h:outputLabel id="senha" value="#{message.Senha}" />
-				<p:password />
+				<p:password value="#{loginBean.senha}" />
 			</p:panelGrid>
 			<p:outputPanel layout="block" style="height: 20px" />
-			<p:commandButton value="#{message.Login}" />
+			<p:commandButton action="#{loginBean.login}" value="#{message.Login}" />
 		</p:fieldset>
 
 	</ui:define>

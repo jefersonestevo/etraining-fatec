@@ -2,20 +2,62 @@
 	xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 
 	<ui:define name="content">
 
 		<p:fieldset style="text-align: center">
-			<p:panelGrid columns="1" style="text-align: center">
-				<p:commandButton value="#{message.Voltar}" />
+			<p:panelGrid columns="2" style="text-align: center"
+				styleClass="width-100" columnClasses="width-75, width-25">
+				<p:commandButton value="Categoria" styleClass="width-100" />
+				<p:commandButton value="X" styleClass="width-100"
+					action="#{diaExercicioBean.voltarTelaDiaExercicio}" />
 			</p:panelGrid>
 		</p:fieldset>
 		<p:outputPanel layout="block" style="height: 10px" />
+		<p:dataTable value="#{diaExercicioBean.listaExercicio}" var="exerc"
+			styleClass="width-100" rows="10" paginatorPosition="bottom"
+			paginator="true" emptyMessage="#{message.Sem_Itens}">
+			<p:column headerText="#{message.Titulo_Exercicio}">
+				<p:commandLink
+					onclick="modalAdicionarExercicio.show(); return false;">
+					<f:setPropertyActionListener
+						target="#{diaExercicioBean.idExercicioInsercao}"
+						value="#{exerc.id}" />
+					<f:setPropertyActionListener
+						target="#{diaExercicioBean.tituloAtividade}"
+						value="#{exerc.atividade.titulo}" />
+					<h:outputText value="#{exerc.titulo}" />
+				</p:commandLink>
+			</p:column>
+		</p:dataTable>
 
-		<p:dataList />
+		<p:dialog modal="true" widgetVar="modalAdicionarExercicio"
+			id="idmodalAdicionarExercicio" width="290" height="70"
+			header="#{message.Header_Adicionar_Exercicio}" draggable="false"
+			style="top: 100px">
 
+			<h:outputText value="#{message.Selecao_Quantidade_Exercicio}" />
+			
+			<p:panelGrid styleClass="width-100" columns="2"
+				columnClasses="width-50, width-50">
+				<p:spinner value="#{diaExercicioBean.quantidadeAtividade}" />
+				<h:outputText value="#{diaExercicioBean.tituloAtividade}" />
+			</p:panelGrid>
 
+			<f:facet name="footer">
+				<p:outputPanel styleClass="no-border align-center full-width"
+					layout="block">
+					<p:commandButton value="#{message.Confirmar}"
+						styleClass="no-border" update=":main:contentFrame"
+						action="#{diaExercicioBean.inserirExercicio}"
+						onclick="modalAdicionarExercicio.hide()" />
+					<p:commandButton value="#{message.Fechar}" styleClass="no-border"
+						onclick="modalAdicionarExercicio.hide()" />
+				</p:outputPanel>
+			</f:facet>
+		</p:dialog>
 	</ui:define>
 
 </ui:composition>
