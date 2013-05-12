@@ -39,7 +39,7 @@ public class JobAtualizacaoDadosAluno implements EtrainingJob {
 	private ImportadorDadosAluno importadorDadosAluno;
 
 	@PostConstruct
-	@Schedule(dayOfWeek = "*", hour = "*", minute = "*/1", second = "*", persistent = false)
+	@Schedule(dayOfWeek = "*", hour = "*", minute = "*/5", second = "*", persistent = false)
 	public void executar() {
 
 		try {

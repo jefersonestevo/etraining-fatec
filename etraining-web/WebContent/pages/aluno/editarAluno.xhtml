@@ -37,10 +37,10 @@
 
 					<h:outputText value="* #{message.Aluno_Data_Nascimento}" />
 					<p:separator styleClass="separador-campos" />
-					<p:calendar
-						value="#{alunoController.resposta.aluno.dataNascimento}"
-						pattern="#{viewDataUtils.patternData}" required="true"
-						requiredMessage="#{message.Data_Nascimento_Obrigatorio}" />
+					<h:outputText
+						value="#{alunoController.resposta.aluno.dataNascimento}">
+						<f:convertDateTime pattern="#{viewDataUtils.patternData}" />
+					</h:outputText>
 
 					<h:outputText value="#{message.Aluno_Telefone}" />
 					<p:separator styleClass="separador-campos" />

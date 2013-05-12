@@ -28,7 +28,7 @@ public class JobAtualizacaoProgramaTreinamento implements EtrainingJob {
 	private AtualizadorProgramaTreinamento atualizadorProgramaTreinamento;
 
 	@PostConstruct
-	@Schedule(dayOfWeek = "*", hour = "*/12", minute = "*", second = "*", persistent = false)
+	@Schedule(hour = "12", persistent = false)
 	public void executar() {
 
 		try {

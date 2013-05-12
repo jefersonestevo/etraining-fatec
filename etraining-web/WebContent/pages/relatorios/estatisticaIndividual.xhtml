@@ -30,12 +30,13 @@
 					<p:calendar required="true" id="dataInicioConsulta"
 						requiredMessage="#{message.Data_Inicial_Required}"
 						value="#{estatisticaIndividualController.consulta.dataInicio}"
-						pattern="#{viewDataUtils.patternData}" />
+						pattern="#{viewDataUtils.patternData}" readonlyInput="true" />
 					<h:outputText value=" #{message.A} " />
 					<p:calendar id="dataTerminoConsulta"
 						requiredMessage="#{message.Data_Final_Required}"
 						value="#{estatisticaIndividualController.consulta.dataFim}"
-						required="true" pattern="#{viewDataUtils.patternData}" />
+						required="true" pattern="#{viewDataUtils.patternData}"
+						readonlyInput="true" />
 				</h:panelGroup>
 			</p:panelGrid>
 

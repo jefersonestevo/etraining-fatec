@@ -26,6 +26,7 @@ import br.com.etraining.web.exceptions.ViewException;
 import br.com.etraining.web.fachada.ITratadorNegocioService;
 import br.com.etraining.web.managedbeans.EtrainingManagedBean;
 import br.com.etraining.web.managedbeans.security.SecurityChecker;
+import br.com.etraining.web.utils.ValidationBean;
 import br.com.etraining.web.utils.ViewUtils;
 import br.com.etraining.web.utils.comparador.ComparadorAlunoSimplesAlfabetico;
 
@@ -97,6 +98,11 @@ public class EstatisticaIndividualController extends EtrainingManagedBean {
 		}
 		if (hasError)
 			return;
+
+		if (ValidationBean.isPeriodoDataValido(getConsulta().getDataInicio(),
+				getConsulta().getDataFim(), this)) {
+			return;
+		}
 
 		try {
 			consulta.setIdAluno(alunoSelecionado.getId());

@@ -20,6 +20,7 @@ import br.com.etraining.client.vo.impl.relatorios.geral.RespostaConsultaEstatist
 import br.com.etraining.web.exceptions.ViewException;
 import br.com.etraining.web.fachada.ITratadorNegocioService;
 import br.com.etraining.web.managedbeans.EtrainingManagedBean;
+import br.com.etraining.web.utils.ValidationBean;
 
 @Named
 @SessionScoped
@@ -67,6 +68,11 @@ public class EstatisticaGeralController extends EtrainingManagedBean {
 
 	public void pesquisar() {
 		try {
+			if (ValidationBean.isPeriodoDataValido(getConsulta()
+					.getDataInicio(), getConsulta().getDataFim(), this)) {
+				return;
+			}
+
 			resposta = (RespostaConsultaEstatisticaVO) service
 					.executa(consulta);
 

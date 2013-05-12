@@ -10,7 +10,7 @@
 		<p:fieldset style="text-align: center">
 			<p:panelGrid columns="2" style="text-align: center"
 				styleClass="width-100" columnClasses="width-75, width-25">
-				<p:commandButton value="Categoria" styleClass="width-100" />
+				<p:outputPanel styleClass="width-100" />
 				<p:commandButton value="X" styleClass="width-100"
 					action="#{diaExercicioBean.voltarTelaDiaExercicio}" />
 			</p:panelGrid>
@@ -19,7 +19,8 @@
 		<p:dataTable value="#{diaExercicioBean.listaExercicio}" var="exerc"
 			styleClass="width-100" rows="10" paginatorPosition="bottom"
 			paginator="true" emptyMessage="#{message.Sem_Itens}">
-			<p:column headerText="#{message.Titulo_Exercicio}">
+			<p:column headerText="#{message.Titulo_Exercicio}"
+				filterBy="#{exerc.titulo}">
 				<p:commandLink
 					onclick="modalAdicionarExercicio.show(); return false;">
 					<f:setPropertyActionListener
@@ -39,7 +40,7 @@
 			style="top: 100px">
 
 			<h:outputText value="#{message.Selecao_Quantidade_Exercicio}" />
-			
+
 			<p:panelGrid styleClass="width-100" columns="2"
 				columnClasses="width-50, width-50">
 				<p:spinner value="#{diaExercicioBean.quantidadeAtividade}" />

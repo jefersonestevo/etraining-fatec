@@ -177,7 +177,7 @@ public class GeradorDadosPopularBaseEJB implements PopuladorBase {
 		EntProgramaTreinamento progTreinamento = new EntProgramaTreinamento();
 		progTreinamento.setAluno(aluno);
 		progTreinamento.setVersao(versao);
-		progTreinamento.setStatus(StatusProgramaTreinamento.APROVADO);
+		progTreinamento.setStatus(StatusProgramaTreinamento.CANCELADO);
 		progTreinamento
 				.setListaExercicioProposto(new ArrayList<EntExercicioProposto>());
 		progTreinamento.setDataAprovacao(dataInicial);
