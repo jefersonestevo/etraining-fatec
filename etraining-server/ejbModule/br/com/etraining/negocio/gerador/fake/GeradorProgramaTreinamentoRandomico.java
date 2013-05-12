@@ -113,9 +113,8 @@ public class GeradorProgramaTreinamentoRandomico implements
 					// exercicio por dia. Caso seja realizado 5 tentativas de
 					// adicionar o mesmo exercício no dia, para o while para
 					// evitar um possível loop infinito
-					int tentativasInsercaoExercicio = 0;
-					while ((pontosGastosDia < pontosMinimosAceitaveis)
-							&& (tentativasInsercaoExercicio < 5)) {
+					// int tentativasInsercaoExercicio = 0;
+					for (int i = 0; i < 3; i++) {
 						if ((pontosGastosDia + mediaPontosExercicios) > pontosMaximosAceitaveis) {
 							break;
 						}
@@ -127,7 +126,7 @@ public class GeradorProgramaTreinamentoRandomico implements
 						// Não permite que seja adicionar o mesmo exercício duas
 						// vezes no mesmo dia
 						if (mapExercicioAdicionado.contains(exerc.getId())) {
-							tentativasInsercaoExercicio++;
+							// tentativasInsercaoExercicio++;
 							continue;
 						}
 						mapExercicioAdicionado.add(exerc.getId());

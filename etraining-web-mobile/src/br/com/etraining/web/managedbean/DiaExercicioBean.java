@@ -86,6 +86,11 @@ public class DiaExercicioBean extends EtrainingManagedBean {
 		return "/pages/listaExercicio.jsf";
 	}
 
+	public void preencherExercicio(Long idExercicio, String tituloAtividade) {
+		this.idExercicioInsercao = idExercicio;
+		this.tituloAtividade = tituloAtividade;
+	}
+
 	public String inserirExercicio() {
 		try {
 			InsercaoExercicioRealizadoVO insercao = new InsercaoExercicioRealizadoVO();

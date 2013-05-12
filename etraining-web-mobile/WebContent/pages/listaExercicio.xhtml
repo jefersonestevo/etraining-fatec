@@ -22,13 +22,8 @@
 			<p:column headerText="#{message.Titulo_Exercicio}"
 				filterBy="#{exerc.titulo}">
 				<p:commandLink
-					onclick="modalAdicionarExercicio.show(); return false;">
-					<f:setPropertyActionListener
-						target="#{diaExercicioBean.idExercicioInsercao}"
-						value="#{exerc.id}" />
-					<f:setPropertyActionListener
-						target="#{diaExercicioBean.tituloAtividade}"
-						value="#{exerc.atividade.titulo}" />
+					actionListener="#{diaExercicioBean.preencherExercicio(exerc.id,exerc.atividade.titulo)}"
+					oncomplete="modalAdicionarExercicio.show();">
 					<h:outputText value="#{exerc.titulo}" />
 				</p:commandLink>
 			</p:column>
