@@ -16,8 +16,11 @@ import br.com.etraining.client.vo.impl.exerciciorealizado.ConsultaListaExercicio
 import br.com.etraining.client.vo.impl.exerciciorealizado.InsercaoExercicioRealizadoVO;
 import br.com.etraining.client.vo.impl.exerciciorealizado.RemocaoExercicioRealizadoVO;
 import br.com.etraining.client.vo.impl.exerciciorealizado.RespostaConsultaListaExercicioRealizadoVO;
+import br.com.etraining.client.vo.impl.exercicios.ConsultaListaExerciciosAlunoVO;
 import br.com.etraining.client.vo.impl.exercicios.ConsultaListaExerciciosVO;
+import br.com.etraining.client.vo.impl.exercicios.RespostaConsultaListaExerciciosAlunoVO;
 import br.com.etraining.client.vo.impl.exercicios.RespostaConsultaListaExerciciosVO;
+import br.com.etraining.client.vo.transporte.CodigoExcecao;
 import br.com.etraining.web.exceptions.ViewException;
 import br.com.etraining.web.fachada.impl.TratadorNegocioService;
 
@@ -37,6 +40,7 @@ public class DiaExercicioBean extends EtrainingManagedBean {
 	private Date diaSelecionadoTemp;
 	private List<ExercicioRealizadoSimplesVO> listaExercicioRealizado = new ArrayList<ExercicioRealizadoSimplesVO>();
 	private List<ExercicioVO> listaExercicio = new ArrayList<ExercicioVO>();
+	private List<ExercicioVO> listaExercicioProposto = new ArrayList<ExercicioVO>();
 	private Long idExercicioRemocao;
 	private Long idExercicioInsercao;
 	private Integer quantidadeAtividade;
@@ -78,7 +82,26 @@ public class DiaExercicioBean extends EtrainingManagedBean {
 		try {
 			RespostaConsultaListaExerciciosVO respExercicios = (RespostaConsultaListaExerciciosVO) service
 					.executa(new ConsultaListaExerciciosVO());
+
+			ConsultaListaExerciciosAlunoVO exercAluno = new ConsultaListaExerciciosAlunoVO();
+			exercAluno.setData(new Date());
+			exercAluno.setIdAluno(sessionBean.getIdAluno());
 			this.listaExercicio = respExercicios.getListaExercicios();
+			this.listaExercicioProposto = new ArrayList<ExercicioVO>();
+
+			try {
+				RespostaConsultaListaExerciciosAlunoVO resp = (RespostaConsultaListaExerciciosAlunoVO) service
+						.executa(exercAluno);
+				this.listaExercicioProposto = resp
+						.getListaExerciciosSugeridos();
+				this.listaExercicio.removeAll(this.listaExercicioProposto);
+			} catch (ViewException e) {
+				if (!CodigoExcecao.PROGRAMA_TREINAMENTO_APROVACAO_INEXISTENTE
+						.equals(e.getCodigoExcecao())) {
+					throw e;
+				}
+			}
+
 		} catch (ViewException e) {
 			addExceptionMessage(e);
 		}
@@ -199,6 +222,15 @@ public class DiaExercicioBean extends EtrainingManagedBean {
 
 	public void setTituloAtividade(String tituloAtividade) {
 		this.tituloAtividade = tituloAtividade;
+	}
+
+	public List<ExercicioVO> getListaExercicioProposto() {
+		return listaExercicioProposto;
+	}
+
+	public void setListaExercicioProposto(
+			List<ExercicioVO> listaExercicioProposto) {
+		this.listaExercicioProposto = listaExercicioProposto;
 	}
 
 }

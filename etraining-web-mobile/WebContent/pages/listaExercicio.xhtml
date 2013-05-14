@@ -16,8 +16,25 @@
 			</p:panelGrid>
 		</p:fieldset>
 		<p:outputPanel layout="block" style="height: 10px" />
+
+		<p:dataTable value="#{diaExercicioBean.listaExercicioProposto}"
+			var="exerc" styleClass="width-100" rows="5"
+			paginatorPosition="bottom" paginator="true"
+			emptyMessage="#{message.Sem_Itens}">
+			<p:column headerText="#{message.Titulo_Exercicio_Proposto}"
+				filterBy="#{exerc.titulo}">
+				<p:commandLink
+					actionListener="#{diaExercicioBean.preencherExercicio(exerc.id,exerc.atividade.titulo)}"
+					oncomplete="modalAdicionarExercicio.show();">
+					<h:outputText value="#{exerc.titulo}" />
+				</p:commandLink>
+			</p:column>
+		</p:dataTable>
+
+		<p:outputPanel layout="block" style="height: 10px" />
+
 		<p:dataTable value="#{diaExercicioBean.listaExercicio}" var="exerc"
-			styleClass="width-100" rows="10" paginatorPosition="bottom"
+			styleClass="width-100" rows="5" paginatorPosition="bottom"
 			paginator="true" emptyMessage="#{message.Sem_Itens}">
 			<p:column headerText="#{message.Titulo_Exercicio}"
 				filterBy="#{exerc.titulo}">
