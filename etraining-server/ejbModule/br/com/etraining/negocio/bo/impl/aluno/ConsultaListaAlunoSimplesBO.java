@@ -14,7 +14,8 @@ import br.com.etraining.negocio.bo.interfaces.AbstractBO;
 import br.com.etraining.negocio.conversor.impl.ConversorAlunoSimples;
 
 @Named("ConsultaListaAlunoSimplesVO")
-public class ConsultaListaAlunoSimplesBO extends
+public class ConsultaListaAlunoSimplesBO
+		extends
 		AbstractBO<ConsultaListaAlunoSimplesVO, RespostaConsultaListaAlunoSimplesVO> {
 
 	@Inject
@@ -28,7 +29,8 @@ public class ConsultaListaAlunoSimplesBO extends
 			ConsultaListaAlunoSimplesVO request) throws ETrainingException {
 
 		List<EntAluno> listaAlunos = daoAluno.pesquisarPorMatriculaNome(
-				request.getMatricula(), request.getNome());
+				request.getMatricula(), request.getNome(),
+				request.getPerfilAcesso());
 
 		RespostaConsultaListaAlunoSimplesVO resposta = new RespostaConsultaListaAlunoSimplesVO();
 

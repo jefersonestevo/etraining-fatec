@@ -1,5 +1,6 @@
 package br.com.etraining.modelo.dao.jpa.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Named;
@@ -13,6 +14,7 @@ import br.com.etraining.exception.ETrainingException;
 import br.com.etraining.modelo.dao.interfaces.IDaoAluno;
 import br.com.etraining.modelo.def.impl.jpa.DaoCRUDJPA;
 import br.com.etraining.modelo.entidades.EntAluno;
+import br.com.etraining.modelo.entidades.EntPerfilAcesso;
 
 @Named
 public class DaoAlunoJPA extends DaoCRUDJPA<EntAluno> implements IDaoAluno {
@@ -48,7 +50,7 @@ public class DaoAlunoJPA extends DaoCRUDJPA<EntAluno> implements IDaoAluno {
 
 	@Override
 	public List<EntAluno> pesquisarPorMatriculaNome(String matricula,
-			String nome) throws ETrainingException {
+			String nome, Long idPerfilAcesso) throws ETrainingException {
 		StringBuilder query = new StringBuilder();
 		query.append(" SELECT a FROM ");
 		query.append(EntAluno.class.getName() + " AS a ");
@@ -74,7 +76,28 @@ public class DaoAlunoJPA extends DaoCRUDJPA<EntAluno> implements IDaoAluno {
 					+ "%' ");
 		}
 
-		return getTemplate().pesquisarQuery(EntAluno.class, query.toString());
+		List<EntAluno> lista = getTemplate().pesquisarQuery(EntAluno.class,
+				query.toString());
+		List<EntAluno> listaNova = new ArrayList<EntAluno>();
+
+		if (idPerfilAcesso != null) {
+			for (EntAluno aluno : lista) {
+				boolean hasPerfil = false;
+				for (EntPerfilAcesso perf : aluno.getMatricula()
+						.getListaPerfilAcesso()) {
+					if (perf.getId().equals(idPerfilAcesso)) {
+						hasPerfil = true;
+						break;
+					}
+				}
+				if (hasPerfil)
+					listaNova.add(aluno);
+			}
+		} else {
+			listaNova.addAll(lista);
+		}
+
+		return listaNova;
 	}
 
 	@Override

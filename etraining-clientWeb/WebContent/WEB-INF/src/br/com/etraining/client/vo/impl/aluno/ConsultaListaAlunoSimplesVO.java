@@ -8,6 +8,7 @@ public class ConsultaListaAlunoSimplesVO implements IVO {
 
 	private String nome;
 	private String matricula;
+	private Long perfilAcesso;
 
 	public String getNome() {
 		return nome;
@@ -23,6 +24,14 @@ public class ConsultaListaAlunoSimplesVO implements IVO {
 
 	public void setMatricula(String matricula) {
 		this.matricula = matricula;
+	}
+
+	public Long getPerfilAcesso() {
+		return perfilAcesso;
+	}
+
+	public void setPerfilAcesso(Long perfilAcesso) {
+		this.perfilAcesso = perfilAcesso;
 	}
 
 }

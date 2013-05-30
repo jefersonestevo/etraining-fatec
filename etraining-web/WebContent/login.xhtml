@@ -1,9 +1,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html">
 <head>
-	<title>E-Training</title>
+<title>E-Training</title>
 
-	<link rel="stylesheet" href="/etraining-web/resources/css/login.css" />
+<link rel="stylesheet" href="/etraining-web/resources/css/login.css" />
 
 </head>
 <body>
@@ -14,15 +14,18 @@
 		</div>
 	</header>
 
-	<form method="POST" action="j_security_check">
+	<form id="form_main" method="POST" action="j_security_check">
 		<div class="login-form">
-			<h1>Log in<span>e-Training</span></h1>
+			<h1>
+				Log in<span>e-Training</span>
+			</h1>
 			<div>
 				<div>
 					<label>Matricula</label>
 				</div>
 				<div>
-					<input type="text" name="j_username" id="user" class="input-text-type" />
+					<input type="text" name="j_username" id="user"
+						class="input-text-type" required="required" />
 				</div>
 			</div>
 			<div>
@@ -30,12 +33,15 @@
 					<label>Senha</label>
 				</div>
 				<div>
-					<input type="password" name="j_password" class="input-text-type" />
+					<input type="password" id="j_password" name="j_password"
+						class="input-text-type" required="required" />
 				</div>
 			</div>
 			<div>
 				<div>
-					<input type="submit" value="Entrar" class="button" />
+					<input type="submit" value="Entrar" class="button"
+						required="required" />
+
 				</div>
 			</div>
 		</div>
@@ -43,7 +49,8 @@
 
 	<footer class="footer">
 		<div>
-			<div>Faculdade de Tecnologia de São Paulo - Análise e Desenvolvimento de Sistemas</div>
+			<div>Faculdade de Tecnologia de São Paulo - Análise e
+				Desenvolvimento de Sistemas</div>
 		</div>
 	</footer>
 </body>

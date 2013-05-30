@@ -12,7 +12,7 @@ public interface IDaoAluno extends IDaoCRUD<EntAluno> {
 			String senha) throws ETrainingException;
 
 	public List<EntAluno> pesquisarPorMatriculaNome(String matricula,
-			String nome) throws ETrainingException;
+			String nome, Long idPerfilAcesso) throws ETrainingException;
 
 	public EntAluno pesquisarPorMatricula(String matricula)
 			throws ETrainingException;

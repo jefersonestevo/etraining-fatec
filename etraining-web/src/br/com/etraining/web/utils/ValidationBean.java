@@ -3,6 +3,8 @@ package br.com.etraining.web.utils;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.apache.commons.lang.time.DateUtils;
+
 import br.com.etraining.web.managedbeans.EtrainingManagedBean;
 
 public class ValidationBean {
@@ -28,6 +30,19 @@ public class ValidationBean {
 			hasError = true;
 		}
 
+		Date dataAtual = DateUtils.truncate(new Date(), Calendar.DATE);
+		Date dataTesteInicial = DateUtils.truncate(dataInicial, Calendar.DATE);
+		Date dataTesteFinal = DateUtils.truncate(dataFinal, Calendar.DATE);
+
+		if (dataAtual.before(dataTesteInicial)) {
+			bean.addErrorMessage(bean.getMessage("Data_Inicial_Futuro"));
+			hasError = true;
+		}
+
+		if (dataAtual.before(dataTesteFinal)) {
+			bean.addErrorMessage(bean.getMessage("Data_Final_Futuro"));
+			hasError = true;
+		}
 		return hasError;
 	}
 

@@ -30,6 +30,12 @@
 				<p:separator styleClass="separador-campos" />
 				<p:inputText value="#{alunoController.consulta.matricula}" />
 
+				<h:outputText value="#{message.Aluno_Perfil_Acesso}" />
+				<p:separator styleClass="separador-campos" />
+				<h:selectOneMenu value="#{alunoController.consulta.perfilAcesso}">
+					<f:selectItems value="#{alunoController.listaPerfilAcesso}" />
+				</h:selectOneMenu>
+
 			</p:panelGrid>
 
 		</p:fieldset>

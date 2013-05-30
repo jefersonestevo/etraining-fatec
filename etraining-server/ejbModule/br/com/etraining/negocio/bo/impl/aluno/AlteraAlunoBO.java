@@ -3,6 +3,8 @@ package br.com.etraining.negocio.bo.impl.aluno;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.apache.commons.collections.CollectionUtils;
+
 import br.com.etraining.client.vo.impl.aluno.AlteraAlunoVO;
 import br.com.etraining.client.vo.impl.aluno.RespostaConsultaAlunoVO;
 import br.com.etraining.client.vo.impl.entidades.AlunoVO;
@@ -14,6 +16,7 @@ import br.com.etraining.modelo.dao.interfaces.IDaoProgramaTreinamento;
 import br.com.etraining.modelo.entidades.EntAluno;
 import br.com.etraining.modelo.entidades.EntDadosCorporais;
 import br.com.etraining.modelo.entidades.EntMatricula;
+import br.com.etraining.modelo.entidades.EntPerfilAcesso;
 import br.com.etraining.modelo.entidades.EntProgramaTreinamento;
 import br.com.etraining.negocio.bo.interfaces.AbstractBO;
 import br.com.etraining.negocio.conversor.impl.ConversorAluno;
@@ -60,6 +63,19 @@ public class AlteraAlunoBO extends
 		matricula.setRg(aluno.getMatricula().getRg());
 		matricula.setListaDiasTreinamento(aluno.getMatricula()
 				.getListaDiasTreinamento());
+
+		if (request.getAluno().getMatricula() != null
+				&& CollectionUtils.isNotEmpty(request.getAluno().getMatricula()
+						.getListaPerfilAcesso())) {
+			matricula.getListaPerfilAcesso().clear();
+			for (String idPerfil : request.getAluno().getMatricula()
+					.getListaPerfilAcesso()) {
+				EntPerfilAcesso perfil = new EntPerfilAcesso();
+				perfil.setId(Long.valueOf(idPerfil));
+				matricula.getListaPerfilAcesso().add(perfil);
+			}
+		}
+
 		matriculaDao.alterar(matricula);
 		aluno.setMatricula(matricula);
 

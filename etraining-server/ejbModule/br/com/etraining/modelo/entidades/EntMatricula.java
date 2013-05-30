@@ -3,6 +3,7 @@ package br.com.etraining.modelo.entidades;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -52,7 +53,8 @@ public class EntMatricula extends BeanJPA {
 	@Column(name = "usuario_ativo")
 	private Boolean usuarioAtivo = true;
 
-	@ManyToMany(targetEntity = EntPerfilAcesso.class, fetch = FetchType.EAGER)
+	@ManyToMany(targetEntity = EntPerfilAcesso.class, fetch = FetchType.EAGER, cascade = {
+			CascadeType.PERSIST, CascadeType.MERGE })
 	@JoinTable(name = "matricula_perfilacesso", joinColumns = @JoinColumn(name = "id_matricula", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "id_perfil_acesso", referencedColumnName = "id"))
 	private List<EntPerfilAcesso> listaPerfilAcesso;
 

@@ -14,6 +14,7 @@ public class MatriculaVO implements IVO {
 	private String rg;
 	private String cpf;
 	private List<String> listaDiasSemana = new ArrayList<String>();
+	private List<String> listaPerfilAcesso = new ArrayList<String>();
 
 	public Long getId() {
 		return id;
@@ -53,5 +54,13 @@ public class MatriculaVO implements IVO {
 
 	public void setListaDiasSemana(List<String> listaDiasSemana) {
 		this.listaDiasSemana = listaDiasSemana;
+	}
+
+	public List<String> getListaPerfilAcesso() {
+		return listaPerfilAcesso;
+	}
+
+	public void setListaPerfilAcesso(List<String> listaPerfilAcesso) {
+		this.listaPerfilAcesso = listaPerfilAcesso;
 	}
 }

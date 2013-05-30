@@ -1,11 +1,15 @@
 package br.com.etraining.web.managedbeans.aluno;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import javax.enterprise.context.SessionScoped;
+import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import br.com.etraining.client.dom.PerfilAcesso;
 import br.com.etraining.client.vo.impl.aluno.AlteraAlunoVO;
 import br.com.etraining.client.vo.impl.aluno.ConsultaAlunoVO;
 import br.com.etraining.client.vo.impl.aluno.ConsultaListaAlunoSimplesVO;
@@ -30,12 +34,18 @@ public class AlunoController extends EtrainingManagedBean {
 	private RespostaConsultaListaAlunoSimplesVO respostaLista;
 	private RespostaConsultaAlunoVO resposta = new RespostaConsultaAlunoVO();
 
+	private static final Long ID_PERFIL_INVALIDO = -1l;
+	private List<SelectItem> listaPerfilAcesso = new ArrayList<SelectItem>();
+	private List<SelectItem> listaPerfilAcessoAlteracao = new ArrayList<SelectItem>();
+
 	public String irParaTelaPesquisa() {
 		consulta = new ConsultaListaAlunoSimplesVO();
+		consulta.setPerfilAcesso(PerfilAcesso.ALUNO.getId());
 		respostaLista = new RespostaConsultaListaAlunoSimplesVO();
 		resposta = new RespostaConsultaAlunoVO();
 
 		limparForm();
+		preencherListaPerfilAcesso();
 		return "/pages/aluno/pesquisaAluno.xhtml";
 	}
 
@@ -44,6 +54,10 @@ public class AlunoController extends EtrainingManagedBean {
 		RespostaConsultaListaAlunoSimplesVO resp = null;
 
 		try {
+			if (ID_PERFIL_INVALIDO.equals(consulta.getPerfilAcesso())) {
+				consulta.setPerfilAcesso(null);
+			}
+
 			resp = (RespostaConsultaListaAlunoSimplesVO) service
 					.executa(consulta);
 
@@ -89,6 +103,19 @@ public class AlunoController extends EtrainingManagedBean {
 		return "/pages/aluno/editarAluno.xhtml";
 	}
 
+	private void preencherListaPerfilAcesso() {
+		listaPerfilAcesso = new ArrayList<SelectItem>();
+		listaPerfilAcessoAlteracao = new ArrayList<SelectItem>();
+
+		listaPerfilAcesso.add(new SelectItem(ID_PERFIL_INVALIDO, ""));
+		for (PerfilAcesso perfil : PerfilAcesso.values()) {
+			listaPerfilAcesso.add(new SelectItem(perfil.getId(), perfil
+					.getNome()));
+			listaPerfilAcessoAlteracao.add(new SelectItem(perfil.getId(),
+					perfil.getNome()));
+		}
+	}
+
 	public ConsultaListaAlunoSimplesVO getConsulta() {
 		return consulta;
 	}
@@ -120,6 +147,23 @@ public class AlunoController extends EtrainingManagedBean {
 
 	public void setResposta(RespostaConsultaAlunoVO resposta) {
 		this.resposta = resposta;
+	}
+
+	public List<SelectItem> getListaPerfilAcesso() {
+		return listaPerfilAcesso;
+	}
+
+	public void setListaPerfilAcesso(List<SelectItem> listaPerfilAcesso) {
+		this.listaPerfilAcesso = listaPerfilAcesso;
+	}
+
+	public List<SelectItem> getListaPerfilAcessoAlteracao() {
+		return listaPerfilAcessoAlteracao;
+	}
+
+	public void setListaPerfilAcessoAlteracao(
+			List<SelectItem> listaPerfilAcessoAlteracao) {
+		this.listaPerfilAcessoAlteracao = listaPerfilAcessoAlteracao;
 	}
 
 }

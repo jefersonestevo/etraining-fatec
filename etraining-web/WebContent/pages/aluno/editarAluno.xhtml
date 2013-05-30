@@ -77,6 +77,14 @@
 						<f:selectItems value="#{viewDataUtils.listaDiasSemana}" />
 					</p:selectManyButton>
 
+					<h:outputText value="* #{message.Aluno_Perfil_Acesso}" />
+					<p:separator styleClass="separador-campos" />
+					<p:selectManyButton required="true"
+						requiredMessage="#{message.Perfil_Acesso_Obrigatorio}"
+						value="#{alunoController.resposta.aluno.matricula.listaPerfilAcesso}">
+						<f:selectItems value="#{alunoController.listaPerfilAcessoAlteracao}" />
+					</p:selectManyButton>
+
 				</p:panelGrid>
 			</p:fieldset>
 

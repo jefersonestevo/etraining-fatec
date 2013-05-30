@@ -9,6 +9,7 @@ import org.apache.commons.collections.CollectionUtils;
 import br.com.etraining.client.vo.impl.entidades.MatriculaVO;
 import br.com.etraining.modelo.entidades.EntDiaSemana;
 import br.com.etraining.modelo.entidades.EntMatricula;
+import br.com.etraining.modelo.entidades.EntPerfilAcesso;
 import br.com.etraining.negocio.conversor.IConversorVOEntidade;
 
 @Named
@@ -31,6 +32,16 @@ public class ConversorMatricula implements
 				entidade.getListaDiasTreinamento().add(dia);
 			}
 		}
+
+		entidade.setListaPerfilAcesso(new ArrayList<EntPerfilAcesso>());
+		if (CollectionUtils.isNotEmpty(vo.getListaPerfilAcesso())) {
+			for (String idPerfil : vo.getListaPerfilAcesso()) {
+				EntPerfilAcesso perfil = new EntPerfilAcesso();
+				perfil.setId(Long.valueOf(idPerfil));
+				entidade.getListaPerfilAcesso().add(perfil);
+			}
+		}
+
 		return entidade;
 	}
 
@@ -50,6 +61,13 @@ public class ConversorMatricula implements
 			for (EntDiaSemana diaSemana : entidade.getListaDiasTreinamento()) {
 				vo.getListaDiasSemana().add(diaSemana.getId().toString());
 			}
+
+		vo.setListaPerfilAcesso(new ArrayList<String>());
+		if (CollectionUtils.isNotEmpty(entidade.getListaPerfilAcesso())) {
+			for (EntPerfilAcesso perfil : entidade.getListaPerfilAcesso()) {
+				vo.getListaPerfilAcesso().add(perfil.getId().toString());
+			}
+		}
 
 		return vo;
 	}
