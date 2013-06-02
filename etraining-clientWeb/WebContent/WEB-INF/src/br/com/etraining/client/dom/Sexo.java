@@ -1,8 +1,14 @@
 package br.com.etraining.client.dom;
 
 public enum Sexo {
-	M, //
-	F;
+	M(1), //
+	F(2);
+
+	private Integer id;
+
+	private Sexo(Integer id) {
+		this.id = id;
+	}
 
 	public static Sexo getEnumFor(String index) {
 		if (index != null) {
@@ -22,5 +28,9 @@ public enum Sexo {
 			}
 		}
 		return null;
+	}
+
+	public Integer getId() {
+		return id;
 	}
 }

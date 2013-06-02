@@ -27,7 +27,7 @@ public class EntPerfilAcesso extends BeanJPA {
 	@Id
 	private Long id;
 
-	@Column(length = TamanhoCampo.TAMANHO_MEDIO, nullable = false, updatable = false, insertable = false)
+	@Column(length = TamanhoCampo.TAMANHO_MEDIO)
 	private String nome;
 
 	public Long getId() {

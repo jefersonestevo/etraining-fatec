@@ -1,0 +1,169 @@
+<ui:composition template="/pages/template/template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="endereco">
+		<p:breadCrumb>
+			<p:menuitem action="/pages/home.xhtml" immediate="true" />
+			<p:menuitem value="#{message.Header_Pesquisa_Aluno}"
+				action="#{alunoController.irParaTelaPesquisa}" immediate="true" />
+			<p:menuitem value="#{message.Header_Insercao_Aluno}" url="#" />
+		</p:breadCrumb>
+	</ui:define>
+
+	<ui:define name="ajuda">
+		<p:commandButton icon="ui-icon-help" immediate="true" global="false"
+			onclick="mostrarModal('/pages/ajuda/telas/editarAluno.jsf')" />
+	</ui:define>
+
+	<ui:define name="content">
+		<p:panelGrid columns="2" columnClasses="width-40, width-60"
+			styleClass="panel-grid full-width">
+			<p:fieldset legend="#{message.Header_Insercao_Aluno_Registro}"
+				toggleable="true">
+				<p:panelGrid columns="3" styleClass="full-width"
+					columnClasses="width-25, width-1, width-75">
+					<h:outputText value="* #{message.Aluno_Nome}" />
+					<p:separator styleClass="separador-campos" />
+					<p:inputText value="#{alunoController.resposta.aluno.nome}"
+						required="true" requiredMessage="#{message.Nome_Obrigatorio}" />
+
+					<h:outputText value="#{message.Aluno_Email}" />
+					<p:separator styleClass="separador-campos" />
+					<p:inputText value="#{alunoController.resposta.aluno.email}" />
+
+					<h:outputText value="* #{message.Aluno_Data_Nascimento}" />
+					<p:separator styleClass="separador-campos" />
+					<p:calendar pattern="#{viewDataUtils.patternData}"
+						value="#{alunoController.resposta.aluno.dataNascimento}" />
+
+					<h:outputText value="#{message.Aluno_Telefone}" />
+					<p:separator styleClass="separador-campos" />
+					<p:inputMask value="#{alunoController.resposta.aluno.telefone}"
+						mask="999999999" />
+
+					<h:outputText value="* #{message.Aluno_Sexo}" />
+					<p:separator styleClass="separador-campos" />
+					<h:selectOneMenu required="true"
+						value="#{alunoController.sexoAluno}">
+						<f:selectItems value="#{alunoController.listaSexo}" />
+					</h:selectOneMenu>
+				</p:panelGrid>
+
+			</p:fieldset>
+			<p:fieldset legend="#{message.Header_Edicao_Aluno_Matricula}"
+				toggleable="true">
+				<p:panelGrid columns="3" styleClass="full-width"
+					columnClasses="width-25,width-1, width-75">
+					<h:outputText value="* #{message.Aluno_Matricula}" />
+					<p:separator styleClass="separador-campos" />
+					<p:inputMask
+						value="#{alunoController.resposta.aluno.matricula.numeroMatricula}"
+						mask="999999?9?9" />
+
+					<h:outputText value="#{message.Aluno_Rg}" />
+					<p:separator styleClass="separador-campos" />
+					<p:inputMask value="#{alunoController.resposta.aluno.matricula.rg}"
+						mask="99.999.999-9" />
+
+					<h:outputText value="#{message.Aluno_Cpf}" />
+					<p:separator styleClass="separador-campos" />
+					<p:inputMask
+						value="#{alunoController.resposta.aluno.matricula.cpf}"
+						mask="999.999.999-99" />
+
+					<h:outputText value="* #{message.Aluno_Dias_Aula}" />
+					<p:separator styleClass="separador-campos" />
+					<p:selectManyButton required="true"
+						requiredMessage="#{message.Dias_Aula_Obrigatorio}"
+						value="#{alunoController.resposta.aluno.matricula.listaDiasSemana}">
+						<f:selectItems value="#{viewDataUtils.listaDiasSemana}" />
+					</p:selectManyButton>
+
+					<h:outputText value="* #{message.Aluno_Perfil_Acesso}" />
+					<p:separator styleClass="separador-campos" />
+					<p:selectManyButton required="true"
+						requiredMessage="#{message.Perfil_Acesso_Obrigatorio}"
+						value="#{alunoController.resposta.aluno.matricula.listaPerfilAcesso}">
+						<f:selectItems
+							value="#{alunoController.listaPerfilAcessoAlteracao}" />
+					</p:selectManyButton>
+
+				</p:panelGrid>
+			</p:fieldset>
+
+		</p:panelGrid>
+
+		<p:separator styleClass="invisivel" />
+
+		<p:fieldset legend="#{message.Header_Edicao_Aluno_Dados_Corporais}"
+			toggleable="true">
+
+			<p:panelGrid columns="3" styleClass="panel-grid full-width"
+				columnClasses="width-25, width-1, width-75">
+				<h:outputText value="* #{message.Dados_Corporais_Peso}" />
+				<p:separator styleClass="separador-campos" />
+				<p:inputText
+					value="#{alunoController.resposta.aluno.dadosCorporais.peso}"
+					required="true" requiredMessage="#{message.Peso_Obrigatorio}" />
+
+				<h:outputText value="* #{message.Dados_Corporais_Altura}" />
+				<p:separator styleClass="separador-campos" />
+				<p:inputText
+					value="#{alunoController.resposta.aluno.dadosCorporais.altura}"
+					required="true" requiredMessage="#{message.Altura_Obrigatorio}" />
+
+				<h:outputText
+					value="#{message.Dados_Corporais_Indice_Gordura_Corporal}" />
+				<p:separator styleClass="separador-campos" />
+				<p:inputText
+					value="#{alunoController.resposta.aluno.dadosCorporais.indiceGorduraCorporal}" />
+
+				<h:outputText value="#{message.Dados_Corporais_Batimentos_Minuto}" />
+				<p:separator styleClass="separador-campos" />
+				<p:inputText maxlength="3"
+					value="#{alunoController.resposta.aluno.dadosCorporais.batimentosPorMinuto}" />
+
+				<h:outputText value="#{message.Dados_Corporais_Tempo_Esteira}" />
+				<p:separator styleClass="separador-campos" />
+				<p:outputPanel>
+					<p:inputText maxlength="3"
+						value="#{alunoController.resposta.aluno.dadosCorporais.tempoEsteira}" />
+					<h:outputText value=" (#{message.Minuto_Sigla})" />
+				</p:outputPanel>
+
+			</p:panelGrid>
+
+		</p:fieldset>
+
+		<p:panelGrid columns="3"
+			styleClass="full-width no-border align-center">
+			<p:outputPanel styleClass="invisivel" />
+			<p:outputPanel>
+				<p:commandButton onclick="confirmacaoInsercao.show()"
+					value="#{message.Salvar}" />
+				<p:commandButton action="#{alunoController.irParaTelaPesquisa}"
+					value="#{message.Voltar}" immediate="true" />
+			</p:outputPanel>
+			<p:outputPanel styleClass="invisivel" />
+		</p:panelGrid>
+
+		<p:confirmDialog id="confirmDialog"
+			header="#{message.Header_Confirmacao_Insercao}"
+			message="#{message.Confirmar_Insercao_Aluno}"
+			widgetVar="confirmacaoInsercao">
+
+			<p:commandButton id="confirmar" value="#{message.Sim}"
+				action="#{alunoController.inserir}" />
+			<p:commandButton id="recusar" value="#{message.Nao}"
+				onclick="confirmacaoInsercao.hide()" type="button" />
+
+		</p:confirmDialog>
+
+	</ui:define>
+
+</ui:composition>
+

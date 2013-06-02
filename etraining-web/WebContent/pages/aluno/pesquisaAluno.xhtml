@@ -47,6 +47,8 @@
 				<p:commandButton actionListener="#{alunoController.pesquisar}"
 					global="false" value="#{message.Pesquisar}"
 					update="resultadoConsultaAlunos" />
+				<p:commandButton action="#{alunoController.irParaTelaInsercao}"
+					global="false" value="#{message.Inserir}" />
 				<p:commandButton value="#{message.Voltar}"
 					action="/pages/home.xhtml" immediate="true" />
 			</p:outputPanel>

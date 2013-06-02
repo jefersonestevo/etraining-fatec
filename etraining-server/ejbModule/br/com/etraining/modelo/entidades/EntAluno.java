@@ -40,7 +40,7 @@ public class EntAluno extends BeanJPA {
 	@GeneratedValue(generator = "seq_aluno", strategy = GenerationType.AUTO)
 	private Long id;
 
-	@Column(length = TamanhoCampo.TAMANHO_MEDIO, nullable = false)
+	@Column(length = TamanhoCampo.TAMANHO_MEDIO)
 	private String nome;
 
 	@Column(length = TamanhoCampo.TAMANHO_MEDIO)

@@ -38,7 +38,7 @@ public class EntDiaSemana extends BeanJPA {
 	@Id
 	private Long id;
 
-	@Column(length = TamanhoCampo.TAMANHO_PEQUENO, nullable = false, updatable = false)
+	@Column(length = TamanhoCampo.TAMANHO_PEQUENO)
 	private String nome;
 
 	public Long getId() {

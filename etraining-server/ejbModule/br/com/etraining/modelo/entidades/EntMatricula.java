@@ -40,21 +40,20 @@ public class EntMatricula extends BeanJPA {
 	@GeneratedValue(generator = "seq_matricula", strategy = GenerationType.AUTO)
 	private Long id;
 
-	@OneToOne(targetEntity = EntAluno.class)
-	@JoinColumn(name = "id_aluno")
+	@OneToOne(targetEntity = EntAluno.class, cascade = CascadeType.DETACH)
+	@JoinColumn(name = "id_aluno", referencedColumnName = "id")
 	private EntAluno aluno;
 
-	@Column(name = "num_matricula", updatable = false)
+	@Column(name = "num_matricula")
 	private String numeroMatricula;
 
-	@Column(name = "senha_usuario", updatable = false)
+	@Column(name = "senha_usuario")
 	private String senhaUsuario;
 
 	@Column(name = "usuario_ativo")
 	private Boolean usuarioAtivo = true;
 
-	@ManyToMany(targetEntity = EntPerfilAcesso.class, fetch = FetchType.EAGER, cascade = {
-			CascadeType.PERSIST, CascadeType.MERGE })
+	@ManyToMany(targetEntity = EntPerfilAcesso.class, fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
 	@JoinTable(name = "matricula_perfilacesso", joinColumns = @JoinColumn(name = "id_matricula", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "id_perfil_acesso", referencedColumnName = "id"))
 	private List<EntPerfilAcesso> listaPerfilAcesso;
 
@@ -64,7 +63,7 @@ public class EntMatricula extends BeanJPA {
 	@Column
 	private String cpf;
 
-	@ManyToMany(targetEntity = EntDiaSemana.class, fetch = FetchType.LAZY)
+	@ManyToMany(targetEntity = EntDiaSemana.class, fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
 	@JoinTable(name = "matricula_diasemana", joinColumns = @JoinColumn(name = "id_matricula", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "id_dia_treinamento", referencedColumnName = "id"))
 	private List<EntDiaSemana> listaDiasTreinamento = new ArrayList<EntDiaSemana>();
 
