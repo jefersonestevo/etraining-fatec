@@ -37,4 +37,20 @@ public class DaoMatriculaJPA extends DaoCRUDJPA<EntMatricula> implements
 		return CollectionUtils.isNotEmpty(lista);
 	}
 
+	@Override
+	public EntMatricula pesquisarPorMatricula(String numero)
+			throws ETrainingException {
+		StringBuilder query = new StringBuilder();
+		query.append(" SELECT m FROM ");
+		query.append(EntMatricula.class.getName() + " AS m ");
+		query.append(" WHERE m.numeroMatricula = ? ");
+
+		List<EntMatricula> lista = getTemplate().pesquisarQuery(
+				EntMatricula.class, query.toString(), new Object[] { numero });
+
+		if (CollectionUtils.isNotEmpty(lista))
+			return lista.get(0);
+		return null;
+	}
+
 }

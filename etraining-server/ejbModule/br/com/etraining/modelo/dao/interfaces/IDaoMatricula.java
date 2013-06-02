@@ -8,4 +8,7 @@ public interface IDaoMatricula extends IDaoCRUD<EntMatricula> {
 
 	public boolean existeMatricula(String numero) throws ETrainingException;
 
+	public EntMatricula pesquisarPorMatricula(String numero)
+			throws ETrainingException;
+
 }

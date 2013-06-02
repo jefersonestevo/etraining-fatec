@@ -18,6 +18,7 @@ import br.com.etraining.client.vo.impl.aluno.ConsultaListaAlunoSimplesVO;
 import br.com.etraining.client.vo.impl.aluno.InsereAlunoVO;
 import br.com.etraining.client.vo.impl.aluno.RespostaConsultaAlunoVO;
 import br.com.etraining.client.vo.impl.aluno.RespostaConsultaListaAlunoSimplesVO;
+import br.com.etraining.client.vo.impl.aluno.TrocaSenhaVO;
 import br.com.etraining.client.vo.impl.entidades.AlunoVO;
 import br.com.etraining.client.vo.impl.entidades.DadosCorporaisVO;
 import br.com.etraining.client.vo.impl.entidades.MatriculaVO;
@@ -39,6 +40,7 @@ public class AlunoController extends EtrainingManagedBean {
 	private ConsultaListaAlunoSimplesVO consulta = new ConsultaListaAlunoSimplesVO();
 	private RespostaConsultaListaAlunoSimplesVO respostaLista;
 	private RespostaConsultaAlunoVO resposta = new RespostaConsultaAlunoVO();
+	private TrocaSenhaVO trocaSenha = new TrocaSenhaVO();
 
 	private static final Long ID_PERFIL_INVALIDO = -1l;
 	private List<SelectItem> listaPerfilAcesso = new ArrayList<SelectItem>();
@@ -158,6 +160,43 @@ public class AlunoController extends EtrainingManagedBean {
 		return "/pages/aluno/editarAluno.xhtml";
 	}
 
+	public String trocarSenha() {
+		try {
+			boolean hasError = false;
+			if (isCampoMenorPermitido(trocaSenha.getSenhaAntiga(), 6,
+					"Senha_Menor_Permitido")) {
+				hasError = true;
+			}
+			if (isCampoMenorPermitido(trocaSenha.getSenhaNova(), 6,
+					"Senha_Nova_Menor_Permitido")) {
+				hasError = true;
+			}
+			if (isCampoMenorPermitido(trocaSenha.getSenhaNova2(), 6,
+					"Senha_Nova_2_Menor_Permitido")) {
+				hasError = true;
+			}
+			if (hasError)
+				return null;
+
+			service.executa(trocaSenha);
+			showSuccessMessage();
+			trocaSenha = new TrocaSenhaVO();
+		} catch (ViewException e) {
+			addExceptionMessage(e);
+			return null;
+		}
+		return "login.xhtml";
+	}
+
+	private boolean isCampoMenorPermitido(String campo, Integer permitido,
+			String message) {
+		if (campo.length() < permitido) {
+			addErrorMessage(getMessage(message));
+			return true;
+		}
+		return false;
+	}
+
 	private void preencherListaPerfilAcesso() {
 		listaPerfilAcesso = new ArrayList<SelectItem>();
 		listaPerfilAcessoAlteracao = new ArrayList<SelectItem>();
@@ -235,6 +274,14 @@ public class AlunoController extends EtrainingManagedBean {
 
 	public void setListaSexo(List<SelectItem> listaSexo) {
 		this.listaSexo = listaSexo;
+	}
+
+	public TrocaSenhaVO getTrocaSenha() {
+		return trocaSenha;
+	}
+
+	public void setTrocaSenha(TrocaSenhaVO trocaSenha) {
+		this.trocaSenha = trocaSenha;
 	}
 
 }

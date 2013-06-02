@@ -11,6 +11,8 @@
 	<h:head>
 		<title><h:outputText value="#{message.Sistema_Nome}" /></title>
 		<h:outputStylesheet name="style.css" library="css" />
+		<ui:insert name="head">
+		</ui:insert>
 	</h:head>
 
 	<h:body>
@@ -65,7 +67,7 @@
 			</div>
 
 			<p:outputPanel styles="display: none;">
-				<p:dialog modal="true" widgetVar="modalAjuda" height="300" 
+				<p:dialog modal="true" widgetVar="modalAjuda" height="300"
 					id="modalAjudaTeste" width="500" styleClass="modal-ajuda"
 					header="#{message.Ajuda}" draggable="false" style="top: 100px">
 					<h:outputText id="ajuda" styleClass="modal-texto-ajuda" />

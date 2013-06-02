@@ -1,0 +1,70 @@
+<ui:composition template="/pages/template/template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="head">
+		<h:outputStylesheet name="style.css" library="css" />
+	</ui:define>
+
+	<ui:define name="header">
+		<header class="title">
+			<div>
+				<h1>e-Training System</h1>
+			</div>
+		</header>
+	</ui:define>
+
+	<ui:define name="content">
+
+		<p:fieldset style="text-align: center"
+			legend="#{message.Header_Troca_Senha}">
+			<p:panelGrid columns="2">
+				<h:outputLabel id="matricula" value="#{message.Aluno_Matricula}" />
+				<p:inputText value="#{alunoController.trocaSenha.matricula}"
+					required="true"
+					requiredMessage="#{messageException.Matricula_Obrigatoria}">
+					<p:focus />
+				</p:inputText>
+
+				<p:outputPanel layout="block" style="height: 10px" />
+				<p:outputPanel layout="block" style="height: 10px" />
+
+				<h:outputLabel id="senhaAntiga" value="#{message.Senha_Antiga}" />
+				<p:password value="#{alunoController.trocaSenha.senhaAntiga}"
+					requiredMessage="#{messageException.Senha_Obrigatoria}"
+					required="true">
+				</p:password>
+
+				<p:outputPanel layout="block" style="height: 10px" />
+				<p:outputPanel layout="block" style="height: 10px" />
+
+				<h:outputLabel id="senhaNova" value="#{message.Senha_Nova}" />
+				<p:password value="#{alunoController.trocaSenha.senhaNova}"
+					requiredMessage="#{messageException.Senha_Nova_Obrigatoria}"
+					required="true">
+				</p:password>
+
+				<p:outputPanel layout="block" style="height: 10px" />
+				<p:outputPanel layout="block" style="height: 10px" />
+
+				<h:outputLabel id="senhaNova2"
+					value="#{message.Senha_Nova} (#{message.Confirmacao})" />
+				<p:password value="#{alunoController.trocaSenha.senhaNova2}"
+					requiredMessage="#{messageException.Senha_Nova_2_Obrigatoria}"
+					required="true">
+				</p:password>
+
+			</p:panelGrid>
+			<p:outputPanel layout="block" style="height: 20px" />
+			<p:commandButton action="#{alunoController.trocarSenha}"
+				value="#{message.Trocar_Senha}" />
+			<p:commandButton action="login.jsf" value="#{message.Voltar}"
+				immediate="true" />
+		</p:fieldset>
+
+	</ui:define>
+</ui:composition>
+
