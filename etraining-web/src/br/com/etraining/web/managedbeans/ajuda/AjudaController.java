@@ -37,6 +37,8 @@ public class AjudaController extends EtrainingManagedBean {
 		nodeConsultarAluno.setExpanded(true);
 		new DefaultTreeNode("editar", getMessage("Header_Edicao_Aluno"),
 				nodeConsultarAluno).setExpanded(true);
+		new DefaultTreeNode("editar", getMessage("Header_Insercao_Aluno"),
+				nodeConsultarAluno).setExpanded(true);
 
 		// ADM > Relatórios
 		TreeNode nodeRelatorio = new DefaultTreeNode(

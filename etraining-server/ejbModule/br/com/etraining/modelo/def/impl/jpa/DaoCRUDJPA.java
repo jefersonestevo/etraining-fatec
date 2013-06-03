@@ -38,12 +38,12 @@ public abstract class DaoCRUDJPA<E extends IBean> implements IDaoCRUD<E> {
 		getTemplate().remover(entidade);
 	}
 
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
+	@TransactionAttribute(TransactionAttributeType.SUPPORTS)
 	public E pesquisar(Long id) throws ETrainingException {
 		return getTemplate().pesquisar(getEntidadePersistente(), id);
 	}
 
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
+	@TransactionAttribute(TransactionAttributeType.SUPPORTS)
 	public List<E> pesquisarLista() throws ETrainingException {
 		return getTemplate().pesquisarLista(getEntidadePersistente());
 	}
