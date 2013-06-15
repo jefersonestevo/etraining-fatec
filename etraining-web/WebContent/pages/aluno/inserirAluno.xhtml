@@ -51,6 +51,21 @@
 						value="#{alunoController.sexoAluno}">
 						<f:selectItems value="#{alunoController.listaSexo}" />
 					</h:selectOneMenu>
+
+					<h:outputText value="* #{message.Senha}" />
+					<p:separator styleClass="separador-campos" />
+					<p:password value="#{alunoController.resposta.aluno.senha}"
+						requiredMessage="#{messageException.Senha_Obrigatoria}"
+						required="true">
+					</p:password>
+
+					<h:outputText value="* #{message.Senha} (#{message.Confirmacao})" />
+					<p:separator styleClass="separador-campos" />
+					<p:password value="#{alunoController.senhaConfirmacao}"
+						requiredMessage="#{messageException.Senha_Confirmacao_Obrigatoria}"
+						required="true">
+					</p:password>
+
 				</p:panelGrid>
 
 			</p:fieldset>

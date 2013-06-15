@@ -49,6 +49,8 @@ public class AlunoController extends EtrainingManagedBean {
 	private Integer sexoAluno;
 	private List<SelectItem> listaSexo = new ArrayList<SelectItem>();
 
+	private String senhaConfirmacao;
+
 	@PostConstruct
 	public void inicializar() {
 		this.listaSexo = new ArrayList<SelectItem>();
@@ -135,8 +137,26 @@ public class AlunoController extends EtrainingManagedBean {
 
 	public String inserir() {
 		try {
+
+			boolean hasError = false;
+			if (isCampoMenorPermitido(resposta.getAluno().getSenha(), 6,
+					"Senha_Menor_Permitido")) {
+				hasError = true;
+			}
+			if (isCampoMenorPermitido(getSenhaConfirmacao(), 6,
+					"Senha_Confirmacao_Menor_Permitido")) {
+				hasError = true;
+			}
+			if (hasError)
+				return null;
+
 			InsereAlunoVO insercao = new InsereAlunoVO();
 			AlunoVO aluno = resposta.getAluno();
+
+			if (!getSenhaConfirmacao().equals(aluno.getSenha())) {
+				throw new ViewException(
+						CodigoExcecao.TROCA_SENHA_SENHAS_INCONSISTENTES);
+			}
 
 			if (Sexo.M.getId().equals(this.sexoAluno)) {
 				aluno.setSexo(Sexo.M);
@@ -282,6 +302,14 @@ public class AlunoController extends EtrainingManagedBean {
 
 	public void setTrocaSenha(TrocaSenhaVO trocaSenha) {
 		this.trocaSenha = trocaSenha;
+	}
+
+	public String getSenhaConfirmacao() {
+		return senhaConfirmacao;
+	}
+
+	public void setSenhaConfirmacao(String senhaConfirmacao) {
+		this.senhaConfirmacao = senhaConfirmacao;
 	}
 
 }

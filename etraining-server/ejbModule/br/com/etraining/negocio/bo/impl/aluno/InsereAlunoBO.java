@@ -71,7 +71,7 @@ public class InsereAlunoBO extends
 
 		EntMatricula matricula = conversorMatricula.fromVO(request.getAluno()
 				.getMatricula());
-		matricula.setSenhaUsuario("teste123");
+		matricula.setSenhaUsuario(request.getAluno().getSenha());
 		matricula.setAluno(aluno);
 		matriculaDao.inserir(matricula);
 		aluno.setMatricula(matricula);

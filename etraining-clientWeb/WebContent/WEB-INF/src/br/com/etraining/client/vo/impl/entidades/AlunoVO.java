@@ -13,6 +13,7 @@ public class AlunoVO implements IVO {
 	private String nome;
 	private String email;
 	private String telefone;
+	private String senha;
 	private Date dataNascimento;
 	private Sexo sexo;
 	private MatriculaVO matricula;
@@ -80,6 +81,14 @@ public class AlunoVO implements IVO {
 
 	public void setDadosCorporais(DadosCorporaisVO dadosCorporais) {
 		this.dadosCorporais = dadosCorporais;
+	}
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
 	}
 
 }
