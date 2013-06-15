@@ -33,190 +33,215 @@ import br.com.etraining.web.managedbeans.EtrainingManagedBean;
 @SessionScoped
 public class ListaExercicioController extends EtrainingManagedBean {
 
-    private static final long serialVersionUID = -7972065534994352243L;
+	private static final long serialVersionUID = -7972065534994352243L;
 
-    @Inject
-    private ITratadorNegocioService service;
+	@Inject
+	private ITratadorNegocioService service;
 
-    private List<CategoriaExercicioView> listaCategoria = new ArrayList<CategoriaExercicioView>();
+	private List<CategoriaExercicioView> listaCategoria = new ArrayList<CategoriaExercicioView>();
 
-    public static final int CATEGORIA_INVALIDA = -1;
-    public static final int ATIVIDADE_INVALIDA = -1;
+	public static final int CATEGORIA_INVALIDA = -1;
+	public static final int ATIVIDADE_INVALIDA = -1;
 
-    private List<SelectItem> listaCategoriaSelect = new ArrayList<SelectItem>();
-    private List<SelectItem> listaAtividadeSelect = new ArrayList<SelectItem>();
-    private ExercicioVO exercicioAtual;
+	private List<SelectItem> listaCategoriaSelect = new ArrayList<SelectItem>();
+	private List<SelectItem> listaAtividadeSelect = new ArrayList<SelectItem>();
+	private ExercicioVO exercicioAtual;
 
-    public String irParaTelaPesquisa() {
-        try {
-            limparForm();
+	public String irParaTelaPesquisa() {
+		try {
+			limparForm();
 
-            RespostaConsultaListaCategoriaExercicioVO respCategoria = (RespostaConsultaListaCategoriaExercicioVO) service
-                .executa(new ConsultaListaCategoriaExercicioVO());
+			RespostaConsultaListaCategoriaExercicioVO respCategoria = (RespostaConsultaListaCategoriaExercicioVO) service
+					.executa(new ConsultaListaCategoriaExercicioVO());
 
-            RespostaConsultaListaExerciciosVO respExercicio = (RespostaConsultaListaExerciciosVO) service
-                .executa(new ConsultaListaExerciciosVO());
-            List<ExercicioVO> listaExercicioVO = respExercicio.getListaExercicios();
-            List<CategoriaExercicioVO> listaCategoriaVO = respCategoria.getListaCategoriaExercicio();
-            Map<Long, CategoriaExercicioView> mapCategoriaPorId = new HashMap<Long, CategoriaExercicioView>();
+			RespostaConsultaListaExerciciosVO respExercicio = (RespostaConsultaListaExerciciosVO) service
+					.executa(new ConsultaListaExerciciosVO());
+			List<ExercicioVO> listaExercicioVO = respExercicio
+					.getListaExercicios();
+			List<CategoriaExercicioVO> listaCategoriaVO = respCategoria
+					.getListaCategoriaExercicio();
+			Map<Long, CategoriaExercicioView> mapCategoriaPorId = new HashMap<Long, CategoriaExercicioView>();
 
-            for (CategoriaExercicioVO categoria : listaCategoriaVO) {
-                mapCategoriaPorId.put(categoria.getId(),
-                    new CategoriaExercicioView(categoria.getId(), categoria.getTitulo()));
-            }
+			for (CategoriaExercicioVO categoria : listaCategoriaVO) {
+				mapCategoriaPorId.put(
+						categoria.getId(),
+						new CategoriaExercicioView(categoria.getId(), categoria
+								.getTitulo()));
+			}
 
-            for (ExercicioVO exercicio : listaExercicioVO) {
-                CategoriaExercicioView catView = mapCategoriaPorId.get(exercicio.getIdCategoriaExercicio());
-                catView.getListaExercicios().add(exercicio);
-            }
+			for (ExercicioVO exercicio : listaExercicioVO) {
+				CategoriaExercicioView catView = mapCategoriaPorId
+						.get(exercicio.getIdCategoriaExercicio());
+				catView.getListaExercicios().add(exercicio);
+			}
 
-            this.listaCategoria.clear();
-            if (CollectionUtils.isNotEmpty(mapCategoriaPorId.values())) {
-                this.listaCategoria = new ArrayList<CategoriaExercicioView>(mapCategoriaPorId.values());
-            }
-        }
-        catch (ViewException e) {
-            addExceptionMessage(e);
-            return null;
-        }
+			this.listaCategoria.clear();
+			if (CollectionUtils.isNotEmpty(mapCategoriaPorId.values())) {
+				this.listaCategoria = new ArrayList<CategoriaExercicioView>(
+						mapCategoriaPorId.values());
+			}
+		} catch (ViewException e) {
+			addExceptionMessage(e);
+			return null;
+		}
 
-        return "/pages/exercicio/listarExercicios.xhtml";
-    }
+		return "/pages/exercicio/listarExercicios.xhtml";
+	}
 
-    public String irParaTelaInsercaoExercicio() {
-        try {
-            this.exercicioAtual = new ExercicioVO();
-            this.exercicioAtual.setAtividade(new AtividadeVO());
-            preencherListaCategoriaSelect();
-            preencherListaAtividadeSelect();
-            return "/pages/exercicio/inserirExercicio.xhtml";
-        }
-        catch (ViewException e) {
-            addExceptionMessage(e);
-            return null;
-        }
-    }
+	public String irParaTelaInsercaoExercicio() {
+		try {
+			this.exercicioAtual = new ExercicioVO();
+			this.exercicioAtual.setAtividade(new AtividadeVO());
+			preencherListaCategoriaSelect();
+			preencherListaAtividadeSelect();
+			return "/pages/exercicio/inserirExercicio.xhtml";
+		} catch (ViewException e) {
+			addExceptionMessage(e);
+			return null;
+		}
+	}
 
-    public String irParaTelaEdicaoExercicio(ExercicioVO exercicio) {
-        try {
-            this.exercicioAtual = exercicio;
-            preencherListaCategoriaSelect();
-            preencherListaAtividadeSelect();
-            return "/pages/exercicio/alterarExercicio.xhtml";
-        }
-        catch (ViewException e) {
-            addExceptionMessage(e);
-            return null;
-        }
-    }
+	public String irParaTelaEdicaoExercicio() {
+		Long idExerc = getLongParameter("id");
+		return irParaTelaEdicaoExercicio(idExerc);
+	}
 
-    public String inserir() {
-        try {
-            if (this.exercicioAtual.getIdCategoriaExercicio() == CATEGORIA_INVALIDA) {
-                throw new ViewException(CodigoExcecao.CATEGORIA_EXERCICIO_NULA);
-            }
+	public String irParaTelaEdicaoExercicio(Long idExerc) {
+		try {
+			RespostaConsultaListaExerciciosVO respExercicio = (RespostaConsultaListaExerciciosVO) service
+					.executa(new ConsultaListaExerciciosVO());
 
-            if (this.exercicioAtual.getAtividade().getId() == ATIVIDADE_INVALIDA) {
-                throw new ViewException(CodigoExcecao.ATIVIDADE_EXERCICIO_NULA);
-            }
+			ExercicioVO exercicio = null;
+			for (ExercicioVO exerc : respExercicio.getListaExercicios()) {
+				if (exerc.getId().equals(idExerc)) {
+					exercicio = exerc;
+					break;
+				}
+			}
 
-            this.exercicioAtual.setId(null);
-            InsereExercicioVO insercao = new InsereExercicioVO();
-            insercao.setExercicio(this.exercicioAtual);
-            RespostaConsultaExercicioVO resp = (RespostaConsultaExercicioVO) service.executa(insercao);
-            this.exercicioAtual = resp.getExercicio();
-            return irParaTelaEdicaoExercicio(this.exercicioAtual);
-        }
-        catch (ViewException e) {
-            addExceptionMessage(e);
-            return null;
-        }
-    }
+			this.exercicioAtual = exercicio;
+			preencherListaCategoriaSelect();
+			preencherListaAtividadeSelect();
+			return "/pages/exercicio/alterarExercicio.xhtml";
+		} catch (ViewException e) {
+			addExceptionMessage(e);
+			return null;
+		}
+	}
 
+	public String inserir() {
+		try {
+			if (this.exercicioAtual.getIdCategoriaExercicio() == CATEGORIA_INVALIDA) {
+				throw new ViewException(CodigoExcecao.CATEGORIA_EXERCICIO_NULA);
+			}
 
-    public String alterar() {
-        try {
-            if (this.exercicioAtual.getIdCategoriaExercicio() == CATEGORIA_INVALIDA) {
-                throw new ViewException(CodigoExcecao.CATEGORIA_EXERCICIO_NULA);
-            }
+			if (this.exercicioAtual.getAtividade().getId() == ATIVIDADE_INVALIDA) {
+				throw new ViewException(CodigoExcecao.ATIVIDADE_EXERCICIO_NULA);
+			}
 
-            if (this.exercicioAtual.getAtividade().getId() == ATIVIDADE_INVALIDA) {
-                throw new ViewException(CodigoExcecao.ATIVIDADE_EXERCICIO_NULA);
-            }
+			this.exercicioAtual.setId(null);
+			InsereExercicioVO insercao = new InsereExercicioVO();
+			insercao.setExercicio(this.exercicioAtual);
+			RespostaConsultaExercicioVO resp = (RespostaConsultaExercicioVO) service
+					.executa(insercao);
+			this.exercicioAtual = resp.getExercicio();
+			String ret = irParaTelaEdicaoExercicio(this.exercicioAtual.getId());
+			showSuccessMessage();
+			return ret;
+		} catch (ViewException e) {
+			addExceptionMessage(e);
+			return null;
+		}
+	}
 
-            AlteraExercicioVO altera = new AlteraExercicioVO();
-            altera.setExercicio(this.exercicioAtual);
-            RespostaConsultaExercicioVO resp = (RespostaConsultaExercicioVO) service.executa(altera);
-            this.exercicioAtual = resp.getExercicio();
-            return irParaTelaEdicaoExercicio(this.exercicioAtual);
-        }
-        catch (ViewException e) {
-            addExceptionMessage(e);
-            return null;
-        }
-    }
+	public String alterar() {
+		try {
+			if (this.exercicioAtual.getIdCategoriaExercicio() == CATEGORIA_INVALIDA) {
+				throw new ViewException(CodigoExcecao.CATEGORIA_EXERCICIO_NULA);
+			}
 
-    private void preencherListaCategoriaSelect() throws ViewException {
-        ConsultaListaCategoriaExercicioVO consulta = new ConsultaListaCategoriaExercicioVO();
-        RespostaConsultaListaCategoriaExercicioVO resp = (RespostaConsultaListaCategoriaExercicioVO) service
-            .executa(consulta);
+			if (this.exercicioAtual.getAtividade().getId() == ATIVIDADE_INVALIDA) {
+				throw new ViewException(CodigoExcecao.ATIVIDADE_EXERCICIO_NULA);
+			}
 
-        this.listaCategoriaSelect = new ArrayList<SelectItem>();
-        this.listaCategoriaSelect.add(new SelectItem(CATEGORIA_INVALIDA, ""));
-        for (CategoriaExercicioVO cat : resp.getListaCategoriaExercicio()) {
-            this.listaCategoriaSelect.add(new SelectItem(cat.getId(), cat.getTitulo()));
-        }
-    }
+			AlteraExercicioVO altera = new AlteraExercicioVO();
+			altera.setExercicio(this.exercicioAtual);
+			RespostaConsultaExercicioVO resp = (RespostaConsultaExercicioVO) service
+					.executa(altera);
+			this.exercicioAtual = resp.getExercicio();
+			String ret = irParaTelaEdicaoExercicio(this.exercicioAtual.getId());
+			showSuccessMessage();
+			return ret;
+		} catch (ViewException e) {
+			addExceptionMessage(e);
+			return null;
+		}
+	}
 
-    private void preencherListaAtividadeSelect() throws ViewException {
-        ConsultaListaAtividadeVO consulta = new ConsultaListaAtividadeVO();
-        RespostaConsultaListaAtividadeVO resp = (RespostaConsultaListaAtividadeVO) service.executa(consulta);
+	private void preencherListaCategoriaSelect() throws ViewException {
+		ConsultaListaCategoriaExercicioVO consulta = new ConsultaListaCategoriaExercicioVO();
+		RespostaConsultaListaCategoriaExercicioVO resp = (RespostaConsultaListaCategoriaExercicioVO) service
+				.executa(consulta);
 
-        this.listaAtividadeSelect = new ArrayList<SelectItem>();
-        this.listaAtividadeSelect.add(new SelectItem(ATIVIDADE_INVALIDA, ""));
-        for (AtividadeVO atv : resp.getListaAtividades()) {
-            this.listaAtividadeSelect.add(new SelectItem(atv.getId(), atv.getTitulo()));
-        }
-    }
+		this.listaCategoriaSelect = new ArrayList<SelectItem>();
+		this.listaCategoriaSelect.add(new SelectItem(CATEGORIA_INVALIDA, ""));
+		for (CategoriaExercicioVO cat : resp.getListaCategoriaExercicio()) {
+			this.listaCategoriaSelect.add(new SelectItem(cat.getId(), cat
+					.getTitulo()));
+		}
+	}
 
-    public List<CategoriaExercicioView> getListaCategoria() {
-        return listaCategoria;
-    }
+	private void preencherListaAtividadeSelect() throws ViewException {
+		ConsultaListaAtividadeVO consulta = new ConsultaListaAtividadeVO();
+		RespostaConsultaListaAtividadeVO resp = (RespostaConsultaListaAtividadeVO) service
+				.executa(consulta);
 
-    public void setListaCategoria(List<CategoriaExercicioView> listaCategoria) {
-        this.listaCategoria = listaCategoria;
-    }
+		this.listaAtividadeSelect = new ArrayList<SelectItem>();
+		this.listaAtividadeSelect.add(new SelectItem(ATIVIDADE_INVALIDA, ""));
+		for (AtividadeVO atv : resp.getListaAtividades()) {
+			this.listaAtividadeSelect.add(new SelectItem(atv.getId(), atv
+					.getTitulo()));
+		}
+	}
 
-    public ITratadorNegocioService getService() {
-        return service;
-    }
+	public List<CategoriaExercicioView> getListaCategoria() {
+		return listaCategoria;
+	}
 
-    public void setService(ITratadorNegocioService service) {
-        this.service = service;
-    }
+	public void setListaCategoria(List<CategoriaExercicioView> listaCategoria) {
+		this.listaCategoria = listaCategoria;
+	}
 
-    public ExercicioVO getExercicioAtual() {
-        return exercicioAtual;
-    }
+	public ITratadorNegocioService getService() {
+		return service;
+	}
 
-    public void setExercicioAtual(ExercicioVO exercicioAtual) {
-        this.exercicioAtual = exercicioAtual;
-    }
+	public void setService(ITratadorNegocioService service) {
+		this.service = service;
+	}
 
-    public List<SelectItem> getListaCategoriaSelect() {
-        return listaCategoriaSelect;
-    }
+	public ExercicioVO getExercicioAtual() {
+		return exercicioAtual;
+	}
 
-    public void setListaCategoriaSelect(List<SelectItem> listaCategoriaSelect) {
-        this.listaCategoriaSelect = listaCategoriaSelect;
-    }
+	public void setExercicioAtual(ExercicioVO exercicioAtual) {
+		this.exercicioAtual = exercicioAtual;
+	}
 
-    public List<SelectItem> getListaAtividadeSelect() {
-        return listaAtividadeSelect;
-    }
+	public List<SelectItem> getListaCategoriaSelect() {
+		return listaCategoriaSelect;
+	}
 
-    public void setListaAtividadeSelect(List<SelectItem> listaAtividadeSelect) {
-        this.listaAtividadeSelect = listaAtividadeSelect;
-    }
+	public void setListaCategoriaSelect(List<SelectItem> listaCategoriaSelect) {
+		this.listaCategoriaSelect = listaCategoriaSelect;
+	}
+
+	public List<SelectItem> getListaAtividadeSelect() {
+		return listaAtividadeSelect;
+	}
+
+	public void setListaAtividadeSelect(List<SelectItem> listaAtividadeSelect) {
+		this.listaAtividadeSelect = listaAtividadeSelect;
+	}
 
 }

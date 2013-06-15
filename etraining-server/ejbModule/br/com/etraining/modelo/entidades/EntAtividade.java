@@ -10,6 +10,7 @@ import javax.persistence.Table;
 
 import br.com.etraining.client.utils.TamanhoCampo;
 import br.com.etraining.modelo.def.impl.jpa.BeanJPA;
+import br.com.etraining.utils.StringFakeUtils;
 
 @Entity
 @Table(name = EntAtividade.NOME_ENTIDADE)
@@ -47,11 +48,11 @@ public class EntAtividade extends BeanJPA {
 	}
 
 	public String getTitulo() {
-		return titulo;
+		return StringFakeUtils.ajustarAcentos(titulo);
 	}
 
 	public void setTitulo(String titulo) {
-		this.titulo = titulo;
+		this.titulo = StringFakeUtils.ajustarAcentos(titulo);
 	}
 
 	public Boolean getQuantidadeAlteravel() {

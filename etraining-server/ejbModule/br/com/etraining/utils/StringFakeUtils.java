@@ -9,18 +9,19 @@ import org.apache.commons.beanutils.PropertyUtils;
 
 public class StringFakeUtils {
 
-	private Map<String, String> mapReplace = new HashMap<String, String>();
+	private static Map<String, String> mapReplace = new HashMap<String, String>();
 
-	private StringFakeUtils() {
+	static {
 		mapReplace.put("‡", "ç");
 		mapReplace.put("Æ", "ã");
 		mapReplace.put("¡", "í");
 		mapReplace.put("ƒ", "â");
 		mapReplace.put("ˆ", "ê");
 		mapReplace.put("£", "ú");
+		mapReplace.put("‚", "é");
 	}
 
-	private String removerAcentos(String valor) {
+	public static String ajustarAcentos(String valor) {
 		String valorNovo = valor;
 		if (valorNovo == null)
 			return null;
@@ -38,7 +39,7 @@ public class StringFakeUtils {
 
 		try {
 			valor = (String) PropertyUtils.getProperty(objeto, propriedade);
-			valor = new StringFakeUtils().removerAcentos(valor);
+			valor = ajustarAcentos(valor);
 			PropertyUtils.setProperty(objeto, propriedade, valor);
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();

@@ -5,7 +5,7 @@ import br.com.etraining.client.vo.interfaces.IVO;
 public class AtividadeVO implements IVO {
 
 	private static final long serialVersionUID = 4056682686416917748L;
-	
+
 	private Long id;
 	private String titulo;
 

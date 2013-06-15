@@ -25,9 +25,13 @@
 			<p:panelGrid columns="1" styleClass="full-width"
 				columnClasses="full-width">
 
-				<p:commandButton
-					action="#{listaExercicioController.irParaTelaInsercaoExercicio}"
-					immediate="true" value="#{message.Inserir}" />
+
+				<p:outputPanel layout="block" styleClass="full-width"
+					style="text-align: center;">
+					<p:commandButton
+						action="#{listaExercicioController.irParaTelaInsercaoExercicio}"
+						immediate="true" value="#{message.Inserir}" />
+				</p:outputPanel>
 
 				<ui:repeat var="categoria"
 					value="#{listaExercicioController.listaCategoria}">
@@ -47,8 +51,9 @@
 							<p:column headerText="#{message.Exercicio_Titulo}"
 								styleClass="width-40">
 								<p:commandLink
-									action="#{listaExercicioController.irParaTelaEdicaoExercicio(exercicio)}"
+									action="#{listaExercicioController.irParaTelaEdicaoExercicio}"
 									global="false">
+									<f:param name="id" value="#{exercicio.id}"></f:param>
 									<h:outputText value="#{exercicio.titulo}" />
 								</p:commandLink>
 							</p:column>
@@ -56,8 +61,9 @@
 							<p:column headerText="#{message.Exercicio_Atividade}"
 								styleClass="width-20">
 								<p:commandLink
-									action="#{listaExercicioController.irParaTelaEdicaoExercicio(exercicio)}"
+									action="#{listaExercicioController.irParaTelaEdicaoExercicio}"
 									global="false">
+									<f:param name="id" value="#{exercicio.id}"></f:param>
 									<h:outputText value="#{exercicio.atividade.titulo}" />
 								</p:commandLink>
 							</p:column>
@@ -65,8 +71,9 @@
 							<p:column headerText="#{message.Exercicio_Pontos_Por_Atividade}"
 								styleClass="width-20">
 								<p:commandLink
-									action="#{listaExercicioController.irParaTelaEdicaoExercicio(exercicio)}"
+									action="#{listaExercicioController.irParaTelaEdicaoExercicio}"
 									global="false">
+									<f:param name="id" value="#{exercicio.id}"></f:param>
 									<h:outputText value="#{exercicio.pontosPorAtividade}" />
 								</p:commandLink>
 							</p:column>

@@ -9,7 +9,8 @@
 		<p:breadCrumb>
 			<p:menuitem action="/pages/home.xhtml" immediate="true" />
 			<p:menuitem value="#{message.Header_Exercicios}"
-				action="#{alunoController.irParaTelaPesquisa}" immediate="true" />
+				action="#{listaExercicioController.irParaTelaPesquisa}"
+				immediate="true" />
 			<p:menuitem value="#{message.Header_Edicao_Exercicio}" url="#" />
 		</p:breadCrumb>
 	</ui:define>
@@ -57,39 +58,41 @@
 					<p:separator styleClass="separador-campos" />
 					<p:inputMask
 						value="#{listaExercicioController.exercicioAtual.pontosPorAtividade}"
-						mask="9?9?9" required="true"
+						mask="99" required="true"
 						requiredMessage="#{message.Pontos_Por_Atividade_Obrigatorio}" />
 
 				</p:panelGrid>
 
 			</p:fieldset>
+		</p:panelGrid>
 
-			<p:separator styleClass="invisivel" />
+		<p:separator styleClass="invisivel" />
 
-			<p:panelGrid columns="3"
-				styleClass="full-width no-border align-center">
-				<p:outputPanel styleClass="invisivel" />
-				<p:outputPanel>
-					<p:commandButton onclick="confirmacaoEdicao.show()"
-						value="#{message.Salvar}" />
-					<p:commandButton
-						action="#{listaExercicioController.irParaTelaPesquisa}"
-						value="#{message.Voltar}" immediate="true" />
-				</p:outputPanel>
-				<p:outputPanel styleClass="invisivel" />
-			</p:panelGrid>
+		<p:panelGrid columns="3"
+			styleClass="full-width no-border align-center">
+			<p:outputPanel styleClass="invisivel" />
+			<p:outputPanel>
+				<p:commandButton onclick="confirmacaoEdicao.show()"
+					value="#{message.Salvar}" />
+				<p:commandButton
+					action="#{listaExercicioController.irParaTelaPesquisa}"
+					value="#{message.Voltar}" immediate="true" />
+			</p:outputPanel>
+			<p:outputPanel styleClass="invisivel" />
+		</p:panelGrid>
 
-			<p:confirmDialog id="confirmDialog"
-				header="#{message.Header_Confirmacao_Edicao}"
-				message="#{message.Confirmar_Edicao_Exercicio}"
-				widgetVar="confirmacaoEdicao">
+		<p:confirmDialog id="confirmDialog"
+			header="#{message.Header_Confirmacao_Edicao}"
+			message="#{message.Confirmar_Edicao_Exercicio}"
+			widgetVar="confirmacaoEdicao">
 
-				<p:commandButton id="confirmar" value="#{message.Sim}"
-					action="#{listaExercicioController.alterar}" />
-				<p:commandButton id="recusar" value="#{message.Nao}"
-					onclick="confirmacaoEdicao.hide()" type="button" />
-			</p:confirmDialog>
-			
+			<p:commandButton id="confirmar" value="#{message.Sim}"
+				action="#{listaExercicioController.alterar}"
+				oncomplete="confirmacaoEdicao.hide()" />
+			<p:commandButton id="recusar" value="#{message.Nao}"
+				onclick="confirmacaoEdicao.hide()" type="button" />
+		</p:confirmDialog>
+
 	</ui:define>
 
 </ui:composition>
