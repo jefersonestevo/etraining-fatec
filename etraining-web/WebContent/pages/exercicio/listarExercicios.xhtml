@@ -19,10 +19,16 @@
 
 	<ui:define name="content">
 
-		<p:fieldset legend="#{message.Header_Exercicios}">
+		<p:fieldset id="panelListagemExercicios"
+			legend="#{message.Header_Exercicios}">
 
 			<p:panelGrid columns="1" styleClass="full-width"
 				columnClasses="full-width">
+
+				<p:commandButton
+					action="#{listaExercicioController.irParaTelaInsercaoExercicio}"
+					immediate="true" value="#{message.Inserir}" />
+
 				<ui:repeat var="categoria"
 					value="#{listaExercicioController.listaCategoria}">
 					<p:fieldset legend="#{categoria.titulo}" styleClass="width-98"
@@ -40,17 +46,29 @@
 
 							<p:column headerText="#{message.Exercicio_Titulo}"
 								styleClass="width-40">
-								<h:outputText value="#{exercicio.titulo}" />
+								<p:commandLink
+									action="#{listaExercicioController.irParaTelaEdicaoExercicio(exercicio)}"
+									global="false">
+									<h:outputText value="#{exercicio.titulo}" />
+								</p:commandLink>
 							</p:column>
 
 							<p:column headerText="#{message.Exercicio_Atividade}"
-								styleClass="width-40">
-								<h:outputText value="#{exercicio.atividade.titulo}" />
+								styleClass="width-20">
+								<p:commandLink
+									action="#{listaExercicioController.irParaTelaEdicaoExercicio(exercicio)}"
+									global="false">
+									<h:outputText value="#{exercicio.atividade.titulo}" />
+								</p:commandLink>
 							</p:column>
 
 							<p:column headerText="#{message.Exercicio_Pontos_Por_Atividade}"
 								styleClass="width-20">
-								<h:outputText value="#{exercicio.pontosPorAtividade}" />
+								<p:commandLink
+									action="#{listaExercicioController.irParaTelaEdicaoExercicio(exercicio)}"
+									global="false">
+									<h:outputText value="#{exercicio.pontosPorAtividade}" />
+								</p:commandLink>
 							</p:column>
 
 						</p:dataTable>

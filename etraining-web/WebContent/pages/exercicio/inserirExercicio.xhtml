@@ -1,0 +1,96 @@
+<ui:composition template="/pages/template/template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="endereco">
+		<p:breadCrumb>
+			<p:menuitem action="/pages/home.xhtml" immediate="true" />
+			<p:menuitem value="#{message.Header_Exercicios}"
+				action="#{alunoController.irParaTelaPesquisa}" immediate="true" />
+			<p:menuitem value="#{message.Header_Insercao_Exercicio}" url="#" />
+		</p:breadCrumb>
+	</ui:define>
+
+	<ui:define name="ajuda">
+		<p:commandButton icon="ui-icon-help" immediate="true" global="false"
+			onclick="mostrarModal('/pages/ajuda/telas/inserirExercicio.jsf')" />
+	</ui:define>
+
+	<ui:define name="content">
+		<p:panelGrid columns="2" columnClasses="width-40, width-60"
+			styleClass="panel-grid full-width">
+
+			<p:fieldset legend="#{message.Header_Insercao_Exercicio_Registro}"
+				toggleable="true">
+
+				<p:panelGrid columns="3" styleClass="full-width"
+					columnClasses="width-25, width-1, width-75">
+
+					<h:outputText value="* #{message.Exercicio_Nome}" />
+					<p:separator styleClass="separador-campos" />
+					<p:inputText
+						value="#{listaExercicioController.exercicioAtual.titulo}"
+						required="true" requiredMessage="#{message.Exercicio_Obrigatorio}" />
+
+					<h:outputText value="* #{message.Exercicio_Categoria}" />
+					<p:separator styleClass="separador-campos" />
+					<h:selectOneMenu required="true"
+						requiredMessage="#{message.Exercicio_Categoria_Obrigatorio}"
+						value="#{listaExercicioController.exercicioAtual.idCategoriaExercicio}">
+						<f:selectItems
+							value="#{listaExercicioController.listaCategoriaSelect}" />
+					</h:selectOneMenu>
+
+					<h:outputText value="* #{message.Exercicio_Atividade}" />
+					<p:separator styleClass="separador-campos" />
+					<h:selectOneMenu required="true"
+						requiredMessage="#{message.Exercicio_Atividade_Obrigatorio}"
+						value="#{listaExercicioController.exercicioAtual.atividade.id}">
+						<f:selectItems
+							value="#{listaExercicioController.listaAtividadeSelect}" />
+					</h:selectOneMenu>
+
+					<h:outputText value="* #{message.Pontos_Por_Atividade}" />
+					<p:separator styleClass="separador-campos" />
+					<p:inputMask
+						value="#{listaExercicioController.exercicioAtual.pontosPorAtividade}"
+						mask="9?9?9" required="true"
+						requiredMessage="#{message.Pontos_Por_Atividade_Obrigatorio}" />
+
+				</p:panelGrid>
+
+			</p:fieldset>
+
+			<p:separator styleClass="invisivel" />
+
+			<p:panelGrid columns="3"
+				styleClass="full-width no-border align-center">
+				<p:outputPanel styleClass="invisivel" />
+				<p:outputPanel>
+					<p:commandButton onclick="confirmacaoInsercao.show()"
+						value="#{message.Salvar}" />
+					<p:commandButton
+						action="#{listaExercicioController.irParaTelaPesquisa}"
+						value="#{message.Voltar}" immediate="true" />
+				</p:outputPanel>
+				<p:outputPanel styleClass="invisivel" />
+			</p:panelGrid>
+
+			<p:confirmDialog id="confirmDialog"
+				header="#{message.Header_Confirmacao_Insercao}"
+				message="#{message.Confirmar_Insercao_Exercicio}"
+				widgetVar="confirmacaoInsercao">
+
+				<p:commandButton id="confirmar" value="#{message.Sim}"
+					action="#{listaExercicioController.inserir}" />
+				<p:commandButton id="recusar" value="#{message.Nao}"
+					onclick="confirmacaoInsercao.hide()" type="button" />
+
+			</p:confirmDialog>
+	</ui:define>
+
+</ui:composition>
+

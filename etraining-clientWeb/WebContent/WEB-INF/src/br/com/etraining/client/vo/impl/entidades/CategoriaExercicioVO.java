@@ -30,7 +30,6 @@ public class CategoriaExercicioVO implements IVO {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((titulo == null) ? 0 : titulo.hashCode());
 		return result;
 	}
 
@@ -48,17 +47,12 @@ public class CategoriaExercicioVO implements IVO {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (titulo == null) {
-			if (other.titulo != null)
-				return false;
-		} else if (!titulo.equals(other.titulo))
-			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return titulo;
+		return this.titulo;
 	}
 
 }
